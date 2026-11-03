@@ -3,7 +3,8 @@
 > **Working title:** GrimDark
 > **Genre:** 45-player co-op PvE tactical combined-arms shooter
 > **Setting:** Warhammer 40,000, playing a fallen, Chaos-corrupted Astra Militarum regiment in the vein of the Moebian 6th
-> **Document status:** Draft v0.1. All numbers are starting values to tune in playtests, not final balance.
+> **Project type:** Free, non-commercial fan project
+> **Document status:** Draft v0.2. All numbers are starting values to tune in playtests, not final balance.
 
 ---
 
@@ -59,7 +60,7 @@ The fantasy is **"the horde with a plan."** You start as a ragged cultist with a
 - **Faction:** A fallen Astra Militarum regiment that has turned to the Plague God. Its ranks are a mix of veteran traitor Guardsmen ("Moebians") and the cultist mobs they gather from conquered hive districts. Its corruption is mainly Nurgle-aligned: plague zombies, plague hounds, toxin weapons and bloated Ogryn.
 - **Tone:** Grim, filthy, darkly comedic, never heroic. The loyalists are the "heroes" of their own story, and the player is the plague moving across their world.
 - **Visual arc:** Players start as rag-wrapped cultists with improvised flak. As they progress they become disciplined, gas-masked Moebian troopers in tarnished carapace, with growing marks of the Plague God such as boils, rust, flies and stitched flesh.
-- **IP note:** Warhammer 40,000 is Games Workshop IP. A commercial release needs a license. Keep the systems IP-agnostic (factions, units and names sit in data tables) so the game could be reskinned to an original setting if needed.
+- **IP note:** Warhammer 40,000 is Games Workshop IP. GrimDark is a **free, non-commercial fan project**: no sales, no monetisation, no donations tied to the game, and no assets ripped from official products. All art, models and audio are made by the project. The game credits Games Workshop and states it is unofficial and not endorsed. Factions, units and names live in data tables so the game could be reskinned to an original setting if it ever needs to be.
 
 ## 4. The Platoon: Structure and Roles
 
@@ -517,7 +518,7 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 - Alternative weapon patterns (e.g., Accatran-pattern lasgun, Mars-pattern autocannon) with sidegrade stats.
 - Cosmetics: mutation choices, tattered regalia, icons, helmet variants.
 - Role mastery badges and titles.
-- **No paid power.** Any monetisation is cosmetic only.
+- **No monetisation of any kind** (fan project). All unlocks are earned by playing.
 
 ## 20. Technical Considerations
 - **Engine:** Unreal Engine 5 recommended (proven for large-scale shooters, strong networking base, World Partition for large maps).
@@ -527,19 +528,19 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
   - Plague zombies simulated as lightweight crowd agents (Mass Entity / ECS-style).
 - **Target performance:** 60 FPS on recommended PC specs; 30 Hz server tick minimum, 60 Hz target.
 - **Physics:** crates and backblast are physical. Destruction is limited to authored destructible cover to keep replication costs down.
-- **Bots:** AI backfill for empty player slots (see Risks) using the same role logic as the commander's orders.
+- **Bots:** AI bots fill every empty player slot, including the commander (Section 21). Bots are a core system, not a fallback: the game must be playable with 1 human and 44 bots. Bots use the same role logic and respond to the commander's orders like players do.
 
 ## 21. Risks and Mitigations
 
 | Risk | Impact | Mitigation |
 |---|---|---|
-| **Filling 45-player lobbies** | Long queues and dead matches | AI bot backfill for any slot except commander (and a commander AI fallback that issues basic orders); drop-in/drop-out; smaller 25-player "Detachment" mode for low populations. |
+| **Filling 45-player lobbies** | Long queues and dead matches | **Current plan: AI bots fill all empty slots**, including a commander bot that issues basic orders. Humans drop in and replace a bot in their chosen role mid-match. A smaller 25-player "Detachment" mode stays an option. |
 | **Logistics feels like chores** | Players skip it and positions starve | Favour for deliveries, Ogryn carry synergy, short and readable routes, a dramatic Director that makes convoys tense, crates delivered to a request highlighted as a team "win". |
 | **Commander quality varies** | Bad commander ruins a 45-player match | Squad-level autonomy (squad leaders can set their own objectives), commander vote-kick/swap, onboarding tutorial for the role. |
 | **Tank pulls too many players** | Infantry hollowed out | Seats fill from the respawn queue first; tank can run partially crewed; one tank cap. |
 | **Snowballing Favour** | Late game trivial or new joiners useless | Death progress penalty, half Favour from AI allies, call-in cooldowns, Director scales threat with platoon power. |
 | **Performance (many AI)** | Low framerate and desync | AI LOD, crowd systems for zombies, sector-based simulation. |
-| **IP licensing** | Cannot ship commercially | Pursue a license from Games Workshop early; keep content data-driven so it can be reskinned. |
+| **IP takedown** | Fan project gets shut down | Stay strictly non-commercial, make all assets in-house, credit Games Workshop with an unofficial/not-endorsed notice, keep content data-driven so it can be reskinned. |
 
 ## 22. Open Questions
 1. Should Favour tiers persist across **multiple operations** in a campaign, or reset each match? (Current design: reset each match; meta unlocks persist.)
@@ -553,7 +554,7 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 
 | Phase | Goal | Content |
 |---|---|---|
-| **Prototype** (3–4 months) | Prove fire-and-bracing and the logistics loop | 1 squad + 1 HWT + depot, greybox map, basic AI Guardsmen |
+| **Prototype** (3–4 months) | Prove fire-and-bracing and the logistics loop | 1 squad + 1 HWT + depot, greybox map, basic AI Guardsmen, first friendly bots for squad slots |
 | **Vertical Slice** (6–8 months) | Full platoon structure at 45 players | All roles, Tactical Command, Favour tiers, 2 call-ins, 1 operation |
 | **Alpha** | Feature complete | Leman Russ, Ogryn, all call-ins, full enemy roster, AI Director, bot backfill |
 | **Beta** | Content and scale | 3–4 operations, difficulty tiers, meta-progression, stress tests at 45 players |
