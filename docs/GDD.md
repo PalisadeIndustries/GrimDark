@@ -281,15 +281,36 @@ Squad Favour → Plague Zombies → Plague Hounds → Chaos Spawn → Leman Russ
 
 ## 6. Combat Systems
 
-### 6.1 Damage and Armour
-- Location-based damage (head, torso, limbs).
-- Armour classes: **Rags/None < Flak < Carapace < Power Armour (enemy elites) < Vehicle armour (front/side/rear)**.
-- Each weapon has **penetration** and **damage** values. Penetration against armour class sets the damage multiplier, so a lasgun can still drop carapace but needs volume of fire.
+### 6.1 Feel and Camera
+- **Mid-sim.** Between Battlefield and Squad/Hell Let Loose: a few hits kill, suppression really matters and positioning beats reflexes, but movement stays fluid and the game is readable.
+- **First-person** on foot. Vehicle seats use their own view: driver's vision slit, gunner's sight, sponson periscopes, the tank commander's open hatch.
+- **Movement:** walk, sprint (stamina), crouch, prone, lean, vault and mantle. Stamina only limits sprinting and melee charges, not walking or aiming.
+- **No static crosshair.** Hip fire is shown by the weapon's position on screen. Aiming down sights is needed for accuracy beyond ~20 m. Heavy weapons show a sight only while braced (6.3).
+- **Weight:** what you carry affects speed and sprint (crates, heavy weapons, Appendix D).
 
-### 6.2 Suppression and Morale
-- Incoming fire builds **Suppression**: screen effects, wider sway and slower ADS.
-- Morale modifiers: Standard Bearer aura (+), nearby squad leader (+), Chaos call-in units nearby (+), squadmates dying nearby (−), enemy Commissar/Priest auras (affect enemy AI only).
-- The AI uses the same suppression model, so pinning the enemy really stops it firing.
+### 6.2 Health and Lethality
+- **Base health:** 100 for every human-sized soldier. Armour (6.6) reduces damage taken.
+- **Hit locations:**
+
+| Location | Damage multiplier | Effect |
+|---|---|---|
+| Head | ×3 (×2 with helmet) | — |
+| Torso | ×1 | — |
+| Arms | ×0.6 | More weapon sway until treated |
+| Legs | ×0.6 | Can't sprint until treated |
+
+- **Target time-to-kill** (torso hits, to tune in playtests):
+
+| Weapon | vs Cultist (no armour) | vs Moebian (flak) | vs Veteran (carapace) |
+|---|---|---|---|
+| Autogun / lasgun | 2 | 3 | 4–5 |
+| Laspistol / stub revolver | 3 | 4 | 6 |
+| Bolter / bolt pistol | 1 | 1–2 | 2 |
+| Heavy stubber | 2 | 2–3 | 3–4 |
+| Heavy bolter | 1 | 1 | 1–2 |
+
+- **Regeneration:** none. Health is restored by the medic, the Standard Bearer's planted icon (slow) and depot Medical stations.
+- Limb effects are cleared by a squadmate's **field dressing** (3 s, unlimited) or by the medic.
 
 ### 6.3 Bracing (Heavy Weapons)
 **All heavy weapons must be braced to fire.** This is the defining rule of the Heavy Weapons Section.
@@ -306,12 +327,101 @@ Squad Favour → Plague Zombies → Plague Hounds → Chaos Spawn → Leman Russ
 - **Displacement:** packing up takes time, which rewards teams that pick good positions and punishes being out-flanked.
 
 ### 6.4 Downed, Wounded and Dead
-- At 0 HP you go **Downed** (bleed-out timer ~45 s). Squadmates can stabilise. The Veteran Medic can do a full revive.
-- A player revived without the medic is **Wounded**: lower max HP and more sway until treated by the medic or at a depot Medical station.
-- Execution, headshots or explosive overkill skip Downed and go straight to **Dead** (Section 13).
+- At 0 HP you go **Downed**: bleed-out timer of 45 s. You can crawl slowly, call for a medic (a marker for the platoon) and choose to **give up** (respawn early).
+- Downed players can't shoot.
+- **Squadmate stabilise** (6 s): the player gets up with 50 HP and **Wounded** status (max HP 70, more sway) until treated by the medic or at a depot Medical station.
+- **Medic Full Revive** (3 s): full HP, no Wounded status.
+- **Instant death** (skips Downed): headshots from bolt or heavier weapons, explosive overkill (more than 150 damage in one hit), melta, lascannon, being crushed by a vehicle, executions by enemy elites.
+- **Dead:** go to the respawn screen (Section 13). The medic's Blessed Stitching can still bring you back within 10 s unless it was explosive overkill.
 
 ### 6.5 Friendly Fire
-On, at reduced damage (35% small arms, 100% explosives, backblast and flamers). It reinforces discipline and makes call-in placement matter. Server option for private matches.
+**Full friendly fire.** Everything that can hurt an enemy hurts a friend for the same damage: bullets, las, explosives, fire, backblast, toxin and vehicles. Fire discipline is part of the game.
+
+Because it's full damage, the game has to make friend and foe easy to tell apart:
+- **Readability:** strong visual contrast between Moebians and loyalists (3.4). Friendly nameplates appear when aiming at a friendly within 50 m (no nameplate on enemies).
+- **Call-in warnings:** call-in placement shows its area of effect, and friendlies inside it get an audio and HUD warning.
+- **Backblast warning:** a cone is shown to anyone standing behind a braced missile launcher or lascannon.
+- **Bots** won't fire through friendlies in their line of fire and announce grenades ("Frag out!").
+- **Teamkill penalties (humans):** a teamkill costs the killer 3 personal Favour. Three teamkills in 10 minutes starts an automatic vote-kick for the human players. Accidental damage from call-in units (Chaos Spawn, toxin clouds) is not counted against the player.
+- **Allied Chaos units** (zombies, hounds, spawn) also take full damage from the platoon. They are expendable, but wasting them wastes Favour.
+
+### 6.6 Armour and Penetration
+Each weapon has a **penetration (Pen)** value from 1 to 6. Each target has an **armour** value on the same scale. Damage depends on the gap:
+
+| Pen compared with armour | Damage multiplier |
+|---|---|
+| Pen ≥ armour | ×1.0 |
+| Pen = armour − 1 | ×0.6 |
+| Pen = armour − 2 | ×0.3 |
+| Pen ≤ armour − 3 | ×0 (no effect) |
+
+| Armour | Value | Examples |
+|---|---|---|
+| None / rags | 0 | Cultists, PDF conscripts, zombies |
+| Flak | 1 | Moebian troopers, Guardsmen |
+| Carapace | 2 | Veterans, Commissars, Moebian veterans, Ogryn |
+| Power armour | 3 | Sisters of Battle, Space Marines |
+| Light vehicle | 4 | Sentinels, Chimera side/rear |
+| Medium vehicle | 5 | Chimera front, Leman Russ side/rear |
+| Heavy vehicle | 6 | Leman Russ front |
+
+| Weapon | Pen |
+|---|---|
+| Autogun, stub rifle, laspistol, heavy stubber, ripper gun | 1 |
+| Lasgun, flamer | 2 (flamer ignores cover) |
+| Bolter, bolt pistol, heavy bolter, frag missile | 3 |
+| Autocannon, plasma (normal shot), krak grenade | 4 |
+| Plasma (overcharged), krak missile | 5 |
+| Lascannon, melta, battle cannon (AP) | 6 |
+
+- **Vehicles** also have **facings** (front, side, rear, top) and **components**: tracks (immobilise), turret ring (jam traverse), engine (slow or fire), weapons (disable) and crew (an open-hatch commander can be shot).
+- Infantry armour also reduces suppression taken (carapace −20%, power armour −50%).
+
+### 6.7 Suppression and Morale
+- **Suppression** builds from near misses, nearby impacts and explosions (0–100 meter):
+
+| Level | Effect |
+|---|---|
+| 0–30 | None |
+| 30–60 | Screen edge blur, slightly more sway |
+| 60–90 | Heavy sway, slower aiming down sights, muffled audio |
+| 90–100 | **Pinned:** can't aim down sights, sprint is limited, strong blur |
+
+- Suppression decays after 3 s without new incoming fire. Heavier weapons cause more suppression per round (heavy stubber highest per second, battle cannon highest per hit).
+- **Morale modifiers** change how fast suppression builds:
+  - Standard Bearer aura, Commander's Presence, nearby squad leader, allied Chaos units nearby: **slower**.
+  - Squadmates downed or killed nearby, under artillery fire: **faster**.
+- **AI uses the same model.** Enemy squads that hit "broken" (pinned and losing members) fall back. Commissars and Priests stop that (and Commissars shoot fleeing troops), so killing them collapses a defence.
+
+### 6.8 Melee
+**Simple and lethal.** No combos, blocks or parries.
+
+| Action | How | Notes |
+|---|---|---|
+| **Quick strike** | One button | Fast single attack with bayonet, knife or melee weapon. |
+| **Charge** | Sprint + melee | Lunge into the target. Costs stamina. Bayonet charges knock down if they don't kill. |
+| **Ogryn bash** | Melee | Wide arc, knockdown on everything hit. |
+
+| Weapon | Hits to kill: no armour | flak | carapace | power armour |
+|---|---|---|---|---|
+| Knife, bayonet, rifle butt | 1 | 2 | 3 | no effect |
+| Chainsword | 1 | 1 | 2 | 4 |
+| Power sword | 1 | 1 | 1 | 2 |
+| Ogryn bash | 1 | 1 | 1 | 3 |
+
+- Melee from behind or against a Downed enemy is an instant kill (except power armour).
+- Sisters of Battle and Space Marines are dangerous in melee and can **execute** players.
+
+### 6.9 Hit and Kill Feedback
+- **No hitmarkers.** Hits are shown through the world: impact sounds, armour sparks, the enemy flinching, staggering or falling.
+- **Kill confirmation** comes from a quiet **fly-buzz audio cue** and a small Favour tick on the HUD (Section 17). This keeps the screen clean but still rewards kills, which drive progression.
+
+### 6.10 Environmental Hazards
+- **Fire:** flamers, promethium tanks and burning buildings. Fire spreads on flammable surfaces and blocks movement.
+- **Toxin clouds:** from toxin grenades and plague effects. Moebians with rebreathers are resistant (Section 7.4).
+- **Smoke:** blocks sight for players and AI. Plague hounds can still track through it.
+- **Darkness:** underhive and night maps. Lumen lamps on weapons give away your position.
+- **Explosive objects:** promethium tanks, ammo crates and fuel barrels detonate when hit by explosives or Pen 4+ weapons.
 
 ## 7. Weapons and Equipment
 
@@ -366,6 +476,7 @@ Progression in a match is driven mainly by **kill credit**, with smaller amounts
 | Assist (damage or suppression on a target that dies within 10 s) | 0.5 |
 | Crew-served weapon kill | Full credit to **both** gunner and loader |
 | Delivering a supply crate to a requesting position | 1 |
+| Teamkill | −3 |
 | Revive | 0.5 |
 | Completing a commander order (objective secured while ordered) | 3 to each squad member present |
 
@@ -671,7 +782,7 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 ## 22. Open Questions
 1. Leman Russ crewing: with bots in the platoon, should respawning bots fill empty tank seats, or only humans? (To settle in the Leman Russ point.)
 
-**Decided:** the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
+**Decided:** mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
 
 ## 23. Roadmap
 
