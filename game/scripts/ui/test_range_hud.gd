@@ -38,6 +38,7 @@ func _ready() -> void:
 	_dot.size = Vector2(4, 4)
 	_dot.set_anchors_preset(Control.PRESET_CENTER)
 	_dot.position = -_dot.size / 2
+	_dot.mouse_filter = Control.MOUSE_FILTER_IGNORE  # the captured mouse sits here; never eat its motion
 	root.add_child(_dot)
 
 	_weapon_label = _label(root, Control.PRESET_BOTTOM_RIGHT, Vector2(-420, -150), 20, HORIZONTAL_ALIGNMENT_RIGHT)
