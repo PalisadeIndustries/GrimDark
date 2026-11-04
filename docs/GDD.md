@@ -228,7 +228,7 @@ Every role has: what it's for, its kit, its unique abilities, and how its bot pl
   - **Spawn point:** the squad can spawn on the leader (13.2).
   - **Ammo cache:** drops one Small Arms crate's worth of ammo, once per life.
 - **Progression:** uses the personal tiers from tier 1 up, but can't spawn as an Ogryn while holding the slot.
-- **Bot behaviour:** moves the squad to the ordered objective using cover, sends Bravo to flank when a defended position is found, spends Squad Favour as soon as a call-in is affordable and enemies are within 80 m (zombies against infantry lines, hounds against HWTs and snipers, Chaos Spawn against fortified points), and sends a tank request at 100.
+- **Bot behaviour:** moves the squad to the ordered objective using cover, sends Bravo to flank when a defended position is found, spends Squad Favour as soon as a call-in is affordable and enemies are within 80 m (zombies against infantry lines, hounds against HWTs and snipers, Chaos Spawn against fortified points), and sends a tank request at 200. After 20 minutes, if no tank is active, it stops buying Chaos Spawn to save for the tank.
 
 #### Squad Vox-Operator (3)
 - **Purpose:** links the squad to the platoon and enables call-ins.
@@ -594,7 +594,7 @@ On reaching Blessed you're offered **3 random mutations from the pool of 7** and
 | **Cloud of Flies** | Enemies within 5 m get heavy sway and −30% accuracy | Your position is audible to everyone nearby |
 | **Rotting Regeneration** | Regenerate 1 HP/s after 10 s out of combat, up to 70 HP (the only natural regeneration in the game) | Can't be treated by the medic's Treat Wound |
 | **Bile Spew** | Short-range acid vomit: 4 m cone, Pen 2, 45 s cooldown | Leaves you unable to aim for 1 s |
-| **Pox Carrier** | Enemies you kill in melee rise as allied plague zombies for 60 s | Zombies count toward Squad Favour at half rate (9.3) |
+| **Pox Carrier** | Enemies you kill in melee rise as allied plague zombies for 60 s | Zombie kills give half Squad Favour and no personal Favour (9.7) |
 | **Unfeeling Flesh** | Immune to limb effects and Wounded status | Can't be stabilised by squadmates, only the medic |
 | **Grandfather's Gift** | Downed timer 45 → 90 s, crawl twice as fast, can fire a pistol while Downed | When you die you burst into a toxin cloud (hurts cultists and Ogryn nearby) |
 
@@ -627,28 +627,79 @@ The Ogryn is bought with personal Favour. It's a choice to spend progress on a p
 - **Weakness:** big hitbox and a priority target for enemy AI.
 - **Bot behaviour:** bots buy an Ogryn only when their squad has none and they are at 70+ Favour (so they stay Blessed or Veteran after spending).
 
-## 9. Squad Leader Call-Ins
+## 9. Call-Ins
+
+There are two levels of call-in: **squad call-ins** bought by squad leaders with **Squad Favour**, and **platoon call-ins** bought by the commander with **Platoon Favour**.
 
 ### 9.1 Squad Favour
-- Every kill and assist by a squad member **also** adds to that squad's **Squad Favour** pool (separate from personal Favour, so nobody's tier progress is spent).
-- Squad Favour is **spent** on call-ins. Calling in needs:
-  1. The squad leader alive and not downed.
-  2. The **squad vox-operator within 25 m** (or the leader carrying the vox set).
-  3. A valid target or deployment location within line of sight or on the map.
+- Every point of Favour a squad member earns (8.1) **also** adds the same amount to the squad's **Squad Favour** pool. Spending Squad Favour never touches anyone's personal tier.
+- A squad of 10 earns roughly **8–10 Squad Favour per minute** in active fighting.
+- Calling in needs:
+  1. The squad leader alive and not Downed.
+  2. The **squad vox-operator within 25 m** (or the leader carrying the vox-set).
+  3. A valid deployment point: in the leader's line of sight or marked on the map within 150 m.
+- Call-in costs are set so the squad leader has to choose between **spending now** (zombies, hounds) and **saving** (Chaos Spawn, Leman Russ).
 
-### 9.2 Call-In List
+### 9.2 Squad Call-In List
 
-| Call-in | Cost | Cooldown (per squad) | Behaviour |
+| Call-in | Cost | Cooldown (per squad) | Arrives | Lasts |
+|---|---|---|---|---|
+| **Plague Zombie Horde** | 25 | 3 min | 5 s, from the ground behind the squad | Until killed, or 4 min (they rot away) |
+| **Plague Hounds** | 40 | 4 min | 3 s, from the squad leader's position | Until killed, or 3 min |
+| **Chaos Spawn** | 80 | 6 min | 5 s, through a warp rift at the marked point | 90 s, then it dissolves |
+| **Leman Russ** | 200 + commander approval | One active per platoon | ~45 s, at a depot | Until destroyed (Section 10) |
+
+### 9.3 Commanding Zombies and Hounds
+After arrival, the squad leader can give **simple orders** by pinging (no vox needed for orders, only for the call-in itself):
+
+| Order | Zombies | Hounds |
+|---|---|---|
+| **Advance** (paint a path) | Shamble along the path, attacking anything they meet | Run along the path, attacking anything they meet |
+| **Hunt** (mark a target or area) | Swarm toward it | Hunt it down. Default priorities: isolated enemies, HWTs, snipers, fleeing units |
+| **Hold** (mark an area) | Mill about the area and attack anything that enters | Guard the area |
+| **Return** | Fall back to the squad | Follow the squad leader and guard them |
+
+Bot squad leaders use the same orders.
+
+### 9.4 Plague Zombie Horde
+- **14 zombies** (rule of seven). Slow (60% speed), 40 HP, no armour, melee only.
+- **Not affected by suppression.** They walk into fire, so the enemy has to spend ammo and attention on them.
+- **Fear:** loyalist AI within 15 m of the horde takes extra suppression. Flamers and Priests are the enemy's counters.
+- **Contagion (capped):** an enemy killed by a zombie has a 50% chance to rise as a new zombie in the horde after 7 s, up to a **cap of 21** per horde. The Pox Carrier mutation (8.6) adds zombies the same way.
+- **Uses:** soaking fire before an assault, revealing enemy positions, screening a crossing, filling a trench before the squad goes in.
+
+### 9.5 Plague Hounds
+- **4 hounds.** Fast (150% speed), 120 HP, flak-level armour (1). Pounce attack knocks infantry down.
+- **Tracking:** they track through smoke and darkness, and **spot** every enemy they see for the squad (10 s).
+- **Uses:** clearing HWT nests and snipers, chasing down routed squads, guarding a flank or the squad leader.
+
+### 9.6 Chaos Spawn
+- One heavily mutated monster: 1,500 HP, power-armour level (3), melee attacks that kill infantry and can flip light vehicles (Sentinels).
+- The squad leader marks a point. A 10 m warning circle appears for 5 s (friendlies get a HUD and audio warning), then the Spawn arrives.
+- **Uncontrollable:** after it arrives it charges the nearest concentration of enemies and **attacks any living thing within 4 m, including friendlies and allied zombies**. If no enemies are within 40 m it wanders towards the nearest.
+- **Uses:** breaking fortified points, bunkers and enemy HWT nests. Keep friendly troops out of its way.
+- Damage it does to friendlies does **not** count as a teamkill for the squad leader (6.5).
+
+### 9.7 Allied AI Rules
+- Allied Chaos units have a **sickly green outline** on the HUD and on nameplates so they aren't confused with enemies.
+- They take **full damage** from the platoon (6.5).
+- Kills by allied units give **half** Squad Favour and **no** personal Favour, so call-ins can't snowball the economy.
+- Allied units draw the AI Director's attention (14.3), pulling enemy focus away from players.
+
+### 9.8 Platoon Favour and Commander Call-Ins
+- **Platoon Favour:** **20%** of every point of Favour earned by anyone in the platoon also goes into a platoon pool, plus **+30** for every operation phase objective completed. This adds up to roughly **8–10 per minute**.
+- Commander call-ins need the **platoon vox-operator within 30 m** of the commander and are placed from Tactical Command (Section 11).
+
+| Call-in | Cost | Cooldown | Effect |
 |---|---|---|---|
-| **Plague Zombie Horde** | 15 | 2 min | 12–20 shambling plague zombies spawn behind the squad and **advance ahead along a painted path**. They soak fire, show enemy positions and can carry contagion that spreads to enemy corpses (adding more zombies). Slow and fragile. |
-| **Plague Hounds** | 25 | 3 min | 3–4 fast hounds. The leader **marks a target or area** and the hounds **hunt** it, prioritising isolated enemies, HWTs and fleeing units. They track enemies through smoke and tag them for the squad. |
-| **Chaos Spawn** | 40 | 5 min | One heavily mutated melee monster. Drops on a marked point, charges the nearest enemy concentration and goes berserk. Can't be controlled after release (may attack friendlies who get too close). Strong at breaking fortified points. |
-| **Leman Russ** | 100 + commander approval | One active per platoon | See Section 10. |
+| **Carrion Flock** | 30 | 3 min | A swarm of crows circles a 150 m area for 20 s and spots every enemy in it for the platoon. |
+| **Supply Drop** | 40 | 4 min | 3 crates of the commander's choice land at a marked open spot after 90 s. The vox-op's free drop per phase (4.3) is separate. |
+| **Blight Fog** | 50 | 5 min | A 100 m wide fog bank lasts 60 s. Blocks sight like smoke and does light toxin damage (Moebians resist, cultists and Ogryn don't). |
+| **Plague Barrage** | 70 | 6 min | Off-map traitor mortars hit a 30 m radius for 15 s with HE and toxin shells, after a 15 s delay. Full friendly fire, with a warning to anyone inside. |
+| **Reinforcement Tithe** | 100 | Once per phase | +15 tickets to the reinforcement pool (13.1). |
+| **Approve Leman Russ** | Free (the squad pays) | One tank active | Approves a squad's tank request (Section 10). |
 
-### 9.3 AI Ally Behaviour Rules
-- Allied Chaos AI shows clearly on the HUD (sickly green outlines) to avoid friendly confusion.
-- Zombies and hounds count as **squad assists**. Their kills give **half** Squad Favour and no personal Favour, so call-ins can't snowball the economy.
-- Call-in units take the Director's "attention" (14.3), drawing enemy focus away from players.
+- **Bot commander:** uses Carrion Flock before each assault, Supply Drop when two or more positions report Critical ammo, Plague Barrage on fortified objectives with no friendlies within 40 m, Reinforcement Tithe when the pool falls below 25%.
 
 ## 10. The Leman Russ
 
@@ -671,7 +722,7 @@ A Leman Russ battle tank with:
 | **Tank Commander** | Pintle heavy stubber | **Open hatch:** 360° view, marks targets for the crew, but **exposed** to small arms and snipers. Can close the hatch (lose the stubber and wide view, gain safety). |
 
 ### 10.3 Earning and Calling In
-1. The squad builds **100 Squad Favour**.
+1. The squad builds **200 Squad Favour**.
 2. The squad leader (with vox-op in range) sends a **Tank Request** to the commander.
 3. The commander **approves** in Tactical Command and picks an arrival point: the rear depot (motor pool) or a forward depot with a vehicle bay.
 4. The tank arrives after ~45 s (rumble and audio cue).
@@ -710,6 +761,7 @@ Six players is a lot to pull from a 45-player platoon, so:
 | **Supply Priority** | Depot | Sets which requests the depot fills first (12.4). |
 | **Establish Forward Depot** | Location | Needs the platoon vox-op and a secured objective (12.3). |
 | **Approve Call-In** | Tank Request | Approves or denies Leman Russ requests. |
+| **Platoon Call-In** | Map location | Places a commander call-in bought with Platoon Favour (9.8). |
 | **Ping / Mark** | Anywhere | Marks enemy positions, threats or routes for the whole platoon. |
 | **Supply Detail** | Bot riflemen of a squad | Assigns up to 3 bot riflemen to run supplies between a depot and a position until cancelled. |
 
@@ -901,7 +953,7 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 ## 22. Open Questions
 1. Leman Russ crewing: with bots in the platoon, should respawning bots fill empty tank seats, or only humans? (To settle in the Leman Russ point.)
 
-**Decided:** carapace in ~20 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
+**Decided:** squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~20 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
 
 ## 23. Roadmap
 
@@ -943,14 +995,19 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 
 \* Toxin only if unlocked through meta-progression.
 
-### C. Call-In Costs (Squad Favour)
+### C. Call-In Costs
 
-| Call-in | Cost | Cooldown |
-|---|---|---|
-| Plague Zombie Horde | 15 | 120 s |
-| Plague Hounds | 25 | 180 s |
-| Chaos Spawn | 40 | 300 s |
-| Leman Russ | 100 + approval | 1 active |
+| Call-in | Pool | Cost | Cooldown |
+|---|---|---|---|
+| Plague Zombie Horde | Squad | 25 | 180 s |
+| Plague Hounds | Squad | 40 | 240 s |
+| Chaos Spawn | Squad | 80 | 360 s |
+| Leman Russ | Squad | 200 + approval | 1 active |
+| Carrion Flock | Platoon | 30 | 180 s |
+| Supply Drop | Platoon | 40 | 240 s |
+| Blight Fog | Platoon | 50 | 300 s |
+| Plague Barrage | Platoon | 70 | 360 s |
+| Reinforcement Tithe | Platoon | 100 | Once per phase |
 
 ### D. Carry Speeds
 
