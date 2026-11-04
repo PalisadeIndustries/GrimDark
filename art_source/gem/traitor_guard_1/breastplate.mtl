@@ -1,0 +1,6 @@
+{material bump
+	{diffuse "$/_w40/_traitor_guard/traitor_chestplate_dif"}
+	{specular "$/[spc]/W40/traitor_chestplate_spc"}
+	{color "230 230 230 25"}
+	{blend none}
+}
