@@ -944,21 +944,65 @@ The platoon has **one hauler**: an unarmed Trojan support tractor with a cargo t
 ## 13. Spawning, Death and Reinforcement
 
 ### 13.1 Reinforcement Pool
-- The platoon shares a **Reinforcement pool** (for example, 300 tickets per operation, scaling by difficulty). Each respawn costs 1, the Ogryn costs 3 and the Leman Russ costs 10 on arrival.
-- The pool is topped up by completing operation phases.
-- When the pool hits 0, no more respawns. The operation fails when everyone is dead or the time limit runs out.
+The platoon shares one **reinforcement pool** of tickets for the whole operation.
 
-### 13.2 Spawn Points
+| Difficulty | Starting pool |
+|---|---|
+| Rabble | 400 |
+| Regiment | 300 |
+| Crusade | 250 |
+| Purgatus | 180 |
 
-| Spawn | Who can use it | Conditions |
-|---|---|---|
-| Rear Depot | Everyone | Always |
-| Forward Depot | Everyone | While the depot stands and isn't contested |
-| **Rally Point (Standard Bearer's icon)** | Everyone | Icon planted and not contested. Spawn wave every 20 s. |
-| **Squad Leader** | Own squad | Leader alive, not in combat (not damaged for 10 s). Spawn wave every 30 s. |
+| What it costs | Tickets |
+|---|---|
+| Human respawn | 1 |
+| **Bot respawn** | **0.5** (so matches with few humans aren't drained by bot mistakes) |
+| Ogryn respawn | 3 |
+| Leman Russ arrival | 10 |
+| Revives (squadmate, medic, Blessed Stitching) | Free. Saving a life saves a ticket. |
 
-### 13.3 Respawn Choices
-On respawn the player picks their role slot (locked to their squad role), spawn point, loadout within their tier and, if eligible, **Ogryn** or an open **Leman Russ** seat.
+- **Topping up:** completing an operation phase adds **+50**. The commander's Reinforcement Tithe adds +15 (9.8).
+- The pool is shown to everyone on the HUD and map, and announced over vox at 50%, 25% and 10%.
+
+### 13.2 Last Stand
+When the pool reaches 0:
+- **No more respawns.** A "No Reinforcements" warning plays for everyone.
+- Players still alive keep fighting. Downed players can still be revived, and Blessed Stitching still works.
+- **Completing the current phase objective** refills the pool to **25% of the starting pool** plus the normal phase bonus, and respawns come back.
+- If **every** platoon member is dead, the operation **fails**.
+- **Taking over bots:** during a last stand, a dead human can take control of a **living bot in their own squad** (or any squad, if theirs has none left), so humans aren't stuck spectating. The human keeps their personal Favour; the bot's kit and tier are used for that life.
+
+### 13.3 Spawn Points and Waves
+Players spawn in **waves** so groups arrive together. Every player waits at least **10 s** after death before joining any wave.
+
+| Spawn | Who can use it | Wave interval | Conditions |
+|---|---|---|---|
+| **Rear Depot** | Everyone | 15 s | Always available |
+| **Forward Depot** | Everyone | 15 s | Not destroyed or captured, no enemies within 30 m |
+| **Rally Point** (planted icon) | Everyone | 20 s (15 s at Standard Bearer track 40, 8.5) | Icon planted, no enemies within 30 m |
+| **Squad Leader** | Own squad | 30 s | Leader alive, not Downed, not damaged in the last 10 s, no enemies within 15 m. Spawn within 5 m behind the leader. |
+| **Leman Russ seat** | Anyone (10.5) | Next wave at the tank's depot | Seat empty or held by a bot |
+
+- A spawn point that becomes unavailable during a wave countdown moves waiting players to their next choice.
+- Freshly spawned players don't build suppression for 3 s.
+
+### 13.4 The Respawn Screen
+A map with every spawn point, its wave timer and the fighting near it. The player chooses:
+- **Spawn point**
+- **Loadout** within their tier and role: weapon pattern (7.7), gear items (7.6), grenade mix
+- **Ogryn**, if eligible (8.8)
+- **Leman Russ seat**, if one is open (10.5)
+- **Swap slot** into any bot-held role (4.4)
+
+Notes:
+- New tier kit is given on respawn (8.3).
+- A gunner gets a new heavy weapon only when spawning at a depot (4.3).
+- While waiting, the player can watch their squadmates or study the map.
+
+### 13.5 Bot Respawning
+- Bots respawn in the same waves and pay half a ticket.
+- They pick the available spawn point closest to their squad's current objective, preferring the squad leader, then the Rally Point, then the nearest depot.
+- Bot gunners without a heavy weapon spawn at a depot, or go and recover their dropped weapon if it's within 50 m of their spawn.
 
 ## 14. Enemies and the AI Director
 
@@ -1077,7 +1121,7 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 ## 22. Open Questions
 _None open right now._
 
-**Decided:** one unarmed hauler per platoon (12.5); all depots have unlimited supplies (12.2); enemies can destroy and capture crates, depots and the hauler's cargo (12.1, 12.4); small arms ammo and grenades can be scavenged from enemy dead (12.6); Tactical Command is a data-slate with the world visible around it (11.1); orders go to squads, fire teams, HWTs, the tank and depots but not individual bots (11.3); following orders is rewarded, never punished (11.6); commander sees platoon sight only (11.5); Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~20 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
+**Decided:** bot respawns cost half a ticket (13.1); spawns come in waves of 15–30 s (13.3); an empty pool means a last stand, refilled by completing the phase (13.2); squad leaders are a spawn point when out of combat (13.3); one unarmed hauler per platoon (12.5); all depots have unlimited supplies (12.2); enemies can destroy and capture crates, depots and the hauler's cargo (12.1, 12.4); small arms ammo and grenades can be scavenged from enemy dead (12.6); Tactical Command is a data-slate with the world visible around it (11.1); orders go to squads, fire teams, HWTs, the tank and depots but not individual bots (11.3); following orders is rewarded, never punished (11.6); commander sees platoon sight only (11.5); Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~20 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
 
 ## 23. Roadmap
 
