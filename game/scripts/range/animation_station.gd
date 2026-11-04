@@ -12,12 +12,6 @@ var _label: Label3D
 
 
 func _ready() -> void:
-	var model: Node3D = load("res://assets/characters/traitor_guard/traitor_guard_1.glb").instantiate()
-	add_child(model)
-	player = AnimationPlayer.new()
-	model.add_child(player)
-	player.root_node = player.get_path_to(model)
-	_load_libraries()
 	_label = Label3D.new()
 	_label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	_label.position = Vector3(0, 2.4, 0)
@@ -25,6 +19,16 @@ func _ready() -> void:
 	_label.pixel_size = 0.004
 	_label.outline_size = 12
 	add_child(_label)
+	var scene := load("res://assets/characters/traitor_guard/traitor_guard_1.glb") as PackedScene
+	if scene == null:
+		_label.text = "Animation Station\nTraitor guard model missing (see README)"
+		return
+	var model: Node3D = scene.instantiate()
+	add_child(model)
+	player = AnimationPlayer.new()
+	model.add_child(player)
+	player.root_node = player.get_path_to(model)
+	_load_libraries()
 	_update_label()
 
 
@@ -57,7 +61,7 @@ func _load_libraries() -> void:
 
 
 func interact(_by: Node = null) -> void:
-	if names.is_empty():
+	if player == null or names.is_empty():
 		return
 	index = (index + 1) % names.size()
 	var anim := player.get_animation(names[index])

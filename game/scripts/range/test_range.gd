@@ -19,6 +19,7 @@ var _walk_angle := 0.0
 
 
 func _ready() -> void:
+	_check_assets()
 	_environment()
 	_ground()
 	_firing_line()
@@ -40,6 +41,26 @@ func _process(delta: float) -> void:
 	walker.position = centre + Vector3(cos(_walk_angle), 0, sin(_walk_angle)) * radius
 	var tangent := Vector3(-sin(_walk_angle), 0, cos(_walk_angle))
 	walker.look_at(walker.position - tangent, Vector3.UP)  # model faces +Z, look_at points -Z
+
+
+## Warns on screen if the models didn't load (usually Git LFS placeholder files from an old download).
+func _check_assets() -> void:
+	var missing: Array[String] = []
+	for path in ["res://assets/characters/traitor_guard/traitor_guard_1.glb", "res://assets/weapons/lasgun/lasgun.glb"]:
+		if not ResourceLoader.exists(path) or load(path) == null:
+			missing.append(path.get_file())
+	if missing.is_empty():
+		return
+	var layer := CanvasLayer.new()
+	layer.layer = 10
+	var label := Label.new()
+	label.text = "Models failed to load: %s\nRe-download the project (see README: Getting started)." % ", ".join(missing)
+	label.add_theme_font_size_override("font_size", 26)
+	label.add_theme_color_override("font_color", Color(1, 0.5, 0.4))
+	label.position = Vector2(40, 300)
+	layer.add_child(label)
+	add_child(layer)
+	push_warning(label.text)
 
 
 func refill(by: Node) -> void:

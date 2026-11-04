@@ -22,7 +22,8 @@ tools/     Scripts for running tests and converting assets
 
 ## Getting started
 
-1. Install [Godot 4.7](https://godotengine.org/download) (standard build, not .NET).
+1. Install [Godot 4.7](https://godotengine.org/download) (standard build, not .NET), and get the project with
+   `git clone` or GitHub's **Download ZIP**. Extract the ZIP to its own folder, not inside an existing copy.
 2. Open `game/project.godot` in the Godot editor and press F5. This opens the **test range**.
 3. F1 shows the controls. WASD move, Shift sprint, C crouch, Z prone, Space jump, LMB fire, RMB aim, R reload,
    B fire mode, 1-7 or E switch weapon, V vent plasma, I infinite ammo, F interact, Esc free the mouse.
@@ -62,4 +63,4 @@ python3 tools/gem_to_gltf.py art_source/gem/traitor_guard_1/traitor_guard_1.mdl 
 
 It needs Python 3 and [Pillow](https://pypi.org/project/pillow/) for `.dds` textures. Normal maps are converted from GEM's DirectX two-channel format, and specular maps become roughness maps. LOD meshes and `.anm` animations aren't converted yet.
 
-Binary art (`.glb`, `.png`, `.dds`, `.ply` and more) is stored with Git LFS: run `git lfs install` once after cloning.
+Binary art (`.glb`, `.png`, `.dds`, `.ply`) is stored directly in git, so a plain clone or GitHub's "Download ZIP" includes everything.

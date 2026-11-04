@@ -36,14 +36,15 @@ var _ammo: Dictionary = {}  # weapon id -> [magazine, reserve], so switching kee
 
 @onready var camera: Camera3D = get_node(camera_path)
 @onready var player: Node3D = get_node(player_path)
-@onready var model: Node3D = $Lasgun
-@onready var muzzle: Node3D = $Lasgun/Muzzle
+@onready var model: Node3D = get_node_or_null("Lasgun")
+@onready var muzzle: Node3D = get_node_or_null("Lasgun/Muzzle")
 
 
 func _ready() -> void:
 	weapon_ids = GameData.table("weapons").get("test_range_weapons", ["lasgun"])
-	for m in model.find_children("*", "GeometryInstance3D", true, false):
-		(m as GeometryInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	if model:
+		for m in model.find_children("*", "GeometryInstance3D", true, false):
+			(m as GeometryInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	select_weapon(0)
 
 
@@ -194,7 +195,13 @@ func _fire_ray(overcharged: bool) -> void:
 			}
 			var report: Dictionary = target.take_hit(info)
 			hit_reported.emit(report)
-	_tracer(muzzle.global_position, end)
+	_tracer(_muzzle_position(), end)
+
+
+func _muzzle_position() -> Vector3:
+	if muzzle:
+		return muzzle.global_position
+	return global_position - global_basis.z * 0.6
 
 
 func start_reload() -> void:
@@ -284,7 +291,10 @@ func _muzzle_flash() -> void:
 	light.light_color = _colour()
 	light.light_energy = 3.0
 	light.omni_range = 4.0
-	muzzle.add_child(light)
+	if muzzle:
+		muzzle.add_child(light)
+	else:
+		add_child(light)
 	var tween := light.create_tween()
 	tween.tween_property(light, "light_energy", 0.0, 0.05)
 	tween.tween_callback(light.queue_free)

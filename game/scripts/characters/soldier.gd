@@ -57,10 +57,11 @@ func get_prompt() -> String:
 
 func apply_pose() -> void:
 	if skeleton == null:
-		skeleton = find_children("*", "Skeleton3D", true, false).front() as Skeleton3D
+		var found := find_children("*", "Skeleton3D", true, false)
+		if found.is_empty():
+			return  # model missing or not loaded
+		skeleton = found.front() as Skeleton3D
 		weapon = get_node_or_null("Weapon") as Node3D
-		if skeleton == null:
-			return
 	skeleton.reset_bone_poses()
 	skeleton.force_update_all_bone_transforms()
 	if _rest_feet.is_empty():
