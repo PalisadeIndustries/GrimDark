@@ -99,7 +99,7 @@ The main enemy is the loyalist **Astra Militarum** defending the world. They mir
 - **Tone of the enemy:** loyalist vox chatter, hymns, Commissar speeches and executions. They are brave and fanatical, and the game lets the player see that.
 
 ### 3.5 Match Structure: Standalone Operations
-- Each operation is a **self-contained match** (60–90 minutes). Nothing from one operation's result carries into the next.
+- Each operation is a **self-contained match** (45–60 minutes). Nothing from one operation's result carries into the next.
 - Operations can be played in any order from a mission select screen. A light "war map" on the menu shows the regions of Varrus Secundus as flavour, not as persistent state.
 - In-match progression (Marks of Favour, Squad Favour) **resets every operation**. Only meta-unlocks (Section 19) carry over.
 
@@ -228,7 +228,7 @@ Every role has: what it's for, its kit, its unique abilities, and how its bot pl
   - **Spawn point:** the squad can spawn on the leader (13.2).
   - **Ammo cache:** drops one Small Arms crate's worth of ammo, once per life.
 - **Progression:** uses the personal tiers from tier 1 up, but can't spawn as an Ogryn while holding the slot.
-- **Bot behaviour:** moves the squad to the ordered objective using cover, sends Bravo to flank when a defended position is found, spends Squad Favour as soon as a call-in is affordable and enemies are within 80 m (zombies against infantry lines, hounds against HWTs and snipers, Chaos Spawn against fortified points), and sends a tank request at 200. After 20 minutes, if no tank is active, it stops buying Chaos Spawn to save for the tank.
+- **Bot behaviour:** moves the squad to the ordered objective using cover, sends Bravo to flank when a defended position is found, spends Squad Favour as soon as a call-in is affordable and enemies are within 80 m (zombies against infantry lines, hounds against HWTs and snipers, Chaos Spawn against fortified points), and sends a tank request at 200. After 15 minutes, if no tank is active, it stops buying Chaos Spawn to save for the tank.
 
 #### Squad Vox-Operator (3)
 - **Purpose:** links the squad to the platoon and enables call-ins.
@@ -270,7 +270,7 @@ Move under cover, suppress, flank, throw grenades, revive. HWT crews brace, fire
 5. The objective is secured. A forward depot or rally point is set up.
 6. Logistics teams bring supplies forward. Positions are re-armed.
 
-### 5.3 Operation (60–90 minutes)
+### 5.3 Operation (45–60 minutes)
 Several phases across a large map (Section 15). The AI Director counter-attacks, cuts supply lines and adds new threats. The platoon has to adapt, holding gains while pushing forward.
 
 ### 5.4 Progression Arc (one match)
@@ -543,14 +543,14 @@ Progression in a match is driven mainly by **kill credit**, with smaller amounts
 Kills stay the main source. A strong rifleman progresses faster than a pure supply runner, but nobody gets stuck. Bots earn Favour by the same rules.
 
 ### 8.2 Pacing Targets
-Tuned so an **average rifleman reaches carapace in about 20 minutes**. The target earning rate is about **1 Favour per minute** of active fighting for an average player.
+Operations last 45–60 minutes (15.1), so progression is tuned to fit. An **average rifleman reaches carapace in about 15 minutes**. The target earning rate is about **1.3 Favour per minute** of active fighting for an average player.
 
 | Tier | Threshold | Average player | Strong player |
 |---|---|---|---|
-| Moebian Trooper | 8 | ~8 min | ~4 min |
-| Moebian Veteran (carapace) | 20 | **~20 min** | ~10 min |
-| Blessed | 40 | ~45 min | ~25 min |
-| Ogryn (spend 30, needs Blessed) | — | Late match, if at all | Mid match |
+| Moebian Trooper | 8 | ~6 min | ~3 min |
+| Moebian Veteran (carapace) | 20 | **~15 min** | ~8 min |
+| Blessed | 40 | ~32 min | ~18 min |
+| Ogryn (spend 30, needs Blessed) | — | Final phase, if at all | Mid match |
 
 The AI Director (14.3) keeps the pace from stalling: quiet phases still give enough targets to progress.
 
@@ -633,7 +633,7 @@ There are two levels of call-in: **squad call-ins** bought by squad leaders with
 
 ### 9.1 Squad Favour
 - Every point of Favour a squad member earns (8.1) **also** adds the same amount to the squad's **Squad Favour** pool. Spending Squad Favour never touches anyone's personal tier.
-- A squad of 10 earns roughly **8–10 Squad Favour per minute** in active fighting.
+- A squad of 10 earns roughly **10–13 Squad Favour per minute** in active fighting, so a squad that saves can afford a Leman Russ in about 15–20 minutes.
 - Calling in needs:
   1. The squad leader alive and not Downed.
   2. The **squad vox-operator within 25 m** (or the leader carrying the vox-set).
@@ -687,7 +687,7 @@ Bot squad leaders use the same orders.
 - Allied units draw the AI Director's attention (14.3), pulling enemy focus away from players.
 
 ### 9.8 Platoon Favour and Commander Call-Ins
-- **Platoon Favour:** **20%** of every point of Favour earned by anyone in the platoon also goes into a platoon pool, plus **+30** for every operation phase objective completed. This adds up to roughly **8–10 per minute**.
+- **Platoon Favour:** **20%** of every point of Favour earned by anyone in the platoon also goes into a platoon pool, plus **+30** for every operation phase objective completed. This adds up to roughly **10–12 per minute**.
 - Commander call-ins need the **platoon vox-operator within 30 m** of the commander and are placed from Tactical Command (Section 11).
 
 | Call-in | Cost | Cooldown | Effect |
@@ -1095,29 +1095,88 @@ The loyalists have a chain of command the platoon can attack.
 
 ## 15. Missions and Maps
 
-### 15.1 Map Scale
-- Around 2×2 km to 3×3 km per map, with dense urban, hive-industrial, trench and rural/agri sections.
-- Built in **sectors** that unlock in phase order so 45 players stay in a coherent front.
+### 15.1 Operation Structure
+- An operation lasts **45–60 minutes** and has **4 phases** of roughly 12–15 minutes each.
+- Each operation covers one region of Varrus Secundus (3.3). Phases move the front forward through the map's **sectors**, which unlock in order so 45 players stay on a coherent front.
+- **Typical phase flow:** objective revealed → approach and contact → assault → objective secured → consolidation (move depots and the icon up, resupply) → next phase.
+- Completing a phase gives +50 reinforcement tickets (13.1) and +30 Platoon Favour (9.8).
 
-### 15.2 Operation Structure (example: "Breaking the Ashfields")
-Each operation covers one region of Varrus Secundus (3.3) in several phases.
+### 15.2 Soft Phase Timers
+Each phase has a **target time**. Going over it never fails the operation. Instead the loyalists bring up more and more force.
 
-1. **Breach:** take the first trench line. Set up the first forward depot.
-2. **Push:** advance through the second line of bunkers and wire (HWT overwatch, flamers clear trenches).
-3. **Silence the Guns:** destroy the Basilisk battery shelling the platoon's advance.
-4. **Hold:** survive an armoured loyalist counter-attack (HWTs and logistics are tested).
-5. **Desecrate:** the Standard Bearer plants the icon at the shrine on the hive gate and the platoon defends it for X minutes.
+| Time over target | Director escalation |
+|---|---|
+| Under target | **Bonus:** +15 Platoon Favour on completion |
+| +0–2 min | Normal |
+| +2 min | Threat budget +25% |
+| +5 min | A guaranteed elite event (Scion deep strike or Sisters squad) |
+| +8 min | **Purge Order:** continuous Basilisk barrages on the platoon's rear, threat budget +50% |
 
-### 15.3 Objective Types
-Capture/Hold, Destroy (artillery, vox-towers, ammo dumps), Desecrate (icon plant), Escort (sorcerer, plague cauldron), Sabotage (plant charges), Survive (wave defence), Assassinate (Commissar-General, Canoness).
+The target time and countdown are shown on the HUD and in Tactical Command.
 
-### 15.4 Difficulty
+### 15.3 Map Scale
+- About **1.5×1.5 km to 2.5×2.5 km** per map, sized for a 45–60 minute push.
+- Each map has 4 phase sectors, a rear depot area, and enemy spawn zones behind each defence line.
+- Routes matter: every sector offers at least **three approaches** (for example, a main road for the tank and hauler, a covered infantry route and a flanking route) so the commander has real choices.
+
+### 15.4 Variation Between Plays
+
+| Variable | Options |
+|---|---|
+| **Time of day** | Dawn, day, dusk, night (lumen lamps, flares, muzzle flashes matter at night) |
+| **Weather** (per region) | Ashfields: **ash storms** (visibility cut to ~80 m, Basilisk observers can't spot). Hab-Sprawl: **acid rain** (light damage in the open for anyone without carapace). Refinery Nine: **smog** and spreading fires. Agri-Belt: **ground fog** at dawn. The Sump: **flooding** in low tunnels. Basilica: clear, with smoke from burning districts. |
+| **Objective variants** | Each phase has **2–3 authored versions** of its objective (different locations or types), picked at random. For example, the Basilisk battery can be in the quarry or the rail yard. |
+| **Director** | The reactive layer (14.3) makes every fight play differently. |
+
+### 15.5 First Release: Two Operations
+The project starts with **1–2 operations** and adds regions over time.
+
+#### Operation 1: Breaking the Ashfields
+Trench warfare on the ash wastes outside the hive. Shows off every core system.
+
+| Phase | Target time | Objective (variants) | Focus |
+|---|---|---|---|
+| 1. **Breach** | 12 min | Take the first trench line (centre bunker **or** the flanking redoubt) and build the first forward depot | Assault under fire, HWT overwatch, first depot |
+| 2. **Silence the Guns** | 15 min | Destroy the Basilisk battery (quarry **or** rail yard). The sector HQ and forward observers are optional targets (14.5). | Long approach, artillery, the commander's choice of raiding the HQ first |
+| 3. **Hold the Line** | 12 min | Survive an armoured counter-attack on the captured second line until the timer ends | HWTs, anti-tank, logistics under pressure, tank versus tank |
+| 4. **Desecrate the Gate** | 15 min | Plant the icon at the shrine on the hive gate (inner courtyard **or** gate tower) and defend it for 5 minutes | Final push, everything the platoon has |
+
+#### Operation 2: The Fall of Karsten Hab-Sprawl
+Dense urban fighting through hab-blocks. Tests close-quarters play, short but dangerous supply runs and verticality.
+
+| Phase | Target time | Objective (variants) | Focus |
+|---|---|---|---|
+| 1. **Into the Sprawl** | 12 min | Capture the transit plaza (plaza **or** market hall) and build a depot | Street fighting, snipers in hab windows |
+| 2. **Burn the Barracks** | 15 min | Clear a PDF barracks block floor by floor, or sabotage the armoury (variant) | Flamers, Ogryn, room clearing, zombies through corridors |
+| 3. **Cut the Vox** | 12 min | Destroy the sector HQ's vox mast on a hab-tower roof | Vertical assault, HWTs on rooftops covering the climb |
+| 4. **Sermon's End** | 15 min | Assassinate the Ministorum Confessor leading the zealot militia at the chapel, then hold the chapel against a final Frateris surge | Zealot mobs, Priests, a Sisters elite event |
+
+#### Later Operations
+Refinery Nine, Hollowmere Agri-Belt, The Sump and the Basilica of Saint Vorena (the Sisters' climax with the Canoness and Penitent Engines) follow after the first release.
+
+### 15.6 Objective Types
+| Type | Description |
+|---|---|
+| **Capture / Hold** | Take an area and keep it for a set time. |
+| **Destroy** | Destroy a target: artillery battery, vox mast, ammo dump, fuel depot. |
+| **Desecrate** | The Standard Bearer plants the icon at a holy site and the platoon defends it. |
+| **Sabotage** | Plant demolition charges on several points. |
+| **Assassinate** | Kill a named enemy leader (Commissar-General, Confessor, Canoness). |
+| **Survive** | Hold a position against waves until a timer ends. |
+| **Escort** | Protect a slow allied unit (a plague cauldron, a traitor sorcerer) to a destination. |
+
+### 15.7 Difficulty
 | Level | Name | Changes |
 |---|---|---|
-| 1 | Rabble | Generous pools, low enemy accuracy |
+| 1 | Rabble | Generous pool, low enemy accuracy, slow Director escalation |
 | 2 | Regiment | Baseline |
-| 3 | Crusade | Higher threat budget, more elites |
-| 4 | Purgatus | Low pool, more Sisters and Scion events, harsher logistics (crates refill less, faster crate capture) |
+| 3 | Crusade | Higher threat budget, more elites, shorter relief periods |
+| 4 | Purgatus | Low pool, more Sisters and Scion events, harsher logistics (crates hold less, faster crate capture) |
+
+### 15.8 End of Operation
+- **Victory:** all four phases complete. **Defeat:** every platoon member dead during a last stand (13.2).
+- The results screen shows platoon stats (kills, deliveries, revives, call-ins, tanks lost), each player's highest tier and mutation, and a few awards (most deliveries, best HWT team, longest-surviving tank commander).
+- Meta-progression XP is given for the operation (Section 19), with a bonus for victory and difficulty.
 
 ## 16. Communication
 - **Proximity voice** in the world (enemies can't hear it; it's PvE, but it adds atmosphere).
@@ -1170,17 +1229,18 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 ## 22. Open Questions
 _None open right now._
 
-**Decided:** no Space Marines (14.1); 100–150 enemies active at once (14.3); authored defences plus a reactive Director (14.3); loyalists have officers and sector HQs the platoon can attack (14.5); bot respawns cost half a ticket (13.1); spawns come in waves of 15–30 s (13.3); an empty pool means a last stand, refilled by completing the phase (13.2); squad leaders are a spawn point when out of combat (13.3); one unarmed hauler per platoon (12.5); all depots have unlimited supplies (12.2); enemies can destroy and capture crates, depots and the hauler's cargo (12.1, 12.4); small arms ammo and grenades can be scavenged from enemy dead (12.6); Tactical Command is a data-slate with the world visible around it (11.1); orders go to squads, fire teams, HWTs, the tank and depots but not individual bots (11.3); following orders is rewarded, never punished (11.6); commander sees platoon sight only (11.5); Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~20 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
+**Decided:** operations last 45–60 minutes in 4 phases (15.1); first release has 1–2 operations, Ashfields and Hab-Sprawl (15.5); soft phase timers that escalate instead of failing (15.2); random time of day, weather and objective variants (15.4); no Space Marines (14.1); 100–150 enemies active at once (14.3); authored defences plus a reactive Director (14.3); loyalists have officers and sector HQs the platoon can attack (14.5); bot respawns cost half a ticket (13.1); spawns come in waves of 15–30 s (13.3); an empty pool means a last stand, refilled by completing the phase (13.2); squad leaders are a spawn point when out of combat (13.3); one unarmed hauler per platoon (12.5); all depots have unlimited supplies (12.2); enemies can destroy and capture crates, depots and the hauler's cargo (12.1, 12.4); small arms ammo and grenades can be scavenged from enemy dead (12.6); Tactical Command is a data-slate with the world visible around it (11.1); orders go to squads, fire teams, HWTs, the tank and depots but not individual bots (11.3); following orders is rewarded, never punished (11.6); commander sees platoon sight only (11.5); Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~15 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
 
 ## 23. Roadmap
 
 | Phase | Goal | Content |
 |---|---|---|
 | **Prototype** (3–4 months) | Prove fire-and-bracing and the logistics loop | 1 squad + 1 HWT + depot, greybox map, basic AI Guardsmen, first friendly bots for squad slots |
-| **Vertical Slice** (6–8 months) | Full platoon structure at 45 players | All roles, Tactical Command, Favour tiers, 2 call-ins, 1 operation |
+| **Vertical Slice** (6–8 months) | Full platoon structure at 45 players | All roles, Tactical Command, Favour tiers, 2 call-ins, Operation 1 (Ashfields) |
 | **Alpha** | Feature complete | Leman Russ, Ogryn, all call-ins, full enemy roster, AI Director, bot backfill |
-| **Beta** | Content and scale | 3–4 operations, difficulty tiers, meta-progression, stress tests at 45 players |
-| **Launch** | — | 4 operations, 2 environments, cosmetics |
+| **Beta** | Content and scale | Operation 2 (Karsten Hab-Sprawl), difficulty tiers, meta-progression, stress tests at 45 players |
+| **First release** | — | 2 operations (Ashfields, Hab-Sprawl), cosmetics |
+| **Post-release** | New regions | Refinery Nine, Hollowmere Agri-Belt, The Sump, Basilica of Saint Vorena |
 
 ---
 
