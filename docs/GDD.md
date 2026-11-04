@@ -246,7 +246,7 @@ Every role has: what it's for, its kit, its unique abilities, and how its bot pl
 - **Purpose:** the bulk of the platoon. They take and hold ground, carry supplies and escort HWTs.
 - **Kit:** depends on tier (Section 8): cultist autogun → Moebian lasgun, growing grenade and gear slots.
 - **Gear slot roles:** gear slots let riflemen specialise without new classes. For example, an entrenching tool for a "digger", demolition charges for a "sapper", extra ammo pouches that resupply squadmates for a "runner".
-- **Ogryn:** riflemen are the only role that can spawn as an Ogryn (8.4).
+- **Ogryn:** riflemen are the only role that can spawn as an Ogryn, by spending Favour (8.8).
 - **Bot behaviour:** fire and move with their fire team. Idle bots near a depot with open supply requests pick up crates and deliver them.
 
 ### 4.4 Role Slots and Bots
@@ -275,7 +275,7 @@ Several phases across a large map (Section 15). The AI Director counter-attacks,
 
 ### 5.4 Progression Arc (one match)
 ```
-Cultist → Moebian Trooper → Moebian Veteran (carapace) → Blessed → Ogryn eligibility
+Cultist → Moebian Trooper → Moebian Veteran (carapace) → Blessed (mutation) → spend Favour on an Ogryn life
 Squad Favour → Plague Zombies → Plague Hounds → Chaos Spawn → Leman Russ
 ```
 
@@ -522,7 +522,7 @@ Each operation's balance is tested with default patterns. Any pattern has to be 
 
 ## 8. Progression: Marks of Favour
 
-Progression in a match is driven mainly by **kill credit**, with smaller amounts from contribution so support roles are not starved.
+Progression in a match is driven mainly by **kill credit**, with smaller amounts from contribution so support roles are not starved. Everything resets at the end of the operation (3.5).
 
 ### 8.1 Favour Sources
 
@@ -535,37 +535,97 @@ Progression in a match is driven mainly by **kill credit**, with smaller amounts
 | Assist (damage or suppression on a target that dies within 10 s) | 0.5 |
 | Crew-served weapon kill | Full credit to **both** gunner and loader |
 | Delivering a supply crate to a requesting position | 1 |
-| Teamkill | −3 |
+| Handing a heavy weapon reload to a loader or gunner | 0.5 |
 | Revive | 0.5 |
 | Completing a commander order (objective secured while ordered) | 3 to each squad member present |
+| Teamkill | −3 |
 
-Kills stay the main source. A strong rifleman progresses faster than a pure supply runner, but nobody gets stuck.
+Kills stay the main source. A strong rifleman progresses faster than a pure supply runner, but nobody gets stuck. Bots earn Favour by the same rules.
 
-### 8.2 Personal Tiers (Riflemen, Squad Vox, Squad Special Weapons)
+### 8.2 Pacing Targets
+Tuned so an **average rifleman reaches carapace in about 20 minutes**. The target earning rate is about **1 Favour per minute** of active fighting for an average player.
 
-| Tier | Name | Threshold (personal Favour) | Armour | Grenade slots | Gear slots | Other |
+| Tier | Threshold | Average player | Strong player |
+|---|---|---|---|
+| Moebian Trooper | 8 | ~8 min | ~4 min |
+| Moebian Veteran (carapace) | 20 | **~20 min** | ~10 min |
+| Blessed | 40 | ~45 min | ~25 min |
+| Ogryn (spend 30, needs Blessed) | — | Late match, if at all | Mid match |
+
+The AI Director (14.3) keeps the pace from stalling: quiet phases still give enough targets to progress.
+
+### 8.3 Personal Tiers (Riflemen, Squad Leaders, Squad Vox, Squad Special Weapons)
+Your **tier is set by your current Favour total**.
+
+| Tier | Name | Favour | Armour | Grenade slots | Gear slots | Other |
 |---|---|---|---|---|---|---|
-| 0 | **Cultist** | Start | Rags/none | 1 (Frag) | 1 | Autogun or stub rifle. Fast sprint. |
+| 0 | **Cultist** | 0 | Rags/none | 1 (Frag) | 1 | Autogun or stub rifle. Sprint 10% faster. No rebreather. |
 | 1 | **Moebian Trooper** | 8 | Flak | 2 (Frag/Krak) | 2 | Lasgun, rebreather (toxin resistance). |
-| 2 | **Moebian Veteran** | 20 | **Carapace** | 3 | 3 | Bayonet charge, faster brace and revive. |
-| 3 | **Blessed** | 40 | Carapace + "Rot-hardened" (passive DR) | 4 (Toxin unlocked) | 3 | Visible mutation, small morale aura. |
-| ★ | **Ogryn eligible** | 60 lifetime in this match | — | — | — | Can **spawn as an Ogryn** (8.4). |
+| 2 | **Moebian Veteran** | 20 | **Carapace** | 3 | 3 | Bayonet charge knocks down; brace and stabilise 20% faster. |
+| 3 | **Blessed** | 40 | Carapace, **Rot-hardened** (−10% damage taken) | 4 (Toxin, if unlocked) | 3 | **One mutation** (8.6). Toxin immune. Small morale aura (5 m). |
 
-- Tiers **persist through death** for the match.
-- On death you lose **25% of your progress toward the next tier** (never below your current tier). This makes death matter without wiping out progress.
-- Squad special weapons operators and squad vox-ops follow the same tiers, keeping their role weapon.
-- Command Section veterans already start in carapace and use the **Veteran track** instead: perk unlocks at the same thresholds (for example, faster revive for the medic, a larger icon aura for the bearer).
-- HWT gunner and loader use the **Weapon Team track**: faster setup, more reloads carried, and the loader gets carapace at tier 2.
+- Squad leaders start at tier 1 (they are never cultists).
+- Squad special weapons and squad vox-ops follow the tiers but keep their role weapon or vox-set.
+- **Tier changes apply at your next respawn or at a depot**, where you get your new kit. Reaching a tier mid-fight gives a short audio and visual cue (flies swarm briefly) and the new kit is waiting for you.
 
-### 8.3 Visual Feedback
-Each tier changes the model clearly: rags → flak and gas mask → carapace → carapace with rust, boils and flies. Other players should be able to read rank at 50 m.
+### 8.4 Death Cost
+- On death you lose **25% of your Favour above your current tier's threshold**. You never drop a tier from dying.
+- Example: a Moebian Veteran (threshold 20) with 32 Favour dies. They lose 25% of 12 = 3 and respawn with 29.
+- Blessed Stitching (4.3) avoids the death and its cost.
 
-### 8.4 The Ogryn
-- **Unlock:** at 60 personal Favour (or as set in tuning), the player can choose **Ogryn** on their next respawn.
-- **Limit:** one Ogryn per squad at a time, three platoon-wide. Choosing it uses the slot. When the Ogryn dies the player goes back to their rifleman tier and the slot goes on cooldown.
-- **Kit:** Ripper gun (close-range shotgun-like burst, melee bash), frag bomb bundle, huge HP pool, cannot use cover well, sprint knocks down infantry.
-- **Logistics synergy:** an Ogryn can **carry a two-man crate alone** at normal speed, or **two one-man crates at once**. This is a real reason to bring one besides combat power.
-- **Weakness:** big hitbox, no toxin resistance, priority target for enemy AI. Cannot board the Leman Russ.
+### 8.5 Role Tracks
+Roles that don't change kit through the tiers use a **track** with the same thresholds. Everyone gets a mutation at 40.
+
+| Role | 8 Favour | 20 Favour | 40 Favour |
+|---|---|---|---|
+| **Commander** | Command Auspex cooldown 60 → 40 s | Commander's Presence radius 30 → 45 m | Blessed: mutation, Rot-hardened |
+| **Medic** | +2 satchel charges | Full Revive 3 → 2 s | Blessed + Blessed Stitching window 10 → 20 s |
+| **Vox-Operator** | Intercept cooldown −30% | Platoon Link range 30 → 50 m | Blessed + 1 extra supply drop per phase |
+| **Standard Bearer** | Plant icon 5 → 3 s | Planted aura 25 → 35 m | Blessed + Rally spawn wave 20 → 15 s |
+| **Veteran Special Weapons** | +1 ammo slot | Reload 20% faster | Blessed: mutation, Rot-hardened |
+| **HWT Gunner and Loader** | Loader carries +1 reload | **Carapace** for both, setup 20% faster | Blessed: mutation, Rot-hardened |
+
+### 8.6 Mutations (Blessed)
+On reaching Blessed you're offered **3 random mutations from the pool of 7** and keep **one** for the rest of the match. Mutations are themed on Nurgle's endurance and decay (3.2), and each has a drawback or a cost.
+
+| Mutation | Effect | Drawback |
+|---|---|---|
+| **Bloated Hide** | +20% damage resistance | −10% move speed |
+| **Cloud of Flies** | Enemies within 5 m get heavy sway and −30% accuracy | Your position is audible to everyone nearby |
+| **Rotting Regeneration** | Regenerate 1 HP/s after 10 s out of combat, up to 70 HP (the only natural regeneration in the game) | Can't be treated by the medic's Treat Wound |
+| **Bile Spew** | Short-range acid vomit: 4 m cone, Pen 2, 45 s cooldown | Leaves you unable to aim for 1 s |
+| **Pox Carrier** | Enemies you kill in melee rise as allied plague zombies for 60 s | Zombies count toward Squad Favour at half rate (9.3) |
+| **Unfeeling Flesh** | Immune to limb effects and Wounded status | Can't be stabilised by squadmates, only the medic |
+| **Grandfather's Gift** | Downed timer 45 → 90 s, crawl twice as fast, can fire a pistol while Downed | When you die you burst into a toxin cloud (hurts cultists and Ogryn nearby) |
+
+- Mutations are visible on the model (swollen hide, flies, open sores) so squadmates can read them.
+- Mutations stay through deaths for the match. Dropping below Blessed (by spending Favour on the Ogryn) removes the mutation; reaching Blessed again gives a new pick.
+
+### 8.7 Visual Feedback
+Each tier changes the model clearly: rags → flak and gas mask → carapace → carapace with rust, boils, flies and the chosen mutation. Other players should be able to read rank at 50 m. Nameplates on friendlies also show a tier mark.
+
+### 8.8 The Ogryn
+The Ogryn is bought with personal Favour. It's a choice to spend progress on a powerful but temporary life.
+
+- **Requirement:** Blessed tier (40 Favour) and a rifleman slot.
+- **Cost:** **30 personal Favour**, spent when you choose Ogryn on the respawn screen. The respawn also costs **3 reinforcement tickets** (13.1).
+- **Limit:** one Ogryn per squad at a time, three platoon-wide.
+- **During the Ogryn life:** kills earn Favour normally. When the Ogryn dies, the player respawns as a rifleman at whatever tier their Favour now gives (for example, 45 − 30 = 15 → Moebian Trooper). A good Ogryn can earn its way back to Blessed.
+- **The death cost (8.4) does not apply** to an Ogryn's death, since the Favour was already spent.
+- **Stats:**
+
+| Stat | Value |
+|---|---|
+| Health | 300 |
+| Armour | Carapace (2) |
+| Move speed | 90%, sprint knocks down infantry |
+| Weapon | Ripper gun (7.2), Ogryn bash (6.8), 2 frag bombs |
+| Toxin | **Full damage** (no rebreather fits) |
+| Restrictions | Can't go prone, can't use heavy weapons, can't board the Leman Russ, too large for some tunnels and doors |
+
+- **Logistics synergy:** an Ogryn can **carry a two-man crate alone** at full speed, or **two one-man crates at once** at 90% speed. This is a real reason to bring one besides combat power.
+- **Weakness:** big hitbox and a priority target for enemy AI.
+- **Bot behaviour:** bots buy an Ogryn only when their squad has none and they are at 70+ Favour (so they stay Blessed or Veteran after spending).
 
 ## 9. Squad Leader Call-Ins
 
@@ -841,7 +901,7 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 ## 22. Open Questions
 1. Leman Russ crewing: with bots in the platoon, should respawning bots fill empty tank seats, or only humans? (To settle in the Leman Russ point.)
 
-**Decided:** pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
+**Decided:** carapace in ~20 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
 
 ## 23. Roadmap
 
