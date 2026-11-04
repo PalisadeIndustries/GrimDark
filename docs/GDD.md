@@ -790,36 +790,71 @@ Every Leman Russ arrives with a **traitor Enginseer**, a rust-eaten tech-priest 
 
 ## 11. Platoon Commander: Tactical Command
 
-### 11.1 The Mode
-- The commander can enter **Tactical Command**, a top-down map overlay (RTS-style) that fills their screen.
-- **While in Tactical Command the commander's character kneels in place and is vulnerable.** The Command Section veterans exist partly to protect them during this.
-- Entering and leaving takes ~1 s. A damage indicator and audio alert warn the commander if they are hit.
+### 11.1 The Data-Slate
+- The commander opens **Tactical Command** by raising a **data-slate** (1 s). The map fills about 75% of the screen. The world stays visible around the edges and all game audio keeps playing, so the commander can still notice nearby threats.
+- **While the slate is up** the commander can't use a weapon and can only move at a slow crouch-walk (50% speed). They are vulnerable, which is part of why the Command Section veterans stay close.
+- **Dropping the slate** to draw a pistol takes 0.5 s.
+- Taking a hit makes the slate jolt, flashes the screen edge red and plays an alarm.
+- Every other player has a simpler **map screen** (view only, plus pings). Only the commander can give orders from it, and the acting commander when the commander is dead (4.3).
 
-### 11.2 Orders
+### 11.2 The Map
+- **Layers** the commander can toggle: terrain and sectors, objectives, friendly units, supply (depots, crates, requests, convoys), threats (spotted enemies, last-known positions, intercepted attack directions), call-in areas.
+- **Zoom** from the whole operation area down to a single street.
+- **Fog of war:** platoon sight only (11.5).
+
+### 11.3 Orders
+Orders can target the **platoon**, a **squad**, a **fire team** (Alpha or Bravo), an **HWT**, the **tank** or a **depot**. There is no control of individual bots.
 
 | Order | Target | Effect |
 |---|---|---|
-| **Move To** | Squad / HWT | Waypoint on the squad's HUD and compass. |
-| **Secure Objective** | Squad | Marks an objective. Completing it while ordered gives the "Followed Orders" Favour bonus. |
-| **Hold / Dig In** | Squad / HWT | Squad gets a defence bonus (faster sandbag building, extra suppression resistance) while inside the zone. |
-| **Assault** | Squad | Short-lived sprint and morale buff ("Fury of the Damned") when charging the target area. |
-| **Overwatch Lane** | HWT | Draws a fire lane. The HWT gets a small accuracy bonus inside it. |
-| **Escort / Screen** | Squad → HWT / Tank / Supply team | Links units. Shows escort status. |
+| **Move To** | Squad / fire team / HWT / tank | Waypoint on the unit's HUD and compass. |
+| **Secure Objective** | Squad | Marks an objective. Completing it while ordered gives the Followed Orders bonus (11.6). |
+| **Hold / Dig In** | Squad / fire team / HWT | Defence bonus inside the zone: faster sandbag building, +15% suppression resistance. |
+| **Assault** | Squad / fire team | "Fury of the Damned": +15% sprint speed and suppression resistance for 30 s while charging the target area. 3 min cooldown per squad. |
+| **Fall Back** | Squad / fire team / HWT | Retreat to a point. Suppression builds 25% slower while moving away. |
+| **Overwatch Lane** | HWT / tank | Draws a fire lane. The unit gets +10% accuracy inside it. |
+| **Escort / Screen** | Squad or fire team → HWT / tank / supply team | Links units. Shows escort status on the map. |
+| **Rally on Icon** | Platoon | Marks the Standard Bearer's planted icon as the regroup point. |
 | **Supply Priority** | Depot | Sets which requests the depot fills first (12.4). |
+| **Supply Detail** | Bot riflemen of a squad | Assigns up to 3 bot riflemen to run supplies between a depot and a position until cancelled. |
 | **Establish Forward Depot** | Location | Needs the platoon vox-op and a secured objective (12.3). |
-| **Approve Call-In** | Tank Request | Approves or denies Leman Russ requests. |
+| **Approve Tank** | Tank Request | Approves or denies Leman Russ requests (10.4). |
 | **Platoon Call-In** | Map location | Places a commander call-in bought with Platoon Favour (9.8). |
 | **Ping / Mark** | Anywhere | Marks enemy positions, threats or routes for the whole platoon. |
-| **Supply Detail** | Bot riflemen of a squad | Assigns up to 3 bot riflemen to run supplies between a depot and a position until cancelled. |
 
-### 11.3 Information
-- **Fog of war:** the commander sees only what the platoon sees or has recently spotted (spotting decays). Hounds and auspex add intel.
-- Each squad shows its strength, ammo state (Full / Low / Critical), Favour pool and whether its vox-op is alive.
-- Each HWT shows its weapon type, braced or moving, and reloads left.
-- Supply tasks show what is requested, where, who is carrying it and the ETA.
+### 11.4 How Orders Flow
+- **Delivery:** instant with the platoon vox-op within range of the commander (Platoon Link, 4.3); otherwise through the squad vox-op with a 5 s delay. A squad with no vox-set alive gets **no orders** until someone picks it up.
+- **Order states:** Issued → Acknowledged → In Progress → Complete or Cancelled. Human squad leaders acknowledge with one key press; bots acknowledge automatically.
+- **Limits:** each squad has one active squad order, plus one fire team order. A new order replaces the old one.
+- **Chain of command:**
+  - **Bot-led squads** carry out commander orders directly.
+  - **Human-led squads:** the order appears as a task for the squad leader. Bots in that squad follow their squad leader's waypoints, not the commander's. A fire team order to Bravo goes straight to Bravo's bots, but the human squad leader can override it.
+- **Orders are information plus reward.** Humans are never forced to follow them (11.6).
 
-### 11.4 Commander Rewards
-The commander earns Favour from objectives completed under their orders and a share of all platoon kills (10%), so they aren't pushed to leave command to farm kills.
+### 11.5 Information and Fog of War
+- **Platoon sight only:** the commander sees what the platoon sees or has recently spotted.
+- **Spotting:** an enemy is spotted when a player pings it, when a bot sees it, or by hounds, auspex, the Command Auspex and Carrion Flock.
+- **Decay:** spotted infantry stay on the map for 30 s, vehicles for 60 s. After that a greyed-out last-known-position marker stays for another 60 s.
+- **Vox Intercept** (platoon vox-op) adds arrows showing the direction of upcoming enemy attacks (14.4).
+- **Status panels:**
+  - **Squads:** strength (alive / downed / dead), human or bot leader, ammo state (Full / Low / Critical), Squad Favour, call-ins ready, vox-op alive.
+  - **HWTs:** weapon type, braced or moving, reloads left.
+  - **Tank:** crew, hull %, damaged components, ammo, enginseer alive.
+  - **Supply:** requests (type, where, who's carrying, ETA), depot stock levels.
+  - **Platoon:** reinforcement pool, Platoon Favour, phase objectives and timer.
+- **Alerts:** a notification feed for supply requests, tank requests, Critical ammo, icon under attack, depot under attack and squad wipes. Each alert jumps the map to the location.
+
+### 11.6 Rewards for Following Orders
+Reward only, no penalties.
+- **Followed Orders:** +3 Favour to each squad member present when an ordered objective is completed (8.1).
+- **On Task:** +0.2 Favour per minute to anyone inside the area of an active Hold / Dig In or Overwatch order.
+- **Escort bonus:** +1 Favour to each member of an escorting squad when the escorted supply team delivers.
+
+### 11.7 Commander Rewards
+The commander earns personal Favour from objectives completed under their orders and a **10% share** of all Favour earned by the platoon, so they aren't pushed to leave command to farm kills.
+
+### 11.8 Commander Advisor (Optional)
+For new commanders, an optional **advisor** uses the bot commander's logic (4.3) to suggest orders ("2nd Squad is idle", "HWT 3 has 1 reload left", "Enemy armour spotted east: move a lascannon team"). Suggestions show in the alert feed and can be accepted with one click.
 
 ## 12. Logistics and Resupply
 
@@ -1000,7 +1035,7 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 ## 22. Open Questions
 _None open right now._
 
-**Decided:** Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~20 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
+**Decided:** Tactical Command is a data-slate with the world visible around it (11.1); orders go to squads, fire teams, HWTs, the tank and depots but not individual bots (11.3); following orders is rewarded, never punished (11.6); commander sees platoon sight only (11.5); Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~20 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
 
 ## 23. Roadmap
 
