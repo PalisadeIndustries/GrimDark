@@ -135,53 +135,127 @@ PLATOON (45)
 
 5 + 10 + 30 = **45 players.**
 
-### 4.2 Role Summaries
+### 4.2 Fire Teams
+Each 10-man squad splits into two fire teams. This gives bots a clear structure to follow and gives the squad leader something to manoeuvre.
+
+| Fire team | Members | Led by |
+|---|---|---|
+| **Alpha** | Squad Leader, Vox-Operator, Special Weapons 1, Riflemen 1–3 | Squad Leader |
+| **Bravo** | Special Weapons 2, Riflemen 4–6 | The highest-tier member of Bravo (ties go to the human player) |
+
+The squad leader can give Bravo its own waypoint ("Bravo, flank left") without involving the commander.
+
+### 4.3 Role Details
+
+Every role has: what it's for, its kit, its unique abilities, and how its bot plays it. Tier references are to Section 8.
 
 #### Platoon Commander (1)
-- **Job:** Strategic decisions. Opens **Tactical Command** (Section 11) to issue orders, set objectives, assign HWTs, manage depot priorities and approve major call-ins such as the Leman Russ.
-- **Kit:** Carapace, bolt pistol or laspistol, power sword or chainsword, frag/krak, a command auspex (marks targets for the platoon).
-- **Unique:** The platoon's highest authority. Commander orders give "Followed Orders" Favour bonuses to the squads that carry them out.
+- **Purpose:** decides where the platoon goes and why. Turns the operation's objectives into orders, sets HWT lanes, runs depot priorities and approves the Leman Russ.
+- **Fights normally.** The commander is a full combatant. The only cost of Tactical Command (Section 11) is being vulnerable while using it.
+- **Kit:** carapace; bolt pistol or laspistol; power sword or chainsword; 2 Frag, 1 Krak; command auspex.
+- **Abilities:**
+  - **Tactical Command:** opens the platoon map (Section 11).
+  - **Command Auspex:** reveals enemies in a 40 m cone for 5 s, visible to the whole platoon. 60 s cooldown.
+  - **Commander's Presence:** squads within 30 m get +15% suppression resistance.
+- **If the commander dies:** command passes to the **acting commander** (the 1st Squad leader, or the next alive squad leader) until the commander respawns. The acting commander can open Tactical Command and give orders but **cannot approve the Leman Russ or set up depots**.
+- **Bot behaviour:** follows the operation's phase plan. Splits squads across the current objectives, puts HWTs on overwatch lanes covering the main approaches, sets supply priority to whichever position reports Critical ammo, approves a tank request whenever no tank is active. Stays with the Command Section, behind the front squads.
 
 #### Veteran Medic (1)
-- Revives downed players faster and from further away than squad-level stabilisation. Can treat "Wounded" status (see 13.2).
-- Carries a **Medicae Satchel** (limited charges, refilled from Medical crates at depots).
-- Corrupted flavour: "Blessed Stitching" can raise a fallen trooper with a temporary toughness buff and a slow movement debuff.
+- **Purpose:** keeps the platoon's strength up and the reinforcement pool from draining.
+- **Kit:** carapace; lasgun or laspistol + chainsword; 1 Frag; **Medicae Satchel** (10 charges).
+- **Abilities:**
+  - **Full Revive** (1 charge, 3 s): a Downed player comes back at full health with no Wounded status. Squadmate stabilisation takes 6 s and leaves the player Wounded (6.4).
+  - **Treat Wound** (1 charge, 2 s): removes Wounded status.
+  - **Blessed Stitching** (2 charges, 4 s): revives a player who has **just died** (within 10 s, not from explosive overkill). They come back with +25% damage resistance and −20% move speed for 60 s. Saves a reinforcement ticket.
+  - **Drag:** pulls a Downed player to cover.
+  - **Casualty Collection Point:** marks a spot on the map. Medical crates delivered there refill the satchel and treat Wounded players nearby.
+- **Bot behaviour:** stays behind the most engaged squad, goes to Downed players in order of distance and safety, requests Medical crates at 3 charges left.
 
 #### Veteran Vox-Operator (1)
-- Gives the commander platoon-wide comms range. Without the platoon vox-op nearby (about 30 m), the commander's **orders reach squads only through their squad vox-ops**, with a delay and reduced range.
-- Needed for platoon-level call-ins: depot establishment, supply drops and Leman Russ authorisation.
-- The vox-set is a physical backpack. If the operator dies it can be picked up by anyone in the Command Section.
+- **Purpose:** the commander's link to the platoon and to higher command.
+- **Kit:** carapace; lasgun; 1 Frag; **platoon vox-set** (backpack).
+- **Abilities:**
+  - **Platoon Link:** while the commander is within 30 m, orders reach every squad instantly. Otherwise orders go through squad vox-ops with a 5 s delay.
+  - **Platoon call-ins:** needed for depot setup, supply drops and tank approval.
+  - **Intercept:** listens in on enemy vox. Gives an **earlier warning** (about +30 s) of the AI Director's telegraphed attacks (14.4) and shows the approach direction on the map.
+- **If killed:** the vox-set drops and any Command Section member can pick it up. Until then the commander has no Platoon Link.
+- **Bot behaviour:** stays within 15 m of the commander. Uses Intercept whenever it's off cooldown.
 
 #### Veteran Standard Bearer (1)
-- Carries the **Icon of Corruption**. Planting it creates a **Rally Point** (a forward spawn, see 13) and a morale/suppression-resistance aura.
-- Carrying the icon gives a smaller moving aura.
-- The icon can be **desecrated** by enemies if left undefended. Losing it gives a temporary platoon-wide morale penalty.
+- **Purpose:** carries the regiment's icon, provides the forward spawn and holds the line's morale.
+- **Kit:** carapace; laspistol + chainsword; 1 Frag; **Icon of Corruption**. While carrying the icon the bearer can only use the pistol.
+- **Abilities:**
+  - **Plant Icon** (5 s): creates a **Rally Point** (spawn every 20 s) and a 25 m aura (+25% suppression resistance, slow health regeneration).
+  - **Carried aura:** 10 m, +10% suppression resistance.
+  - **Moving the icon:** after the icon is picked up, it can't be planted again for 60 s.
+  - **Desecration:** enemies within 5 m of a planted icon with no defenders can channel for 10 s to desecrate it. This destroys the Rally Point and gives the platoon −15% suppression resistance for 2 minutes.
+- **If killed:** the icon drops. Anyone in the platoon can carry it but only the bearer can plant it.
+- **Bot behaviour:** plants the icon behind the front line once an objective is secured, and moves it up after the next objective falls.
 
 #### Veteran Special Weapons (1)
-- Same special weapon choices as the squads (7.2) with carapace and an extra ammo slot.
-- The commander's flexible response asset, usually a melta or plasma for anti-armour emergencies.
+- **Purpose:** the commander's flexible reserve, usually anti-armour.
+- **Kit:** carapace; any special weapon (7.2), not counted against squad limits; laspistol; 1 Frag, 1 Krak; one more ammo slot than squad special weapons.
+- **Bot behaviour:** picks melta or plasma by default. Moves to the nearest enemy vehicle the platoon has spotted.
 
 #### Heavy Weapons Teams (5 × 2)
-- **Gunner:** Fires the weapon. Cannot fire unbraced (6.3). Carries the weapon (slowed) and a sidearm.
-- **Loader:** Carries ammo (a set number of reloads), reloads faster than a gunner can alone, spots, and defends with a lasgun or autogun. For the heavy stubber, the loader can act as a **human bipod** (6.3).
-- Each team picks one weapon at spawn: **Autocannon, Heavy Bolter, Heavy Stubber, Missile Launcher, or Lascannon**. Platoon-wide limits may apply (Appendix A).
-- Kill credit is **shared 100% between gunner and loader** so loaders progress too.
+- **Purpose:** hold ground, deny lanes and kill armour. They are only as strong as their supply line.
+- **Choosing a weapon:** each team picks **Autocannon, Heavy Bolter, Heavy Stubber, Missile Launcher or Lascannon** at spawn, within platoon caps (Appendix A). Teams can **swap weapon type at any depot** (10 s). The loader's current ammo is returned and new ammo drawn, which spends forward depot stock.
+- **Gunner kit:** heavy weapon (must be braced, 6.3); laspistol; 1 Frag. Flak armour, carapace at Weapon Team tier 2.
+- **Loader kit:** lasgun; ammo for the weapon (7.1); 1 Frag; **entrenching tool** (builds a sandbag brace point in 8 s). Flak armour, carapace at Weapon Team tier 2.
+- **Loader abilities:**
+  - **Assisted reload:** 50% faster than the gunner reloading alone.
+  - **Assisted setup:** 40% faster tripod deployment.
+  - **Spotter:** marks targets for the gunner (and the platoon).
+  - **Human bipod:** heavy stubber only (6.3).
+  - **Supply request:** sends a request for the team's ammo type (12.4).
+- **Kill credit:** shared 100% between gunner and loader.
+- **Bot behaviour:** the gunner picks the weapon the platoon most needs (lascannon if enemy armour was spotted recently, otherwise heavy stubber or heavy bolter). It moves to the overwatch lane the commander set, or the nearest strong brace point covering the objective. The loader stays within 3 m, reloads and requests supply at 1 reload left.
+
+#### Dropped Heavy Weapons
+- When a gunner dies, the weapon **stays in the world** where it fell (still braced if it was braced).
+- **The loader** can take it over immediately at **normal speed**, but reloads alone at the unassisted rate.
+- **Anyone else** in the platoon can also pick it up and fire it, with **+50% setup and reload time**.
+- Enemies can't use it but can destroy it with explosives. An unused weapon despawns after 3 minutes.
+- **Gunner respawn:** a gunner who respawns **at a depot** gets a new weapon. One who respawns at a Rally Point or squad leader spawns **without** a heavy weapon and has to recover the dropped one or walk back to a depot. This makes depots and recovering weapons matter.
 
 #### Squad Leader (3)
-- Leads 9 players. Places squad waypoints and marks targets.
-- Spends **Squad Favour** on call-ins (Section 9). Calling in needs the squad vox-op nearby.
-- Acts as a mobile spawn point for their squad (13).
+- **Purpose:** turns orders into action and manages the squad's call-ins.
+- **Kit:** starts at Moebian Trooper tier (leaders are never cultists); lasgun, or bolt pistol + chainsword; 2 Frag, 1 Krak; **2 smoke grenades** (squad leader only); magnoculars.
+- **Abilities:**
+  - **Squad waypoint / Bravo waypoint** (4.2).
+  - **Mark target:** marks an enemy or position for the squad.
+  - **Call-ins:** spends Squad Favour (Section 9). Needs the squad vox-op within 25 m.
+  - **Spawn point:** the squad can spawn on the leader (13.2).
+  - **Ammo cache:** drops one Small Arms crate's worth of ammo, once per life.
+- **Progression:** uses the personal tiers from tier 1 up, but can't spawn as an Ogryn while holding the slot.
+- **Bot behaviour:** moves the squad to the ordered objective using cover, sends Bravo to flank when a defended position is found, spends Squad Favour as soon as a call-in is affordable and enemies are within 80 m (zombies against infantry lines, hounds against HWTs and snipers, Chaos Spawn against fortified points), and sends a tank request at 100.
 
 #### Squad Vox-Operator (3)
-- Links the squad to the commander. Relays orders and enables the squad leader's call-ins.
-- Can **request resupply** for the squad, which creates a supply task on the commander's map and at the depot.
+- **Purpose:** links the squad to the platoon and enables call-ins.
+- **Kit:** lasgun; 1 Frag; squad vox-set.
+- **Abilities:** relays commander orders (see Platoon Link above), enables call-ins, **requests resupply** for the squad (12.4), and can **request a supply drop** at a depot once per operation phase.
+- **If killed:** the vox-set drops and any squad member can pick it up.
+- **Bot behaviour:** stays within 10 m of the squad leader. Requests supply when half the squad is Low on ammo.
 
 #### Squad Special Weapons (6)
-- Two per squad. Chosen at spawn from **Grenade Launcher, Bolter, Plasma Gun, Melta Gun, Flamer**, subject to squad limits (Appendix A).
+- Two per squad, from **Grenade Launcher, Bolter, Plasma Gun, Melta Gun, Flamer** (7.2). A squad can't take two meltas or two plasma guns.
+- Follow the personal tiers but keep their special weapon.
+- **Bot behaviour:** Alpha's specialist defaults to an anti-armour weapon (melta or plasma); Bravo's to an anti-infantry weapon (flamer or grenade launcher). Flamer bots clear buildings and trenches on the squad's path.
 
 #### Riflemen (18)
-- The core of the platoon. They gain the most from **Marks of Favour** (Section 8): rifleman to Moebian to carapace veteran, and eventually the option to spawn as an **Ogryn**.
-- Main labour for logistics: carrying crates, digging in, escorting HWTs.
+- **Purpose:** the bulk of the platoon. They take and hold ground, carry supplies and escort HWTs.
+- **Kit:** depends on tier (Section 8): cultist autogun → Moebian lasgun, growing grenade and gear slots.
+- **Gear slot roles:** gear slots let riflemen specialise without new classes. For example, an entrenching tool for a "digger", demolition charges for a "sapper", extra ammo pouches that resupply squadmates for a "runner".
+- **Ogryn:** riflemen are the only role that can spawn as an Ogryn (8.4).
+- **Bot behaviour:** fire and move with their fire team. Idle bots near a depot with open supply requests pick up crates and deliver them.
+
+### 4.4 Role Slots and Bots
+- **Bots fill every empty slot** (all 45, including the commander). A match can be played with any number of humans from 1 to 45.
+- **Joining:** players pick a slot in the lobby or when joining a match in progress. They can pick any slot a bot holds.
+- **Swapping mid-match:** a dead player can swap into **any bot-held slot** from the respawn screen. The bot takes over the player's old slot. Slots held by humans can't be taken.
+- **What carries over when swapping:** personal Favour and tier go with the player. Squad Favour stays with the squad.
+- **Leadership slots:** a human taking the commander or squad leader slot from a bot is allowed at any time while dead. A human commander can be **vote-kicked back to a bot** (majority of humans in the match) to stop griefing.
+- **Commanding bots:** bots obey commander and squad leader orders like humans do. The commander also has a bot-only order: **Supply Detail**, which assigns up to 3 bot riflemen from a squad to run supplies between a depot and a position (11.2).
 
 ## 5. Core Gameplay Loop
 
@@ -407,6 +481,7 @@ Six players is a lot to pull from a 45-player platoon, so:
 | **Establish Forward Depot** | Location | Needs the platoon vox-op and a secured objective (12.3). |
 | **Approve Call-In** | Tank Request | Approves or denies Leman Russ requests. |
 | **Ping / Mark** | Anywhere | Marks enemy positions, threats or routes for the whole platoon. |
+| **Supply Detail** | Bot riflemen of a squad | Assigns up to 3 bot riflemen to run supplies between a depot and a position until cancelled. |
 
 ### 11.3 Information
 - **Fog of war:** the commander sees only what the platoon sees or has recently spotted (spotting decays). Hounds and auspex add intel.
@@ -594,11 +669,9 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 | **IP takedown** | Fan project gets shut down | Stay strictly non-commercial, make all assets in-house, credit Games Workshop with an unofficial/not-endorsed notice, keep content data-driven so it can be reskinned. |
 
 ## 22. Open Questions
-1. Should the **commander be able to fight** normally, or should leaving Tactical Command have a cooldown?
-2. Leman Russ crewing: is the respawn-queue-first rule enough, or should the calling squad have to provide crew?
-3. Should **any** player be able to pick up and fire a dropped heavy weapon, or only HWT gunners?
+1. Leman Russ crewing: with bots in the platoon, should respawning bots fill empty tank seats, or only humans? (To settle in the Leman Russ point.)
 
-**Decided:** enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
+**Decided:** the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
 
 ## 23. Roadmap
 
