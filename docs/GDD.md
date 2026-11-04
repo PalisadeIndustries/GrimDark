@@ -703,42 +703,89 @@ Bot squad leaders use the same orders.
 
 ## 10. The Leman Russ
 
+The Leman Russ is the biggest thing a squad can earn: a mobile fortress that the platoon has to feed, screen and repair.
+
 ### 10.1 Configuration
-A Leman Russ battle tank with:
 - **Turret:** Battle cannon (gunner)
 - **Hull:** Heavy bolter (hull gunner)
 - **Sponsons:** 2× heavy bolters (left and right sponson gunners)
 - **Pintle:** Heavy stubber, fired by the **Tank Commander standing in the open hatch**
+- All tank weapons count as braced (mounted).
 
 ### 10.2 Crew (6 seats)
 
-| Seat | Weapon | Notes |
+| Seat | Weapon | Ammo carried | Notes |
+|---|---|---|---|
+| Driver | — | — | Drives. Sees through a narrow vision slit, so relies on the tank commander's callouts. Can crush infantry. |
+| Gunner | Battle cannon | 24 shells (default 16 HE + 8 AP, mix set at the depot) | Turret traverse. Switch HE/AP between shots. Reload 5 s. |
+| Hull Gunner | Heavy bolter | 6 boxes (40 rounds each) | Fixed forward arc (30°). |
+| Left Sponson Gunner | Heavy bolter | 6 boxes | Left arc (120°). |
+| Right Sponson Gunner | Heavy bolter | 6 boxes | Right arc (120°). |
+| **Tank Commander** | Pintle heavy stubber | 4 belts (100 rounds each) | **Open hatch:** 360° view, marks targets for the crew and gives move orders to a bot driver, but **exposed** to small arms and snipers. Closing the hatch (1 s) gives safety but no stubber and only a periscope view. |
+
+- Crew can switch to an empty seat inside the tank (2 s).
+- **Battle cannon:** HE is Pen 3 with a 6 m blast that kills infantry. AP is Pen 6 and is for enemy armour.
+
+### 10.3 Durability
+**Strong, but needs anti-tank to kill.** Small arms and most infantry weapons can't hurt it (6.6); real threats are lascannons, melta, krak and enemy tanks. It needs infantry to screen it from enemy anti-tank teams.
+
+| Facing | Armour | What hurts it |
 |---|---|---|
-| Driver | — | Drives. Sees through a narrow vision slit, so relies on the commander's callouts. |
-| Gunner | Battle cannon | Turret traverse, HE/AP shells (toggle). Limited shell count. |
-| Hull Heavy Bolter Gunner | Heavy bolter | Fixed forward arc. |
-| Left Sponson Gunner | Heavy bolter | Left arc. |
-| Right Sponson Gunner | Heavy bolter | Right arc. |
-| **Tank Commander** | Pintle heavy stubber | **Open hatch:** 360° view, marks targets for the crew, but **exposed** to small arms and snipers. Can close the hatch (lose the stubber and wide view, gain safety). |
+| Front | 6 (heavy) | Lascannon, melta, battle cannon AP. Krak at ×0.6. |
+| Side | 5 | Above plus krak at full; autocannon at ×0.6. |
+| Rear | 4 | Above plus autocannon at full; **engine deck takes ×1.5 damage**. |
+| Top | 4 | Plunging fire and planted krak/demolition charges. |
 
-### 10.3 Earning and Calling In
-1. The squad builds **200 Squad Favour**.
-2. The squad leader (with vox-op in range) sends a **Tank Request** to the commander.
-3. The commander **approves** in Tactical Command and picks an arrival point: the rear depot (motor pool) or a forward depot with a vehicle bay.
-4. The tank arrives after ~45 s (rumble and audio cue).
-5. Only **one Leman Russ** per platoon at a time.
+- **Hull:** 3,000 HP. As a guide, about 8 lascannon hits, 5 melta hits or 20 krak grenades on the side.
+- **Components** (separate HP, repaired by the enginseer, 10.6):
 
-### 10.4 Crewing (Recommended Rule)
-Six players is a lot to pull from a 45-player platoon, so:
-- When the tank arrives, **seats open first to dead or respawning members of the calling squad**, then to any respawning player in the platoon.
-- Living players can also walk up and board.
-- **The tank can roll with fewer crew**, but every empty seat is a dead weapon. The driver seat is the only one required for movement. Unmanned weapons do **not** fire (no AI crew), so the platoon has to decide what the tank is worth.
-- The squad leader **may** take the commander's hatch, which takes them off squad leadership while aboard. The UI warns the squad.
-- **Bailing out:** when the tank is disabled, crew bail out as Moebian Troopers (or their current tier).
+| Component | When damaged |
+|---|---|
+| Tracks | Immobilised |
+| Turret ring | Turret jams (can't traverse) |
+| Engine | Catches fire: 30 HP per second until put out by the crew (5 s from inside) or the enginseer |
+| Each weapon mount | That weapon can't fire |
+| Vision blocks | Driver or gunner view cracked and blurred |
 
-### 10.5 Tank Logistics
-- Battle cannon shells and heavy bolter ammo **must be resupplied** from a depot or by a crate team bringing a **Tank Munitions crate** (two-man or Ogryn carry).
-- **Track damage** immobilises the tank. Crew must get out and repair with a tool-kit under fire.
+- **Knocked out:** at 0 HP the tank burns. The crew have **5 s to bail out** before the ammo cooks off (8 m explosion). Bailed-out crew get out at their current tier with their personal kit.
+- The tank commander in the open hatch can be shot like any infantry. Snipers will try.
+
+### 10.4 Earning and Calling In
+1. The squad builds **200 Squad Favour** (9.2).
+2. The squad leader (with the vox-op in range) sends a **Tank Request** to the commander.
+3. The commander **approves** in Tactical Command and picks an arrival point: the rear depot's **motor pool**, or a forward depot with a **vehicle bay** (built with one extra Fortification crate, 12.3).
+4. The tank and its enginseer arrive after ~45 s, with a rumble and audio cue. Arrival costs **10 reinforcement tickets** (13.1).
+5. Only **one Leman Russ** per platoon at a time. After a tank is lost, the platoon can't request another for **5 minutes**.
+- The AI Director reacts to the tank arriving by sending anti-tank threats over the next few minutes (lascannon teams, melta veterans, enemy armour; 14.4).
+
+### 10.5 Crewing
+Seats fill in this order, so the tank is always fully useful but humans get first pick:
+1. **Respawning humans from the calling squad** can choose a tank seat from the respawn screen.
+2. **Any respawning human** in the platoon.
+3. **Living humans** can walk up and board at any time.
+4. **After 30 s**, any seats still empty are filled by **respawning bots** (bot riflemen only, calling squad first). This keeps leaders, vox-ops and HWT gunners in their jobs.
+- **Humans replace bots:** a human who boards or picks a seat a bot holds takes it. The bot gets out and goes back to its squad as a rifleman.
+- **Role slots:** a player in the tank keeps their role slot. A squad leader or other key role can crew (for example the squad leader in the commander's hatch), but the UI warns their squad that the role is off the line.
+- **Bot crew behaviour:**
+  - **Driver:** follows the tank commander's move pings. If the tank commander is also a bot, it advances about 30 m behind the calling squad, keeps the front armour toward the biggest threat and stops in hull-down positions.
+  - **Gunner:** AP on vehicles, HE on infantry groups and HWT nests. Won't fire HE within 8 m of friendlies.
+  - **Heavy bolter and pintle gunners:** engage infantry in their arc, prioritising anti-tank teams.
+
+### 10.6 The Enginseer (AI)
+Every Leman Russ arrives with a **traitor Enginseer**, a rust-eaten tech-priest of the Plague God. It is an AI unit only, not a player slot.
+- **Stats:** 150 HP, carapace (2), laspistol and a servo-arm for melee.
+- **Behaviour:** stays behind the tank, out of the main line of fire, and moves to repair when needed. The tank commander can ping it to "Repair now" or "Hold back".
+- **Repairs:**
+  - Components (tracks, turret ring, weapons, vision blocks) in 10–20 s each.
+  - Engine fires in 5 s.
+  - Hull: 20 HP per second while the tank has been stationary for 5 s, **up to 75%** of max hull. Above 75% needs a depot.
+- **Vulnerable:** enemy AI target it on purpose. If it dies, a new one arrives with the tank's next depot visit, after a 3-minute delay.
+- Players should protect it. A tank with no enginseer has to drive back to a depot for every repair.
+
+### 10.7 Tank Logistics
+- **Ammo only** (no fuel).
+- **At a depot:** full resupply and full hull repair in 30 s.
+- **In the field:** a **Tank Munitions crate** (two-man or Ogryn carry, 12.1) restores 6 shells, 1 box per heavy bolter and 1 stubber belt. Crates are handed over at the tank's rear hatch.
 - Losing the tank refunds nothing. It is a big swing in momentum both ways.
 
 ## 11. Platoon Commander: Tactical Command
@@ -951,9 +998,9 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 | **IP takedown** | Fan project gets shut down | Stay strictly non-commercial, make all assets in-house, credit Games Workshop with an unofficial/not-endorsed notice, keep content data-driven so it can be reskinned. |
 
 ## 22. Open Questions
-1. Leman Russ crewing: with bots in the platoon, should respawning bots fill empty tank seats, or only humans? (To settle in the Leman Russ point.)
+_None open right now._
 
-**Decided:** squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~20 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
+**Decided:** Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~20 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
 
 ## 23. Roadmap
 
