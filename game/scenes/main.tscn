@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://assets/characters/traitor_guard/traitor_guard_1.glb" id="2_traitor"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ash"]
 sky_top_color = Color(0.36, 0.35, 0.31, 1)
@@ -93,3 +94,14 @@ material = SubResource("Mat_enemy_line")
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 110)
+
+[node name="PlaceholderSoldiers" type="Node3D" parent="."]
+
+[node name="TraitorGuard1" parent="PlaceholderSoldiers" instance=ExtResource("2_traitor")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 100)
+
+[node name="TraitorGuard2" parent="PlaceholderSoldiers" instance=ExtResource("2_traitor")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 0, 99)
+
+[node name="TraitorGuard3" parent="PlaceholderSoldiers" instance=ExtResource("2_traitor")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 3, 0, 100)

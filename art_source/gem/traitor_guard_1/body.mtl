@@ -1,0 +1,7 @@
+{material bump
+	{diffuse "$/_w40/_traitor_guard/traitor_body_dif"}
+	{bump "$/[nrm]/W40/cadian_body_nrm"}
+	{specular "$/[spc]/W40/cadian_body_spc"}
+	{color "230 230 230 25"}
+	{blend none}
+}

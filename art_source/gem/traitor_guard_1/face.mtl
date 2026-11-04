@@ -1,0 +1,4 @@
+{material simple
+	{diffuse "$/_w40/_traitor_guard/traitor_head_dif"}
+	{blend none}
+}

@@ -16,7 +16,8 @@ game/      Godot 4 project
   scripts/   GDScript
   tests/     Headless tests
   assets/    Art and audio (Git LFS)
-tools/     Scripts for running tests
+art_source/ Source files from other tools (e.g. GEM engine models), kept for re-conversion
+tools/     Scripts for running tests and converting assets
 ```
 
 ## Getting started
@@ -36,3 +37,16 @@ Tests also run on every push through GitHub Actions.
 ## Balance data
 
 All balance numbers live in `game/data/*.json`, not in code (GDD 20.2). Change values there; the `GameData` autoload loads them at startup.
+
+## Converting GEM (Men of War) models
+
+`tools/gem_to_gltf.py` converts a GEM model (`.mdl` skeleton, `.ply` mesh, `.mtl` materials and `.dds` textures) into a `.glb` that Godot imports with its skeleton, skin weights and textures:
+
+```bash
+python3 tools/gem_to_gltf.py art_source/gem/traitor_guard_1/traitor_guard_1.mdl \
+    -o game/assets/characters/traitor_guard/traitor_guard_1.glb --textures art_source/gem/textures
+```
+
+It needs Python 3 and [Pillow](https://pypi.org/project/pillow/) for `.dds` textures. Normal maps are converted from GEM's DirectX two-channel format, and specular maps become roughness maps. LOD meshes and `.anm` animations aren't converted yet.
+
+Binary art (`.glb`, `.png`, `.dds`, `.ply` and more) is stored with Git LFS: run `git lfs install` once after cloning.
