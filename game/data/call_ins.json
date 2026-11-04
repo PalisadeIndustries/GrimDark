@@ -1,0 +1,16 @@
+{
+  "_doc": "Call-in costs (Favour) and cooldowns (seconds). GDD 9, Appendix C.",
+  "squad": {
+    "plague_zombies": { "cost": 25,  "cooldown_s": 180 },
+    "plague_hounds":  { "cost": 40,  "cooldown_s": 240 },
+    "chaos_spawn":    { "cost": 80,  "cooldown_s": 360 },
+    "leman_russ":     { "cost": 200, "needs_approval": true, "max_active": 1 }
+  },
+  "platoon": {
+    "carrion_flock":       { "cost": 30,  "cooldown_s": 180 },
+    "supply_drop":         { "cost": 40,  "cooldown_s": 240 },
+    "blight_fog":          { "cost": 50,  "cooldown_s": 300 },
+    "plague_barrage":      { "cost": 70,  "cooldown_s": 360 },
+    "reinforcement_tithe": { "cost": 100, "once_per_phase": true, "tickets": 15 }
+  }
+}

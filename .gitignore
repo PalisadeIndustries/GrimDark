@@ -1,0 +1,13 @@
+# Godot generated
+game/.godot/
+game/export_presets.cfg
+*.translation
+
+# Builds
+build/
+export/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.tmp

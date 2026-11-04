@@ -1,0 +1,14 @@
+{
+  "_doc": "Armour values and the penetration rule. GDD 6.6.",
+  "classes": {
+    "none": 0,
+    "flak": 1,
+    "carapace": 2,
+    "power": 3,
+    "light_vehicle": 4,
+    "medium_vehicle": 5,
+    "heavy_vehicle": 6
+  },
+  "pen_gap_multipliers": [1.0, 0.6, 0.3, 0.0],
+  "suppression_reduction": { "carapace": 0.2, "power": 0.5 }
+}

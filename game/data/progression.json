@@ -1,0 +1,18 @@
+{
+  "_doc": "Marks of Favour. GDD 8.1-8.8.",
+  "tiers": [
+    { "id": "cultist",         "favour": 0,  "armour": "none",     "grenade_slots": 1, "gear_slots": 1 },
+    { "id": "moebian_trooper", "favour": 8,  "armour": "flak",     "grenade_slots": 2, "gear_slots": 2 },
+    { "id": "moebian_veteran", "favour": 20, "armour": "carapace", "grenade_slots": 3, "gear_slots": 3 },
+    { "id": "blessed",         "favour": 40, "armour": "carapace", "grenade_slots": 4, "gear_slots": 3 }
+  ],
+  "death_cost_fraction": 0.25,
+  "favour_sources": {
+    "kill_infantry": 1, "kill_elite": 3, "kill_climax": 8,
+    "assist": 0.5, "crate_delivered": 1, "hw_reload_handed": 0.5,
+    "revive": 0.5, "followed_orders": 3, "teamkill": -3
+  },
+  "ogryn": { "required_tier": "blessed", "cost": 30, "tickets": 3, "per_squad": 1, "per_platoon": 3, "health": 300 },
+  "commander_share": 0.10,
+  "platoon_share": 0.20
+}

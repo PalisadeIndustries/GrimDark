@@ -1,0 +1,95 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="1_player"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ash"]
+sky_top_color = Color(0.36, 0.35, 0.31, 1)
+sky_horizon_color = Color(0.62, 0.58, 0.5, 1)
+ground_bottom_color = Color(0.18, 0.17, 0.15, 1)
+ground_horizon_color = Color(0.62, 0.58, 0.5, 1)
+
+[sub_resource type="Sky" id="Sky_ash"]
+sky_material = SubResource("ProceduralSkyMaterial_ash")
+
+[sub_resource type="Environment" id="Environment_ash"]
+background_mode = 2
+sky = SubResource("Sky_ash")
+ambient_light_source = 3
+tonemap_mode = 2
+fog_enabled = true
+fog_light_color = Color(0.55, 0.52, 0.46, 1)
+fog_density = 0.004
+
+[sub_resource type="StandardMaterial3D" id="Mat_ground"]
+albedo_color = Color(0.32, 0.31, 0.28, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_cover"]
+albedo_color = Color(0.45, 0.43, 0.38, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_depot"]
+albedo_color = Color(0.36, 0.42, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_enemy_line"]
+albedo_color = Color(0.7, 0.62, 0.42, 1)
+
+[node name="Main" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ash")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 0, 20, 0)
+shadow_enabled = true
+
+[node name="Greybox" type="Node3D" parent="."]
+
+[node name="Ground" type="CSGBox3D" parent="Greybox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(200, 1, 300)
+material = SubResource("Mat_ground")
+
+[node name="RearDepot" type="CSGBox3D" parent="Greybox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 120)
+use_collision = true
+size = Vector3(16, 2, 10)
+material = SubResource("Mat_depot")
+
+[node name="TrenchWallLeft" type="CSGBox3D" parent="Greybox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0.6, 40)
+use_collision = true
+size = Vector3(30, 1.2, 1)
+material = SubResource("Mat_cover")
+
+[node name="TrenchWallRight" type="CSGBox3D" parent="Greybox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0.6, 40)
+use_collision = true
+size = Vector3(30, 1.2, 1)
+material = SubResource("Mat_cover")
+
+[node name="Crater1" type="CSGBox3D" parent="Greybox"]
+transform = Transform3D(0.94, 0, 0.34, 0, 1, 0, -0.34, 0, 0.94, -8, 0.5, 10)
+use_collision = true
+size = Vector3(4, 1, 2)
+material = SubResource("Mat_cover")
+
+[node name="Crater2" type="CSGBox3D" parent="Greybox"]
+transform = Transform3D(0.94, 0, -0.34, 0, 1, 0, 0.34, 0, 0.94, 10, 0.5, -10)
+use_collision = true
+size = Vector3(4, 1, 2)
+material = SubResource("Mat_cover")
+
+[node name="Bunker" type="CSGBox3D" parent="Greybox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -60)
+use_collision = true
+size = Vector3(10, 3, 6)
+material = SubResource("Mat_enemy_line")
+
+[node name="EnemyTrench" type="CSGBox3D" parent="Greybox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -70)
+use_collision = true
+size = Vector3(80, 1.2, 1)
+material = SubResource("Mat_enemy_line")
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 110)

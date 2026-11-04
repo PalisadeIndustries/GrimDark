@@ -1510,7 +1510,7 @@ The project is set up so AI-assisted coding can do as much as possible:
 | **Tank pulls too many players** | Infantry hollowed out | Seats fill from respawning players first, then bot riflemen (10.5); leaders stay in their jobs; one tank cap. |
 | **Snowballing Favour** | Late game trivial or new joiners useless | Death cost (8.4), half Squad Favour and no personal Favour from allied units (9.7), call-in cooldowns, soft timers and the Director's escalation (15.2, 14.3). |
 | **Performance (many AI)** | Low framerate and desync | AI level of detail, C++ crowd simulation for zombies, sector-based simulation, bot-only soak tests in CI from the prototype onwards (20.8). |
-| **Godot at this scale** | Built-in networking and some tools aren't made for 45 players and ~300 actors | Custom snapshot networking and crowds in GDExtension C++ (20.3, 20.4). Prove it in the prototype with a 45-bot soak test before building content. If it fails, the data-driven design and text-based code make a later move to another engine possible. |
+| **Godot at this scale** | Built-in networking and some tools aren't made for 45 players and ~300 actors | Custom snapshot networking and crowds in GDExtension C++ (20.3, 20.4). The project lead has already tested Godot at this bot count; keep the 45-bot soak test in CI to catch regressions. If performance becomes a problem, the data-driven design and text-based code make a later move to another engine possible. |
 | **Bots feel dumb** | With bots in most slots, poor bot play ruins the experience | Bots are a core system (4.4, 20.8): same rules as players, voiced callouts, role logic, and automated 45-bot soak tests in CI. |
 | **Volunteer content pipeline** | Art and voice from volunteers is slow or inconsistent | Art and voice style guides, modular kits, vox filtering for voice, licensed packs for generic props (18.4, 18.8). |
 | **IP takedown** | Fan project gets shut down | Stay strictly non-commercial, make all assets in-house, credit Games Workshop with an unofficial/not-endorsed notice, keep content data-driven so it can be reskinned. |
@@ -1524,7 +1524,7 @@ _None open right now._
 
 | Phase | Goal | Content |
 |---|---|---|
-| **Prototype** (3–4 months) | Prove fire-and-bracing, the logistics loop and Godot at scale | Godot project and CI, 1 squad + 1 HWT + depot, greybox map, basic AI Guardsmen, first friendly bots, **45-bot headless soak test with ~300 actors** |
+| **Prototype** (3–4 months) | Prove fire-and-bracing and the logistics loop | Godot project and CI (**started**: data tables, rules, first-person greybox, headless tests), 1 squad + 1 HWT + depot, basic AI Guardsmen, first friendly bots |
 | **Vertical Slice** (6–8 months) | Full platoon structure at 45 players | All roles, Tactical Command, Favour tiers, 2 call-ins, Operation 1 (Ashfields) |
 | **Alpha** | Feature complete | Leman Russ, Ogryn, all call-ins, full enemy roster, AI Director, bot backfill |
 | **Beta** | Content and scale | Operation 2 (Karsten Hab-Sprawl), difficulty tiers, meta-progression, stress tests at 45 players |

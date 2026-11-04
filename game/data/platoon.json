@@ -1,0 +1,17 @@
+{
+  "_doc": "Order of battle (45 slots) and reinforcement pools. GDD 4.1, 13.1.",
+  "sections": [
+    { "id": "command", "slots": ["platoon_commander", "veteran_medic", "veteran_vox", "veteran_standard_bearer", "veteran_special_weapons"] },
+    { "id": "hwt_1", "slots": ["hw_gunner", "hw_loader"] },
+    { "id": "hwt_2", "slots": ["hw_gunner", "hw_loader"] },
+    { "id": "hwt_3", "slots": ["hw_gunner", "hw_loader"] },
+    { "id": "hwt_4", "slots": ["hw_gunner", "hw_loader"] },
+    { "id": "hwt_5", "slots": ["hw_gunner", "hw_loader"] },
+    { "id": "squad_1", "slots": ["squad_leader", "squad_vox", "special_weapons", "special_weapons", "rifleman", "rifleman", "rifleman", "rifleman", "rifleman", "rifleman"] },
+    { "id": "squad_2", "slots": ["squad_leader", "squad_vox", "special_weapons", "special_weapons", "rifleman", "rifleman", "rifleman", "rifleman", "rifleman", "rifleman"] },
+    { "id": "squad_3", "slots": ["squad_leader", "squad_vox", "special_weapons", "special_weapons", "rifleman", "rifleman", "rifleman", "rifleman", "rifleman", "rifleman"] }
+  ],
+  "reinforcement_pool": { "rabble": 400, "regiment": 300, "crusade": 250, "purgatus": 180 },
+  "ticket_costs": { "human": 1, "bot": 0.5, "ogryn": 3, "leman_russ": 10 },
+  "phase_ticket_bonus": 50
+}
