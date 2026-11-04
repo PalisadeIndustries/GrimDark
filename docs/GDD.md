@@ -323,7 +323,7 @@ Squad Favour → Plague Zombies → Plague Hounds → Chaos Spawn → Leman Russ
 | **Loader's shoulder** | **Heavy Stubber only** | 1 s | 45° | The loader stands still and becomes the mount. Both players are locked in place, and the loader can turn to traverse. If the loader is hit or moves, the brace breaks. Allows high-angle fire over cover. |
 
 - **Unbraced:** heavy weapons cannot fire. The gunner can only carry them at a slowed pace.
-- Missile Launcher and Lascannon have a **backblast cone**: friendly damage and dust that gives away the position.
+- The Missile Launcher has a **backblast cone** (8 m) that deals full damage and throws up dust that gives away the position. The Lascannon has no backblast, but its muzzle flash reveals it.
 - **Displacement:** packing up takes time, which rewards teams that pick good positions and punishes being out-flanked.
 
 ### 6.4 Downed, Wounded and Dead
@@ -340,7 +340,7 @@ Squad Favour → Plague Zombies → Plague Hounds → Chaos Spawn → Leman Russ
 Because it's full damage, the game has to make friend and foe easy to tell apart:
 - **Readability:** strong visual contrast between Moebians and loyalists (3.4). Friendly nameplates appear when aiming at a friendly within 50 m (no nameplate on enemies).
 - **Call-in warnings:** call-in placement shows its area of effect, and friendlies inside it get an audio and HUD warning.
-- **Backblast warning:** a cone is shown to anyone standing behind a braced missile launcher or lascannon.
+- **Backblast warning:** a cone is shown to anyone standing behind a braced missile launcher.
 - **Bots** won't fire through friendlies in their line of fire and announce grenades ("Frag out!").
 - **Teamkill penalties (humans):** a teamkill costs the killer 3 personal Favour. Three teamkills in 10 minutes starts an automatic vote-kick for the human players. Accidental damage from call-in units (Chaos Spawn, toxin clouds) is not counted against the player.
 - **Allied Chaos units** (zombies, hounds, spawn) also take full damage from the platoon. They are expendable, but wasting them wastes Favour.
@@ -425,41 +425,100 @@ Each weapon has a **penetration (Pen)** value from 1 to 6. Each target has an **
 
 ## 7. Weapons and Equipment
 
-### 7.1 Heavy Weapons
+### 7.1 Ammunition Model
+- **Small arms and special weapons use pooled ammo.** Each weapon has a magazine and a **reserve** of rounds. Reloading tops the magazine up from the reserve, and no rounds are lost by reloading early.
+- The HUD shows the magazine as a bar and the reserve as a number (Section 17).
+- **Heavy weapons use discrete reloads** (belts, boxes, missiles, power packs). The loader carries them as a count, since they are physical objects that are handed over and carried in crates.
+- **Refilling:** Small Arms, Special Munitions and Heavy Munitions crates (12.1), depots, squad leader ammo caches and riflemen with a Runner's Pouch (7.6).
+- **Lasgun power packs** can only be recharged at depots. In the field, lasgun ammo comes from crates like everything else.
 
-| Weapon | Role | Pen | Ammo type | Reloads carried by loader | Setup | Notes |
+### 7.2 Small Arms
+
+| Weapon | Used by | Pen | Magazine | Fire modes | Effective range | Notes |
 |---|---|---|---|---|---|---|
-| **Heavy Stubber** | Anti-infantry suppression | Low | Stubber belts | 6 | Fast | Only weapon allowed on the loader's shoulder. Highest suppression per second. |
-| **Heavy Bolter** | Anti-infantry / light vehicle | Med | Bolter ammo box | 4 | Med | Explosive rounds, small AoE. |
-| **Autocannon** | Anti-light-armour / anti-elite | Med-High | Autocannon clips | 5 | Med | Two-shot bursts. Strong against Sentinels and Chimeras. |
-| **Missile Launcher** | Flexible: Frag or Krak missiles | Var | Missiles (Frag/Krak) | 4 (mixed) | Slow | Toggle ammo type. Backblast. |
-| **Lascannon** | Anti-tank | Very High | Power packs | 3 | Slow | Charge-up shot. Backblast flash shows the position to enemies. |
+| **Autogun** | Cultists | 1 | 30 | Auto | 80 m | High rate of fire, poor accuracy, low damage per round. |
+| **Stub rifle** | Cultists | 1 | 6 | Lever-action | 150 m | High damage per shot (cultist alternative to the autogun). |
+| **Lasgun** | Moebian tiers and most roles | 2 | 40 | Semi / 3-round burst | 150 m | Accurate and reliable. Bayonet fitted. |
+| **Laspistol** | Sidearm | 1 | 20 | Semi | 40 m | Default sidearm. |
+| **Stub revolver** | Sidearm (cultists, HWT gunners option) | 1 | 6 | Semi | 40 m | Hits harder, slow reload. |
+| **Bolt pistol** | Commander, Blessed tier sidearm | 3 | 8 | Semi | 40 m | Strong recoil. |
+| **Ripper gun** | Ogryn | 1 | 12 | Auto (pellet bursts) | 20 m | Devastating up close, also a melee bash (6.8). |
 
-### 7.2 Special Weapons
+### 7.3 Heavy Weapons
 
-| Weapon | Role | Pen | Ammo | Notes |
-|---|---|---|---|---|
-| **Grenade Launcher** | Indirect, area denial | Var | Frag/Krak grenades (shared with the launcher pool) | Arcing fire over cover. Can fire Toxin rounds once unlocked. |
-| **Bolter** | Precision anti-elite rifle | Med | Bolter magazines | Heavy, strong recoil. Treated as a special weapon for traitor Guard. |
-| **Plasma Gun** | Anti-elite / anti-armour | High | Plasma flasks | **Overheat system:** overcharged shots can burn or kill the user. |
-| **Melta Gun** | Close-range anti-tank | Extreme | Melta canisters | Very short range. Destroys vehicles in 1–3 shots. |
-| **Flamer** | Clearing buildings and trenches | Ignores cover | Promethium tanks | Fire DoT, panics AI, sets terrain alight. The tank can explode if hit. |
+| Weapon | Pen | Rounds per reload | Reloads carried by loader | Setup / pack-up | Brace types | Notes |
+|---|---|---|---|---|---|---|
+| **Heavy Stubber** | 1 | 100 (belt) | 6 | 3 s / 2 s | All, **including loader's shoulder** | Highest suppression per second. Weakest per round. |
+| **Heavy Bolter** | 3 | 40 (box) | 4 | 4 s / 3 s | Tripod, terrain, prone | Explosive rounds with a small blast (1 m). Great against infantry in cover and light vehicles. |
+| **Autocannon** | 4 | 10 (clip) | 5 | 4 s / 3 s | Tripod, terrain, prone | Two-round bursts, long range, punches through light cover. Kills Sentinels and Chimera sides. |
+| **Missile Launcher** | 3 (Frag) / 5 (Krak) | 1 missile | 6 (mix chosen at the depot, default 4 Krak + 2 Frag) | 5 s / 3 s | Tripod, terrain | Switch missile type between shots. **Backblast:** 8 m cone behind the launcher deals full damage. |
+| **Lascannon** | 6 | 5 shots (power pack) | 3 | 5 s / 4 s | Tripod, terrain | 1.5 s charge before each shot. Kills Leman Russ from the side or rear. **No backblast**, but the muzzle flash shows its position to every enemy in sight. |
 
-### 7.3 Small Arms
-- **Cultist:** Autogun or stub rifle, crude knife.
-- **Moebian and above:** Lasgun (rechargeable power packs; recharge only at depots) with bayonet.
-- **Sidearms:** Laspistol, stub revolver, bolt pistol (commander, Blessed tier).
+- Setup and pack-up times are without a loader. A loader makes setup 40% faster (4.3).
+- A **dropped** heavy weapon used by someone who isn't the gunner or loader has +50% setup and reload time (4.3).
 
-### 7.4 Grenades
+### 7.4 Special Weapons
 
-| Grenade | Availability | Effect |
+| Weapon | Pen | Magazine | Starting reserve | Effective range | Notes |
+|---|---|---|---|---|---|
+| **Grenade Launcher** | 3 (Frag) / 4 (Krak) | 6 | 18 | 150 m (arc) | Fires Frag, Krak, **Smoke** or **Toxin** (if unlocked). Its rounds come from its own reserve, not the hand grenade slots. |
+| **Bolter** | 3 | 20 | 80 | 100 m | Heavy recoil, high damage. One-hit kill on cultists and most Guardsmen to the torso. |
+| **Plasma Gun** | 4 (normal) / 5 (overcharged) | — (heat, see below) | 6 flasks (each 10 shots) | 100 m | Heat system with a real risk of death. |
+| **Melta Gun** | 6 | 2 shots (canister) | 4 canisters | 15 m | Short range, destroys vehicles in 1–3 shots and kills anything human-sized. |
+| **Flamer** | 2 (ignores cover) | 10 s of fire (tank) | 2 tanks | 12 m | Sets targets and terrain alight, panics AI. Fuel tank can explode (below). |
+
+#### Plasma Gun Heat
+- **Normal shot:** +10 heat. **Overcharged shot** (hold fire 1 s): +30 heat, Pen 5, bigger damage and blast.
+- Heat decays at 15 per second after 1 s without firing.
+- **70+ heat:** the gun glows and hisses (warning visible to nearby players).
+- **100 heat — Overheat:** the gun vents into the user's hands. The user takes 40 damage and can't fire for 5 s.
+- **Overcharging at 90+ heat:** 1 in 3 chance of a **catastrophic failure**. The user dies instantly (no Downed state, no Blessed Stitching) and the gun explodes in a 3 m radius, which hurts friendlies.
+- **Manual vent** (3 s): resets heat to 0 and costs 10 health.
+- **Bots** never overcharge above 60 heat.
+
+#### Flamer Fuel Tank
+- The fuel tank is on the user's back. A hit on it from a Pen 3+ weapon or an explosion has a 25% chance to make it **explode** (4 m radius, sets the area on fire). The hit point is visible on the character model, so enemy AI and careless friendlies can target it.
+
+### 7.5 Grenades
+
+| Grenade | Who | Effect |
 |---|---|---|
-| **Frag** | Default | Anti-infantry blast. |
-| **Krak** | Default (limited) | Anti-armour, small radius. Can be planted on vehicles and doors. |
-| **Toxin** | **Unlocked** (meta-progression, then in-match Blessed tier) | Lingering cloud: DoT, blindness, suppression. Moebians in sealed rebreathers are resistant; cultists and Ogryn are not, so careless use hurts friendlies. |
+| **Frag** | Everyone | 4 s fuse, can be cooked. Kills unarmoured targets within 5 m, wounds up to 10 m. Pen 3. |
+| **Krak** | Moebian Trooper and above, Command Section, HWTs | Small blast (1 m), Pen 5. Can be **thrown** or **planted** (2 s) on vehicles, doors and fortifications. |
+| **Smoke** | Squad leaders (2), Grenade Launcher | Blocks sight for 45 s. Plague hounds can track through it. |
+| **Toxin** | Blessed tier, once unlocked through meta-progression (Section 19) | Cloud of 6 m radius for **7 s** (rule of seven). Damage over time, blurred vision, suppression. |
 
-### 7.5 Gear Slots
-Gear slots hold tactical items such as extra ammo pouches, an entrenching tool (build sandbag brace points), auspex, demolition charges, rebreather filters or a medi-pack (self-stabilise). Slot counts grow with Marks of Favour (Section 8).
+- **Toxin resistance:** Moebians wear rebreathers and take **30%** toxin damage. Blessed take **none**. Cultists and Ogryn take **full** damage, so toxins thrown near them hurt friendlies (with full friendly fire, 6.5).
+
+### 7.6 Gear Items
+Gear slots (Section 8) take items chosen at spawn. Some items take one slot each.
+
+| Item | Effect |
+|---|---|
+| **Ammo Pouch** | +50% reserve for your primary weapon. |
+| **Runner's Pouch** | Hand 3 refills (one magazine's worth each) to squadmates. |
+| **Heavy Weapon Reload** | Carry **1 reload** of a chosen heavy weapon type and hand it to any loader or gunner. Lets any soldier help feed a position. |
+| **Entrenching Tool** | Build a sandbag brace point (8 s, max 3 per life). Loaders have this for free. |
+| **Demolition Charge** | One large charge: destroys fortifications and wire, wrecks vehicle components. 7 s fuse. |
+| **Auspex** | Short-range scan showing enemies through walls within 20 m for 5 s. 45 s cooldown. |
+| **Rebreather Filter** | Cultists only: gives Moebian-level toxin resistance (30% damage). |
+| **Medi-pack** | Self-stabilise once while Downed. |
+| **Lumen Lamp** | Weapon light for dark maps. Gives your position away when on. |
+
+- Riflemen use gear slots to specialise (digger, sapper, runner, ammo carrier) without needing extra classes (4.3).
+
+### 7.7 Weapon Patterns
+Weapons don't have attachments. Instead each weapon family has **2–3 patterns**: sidegrades that trade rate of fire, damage, handling and range but never Pen. Patterns are unlocked through meta-progression (Section 19) and picked at spawn.
+
+| Weapon | Patterns (examples) |
+|---|---|
+| Lasgun | **Kantrael** (balanced, default) · **Lucius** (hotter shots, slower fire, longer range) · **Accatran** (short carbine, faster handling, shorter range) |
+| Autogun | **Militia** (default) · **Hive-forged** (faster fire, more recoil) · **Braced** (semi-auto, more accurate) |
+| Heavy Bolter | **Standard** (default) · **Mars-pattern** (slower fire, bigger blast) |
+| Autocannon | **Standard** (default) · **Ryza-pattern** (single-shot, faster reload) |
+| Flamer | **Standard** (default) · **Heavy-nozzle** (shorter range, bigger fire spread) |
+
+Each operation's balance is tested with default patterns. Any pattern has to be a sidegrade, never a straight upgrade.
 
 ## 8. Progression: Marks of Favour
 
@@ -739,7 +798,7 @@ Capture/Hold, Destroy (artillery, vox-towers, ammo dumps), Desecrate (icon plant
 - Vox audio is filtered and degraded, and gets worse with range and enemy jamming events.
 
 ## 17. UI and HUD
-- **Minimal HUD by default:** compass with waypoints, ammo count by magazine (not exact rounds), grenade and gear icons, Favour bar, squad member status.
+- **Minimal HUD by default:** compass with waypoints, magazine shown as a bar and reserve ammo as a number, grenade and gear icons, Favour bar, squad member status.
 - **Brace indicator:** for heavy weapons, the crosshair only appears when braced. Valid brace surfaces glow on approach.
 - **Supply task tracker:** carried crate destination and nearby requests.
 - **Tier display:** a visible mark on your character and on squadmates' nameplates.
@@ -782,7 +841,7 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 ## 22. Open Questions
 1. Leman Russ crewing: with bots in the platoon, should respawning bots fill empty tank seats, or only humans? (To settle in the Leman Russ point.)
 
-**Decided:** mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
+**Decided:** pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
 
 ## 23. Roadmap
 
@@ -812,14 +871,15 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 
 ### B. Starting Ammo (per life)
 
-| Role | Primary | Grenades |
+| Role | Primary (magazine + reserve) | Grenades |
 |---|---|---|
-| Cultist | 5 mags autogun | 1 Frag |
-| Moebian Trooper | 6 lasgun packs | 1 Frag, 1 Krak |
-| Moebian Veteran | 8 lasgun packs | 2 Frag, 1 Krak |
-| Blessed | 8 lasgun packs | 2 Frag, 1 Krak, 1 Toxin* |
-| Special Weapons | Per weapon (e.g., Plasma 6 flasks, Melta 4 canisters, Flamer 2 tanks) | 1 Frag |
-| HWT Loader | Weapon reloads per Section 7.1 | 1 Frag |
+| Cultist | Autogun 30 + 120, or stub rifle 6 + 36 | 1 Frag |
+| Moebian Trooper | Lasgun 40 + 160 | 1 Frag, 1 Krak |
+| Moebian Veteran | Lasgun 40 + 240 | 2 Frag, 1 Krak |
+| Blessed | Lasgun 40 + 240 | 2 Frag, 1 Krak, 1 Toxin* |
+| Special Weapons | Per weapon (7.4) | 1 Frag |
+| HWT Loader | Reloads per weapon (7.3), lasgun 40 + 120 | 1 Frag, 1 Krak |
+| Ogryn | Ripper gun 12 + 72 | 2 Frag bombs |
 
 \* Toxin only if unlocked through meta-progression.
 
