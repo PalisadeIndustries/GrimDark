@@ -4,7 +4,8 @@
 > **Genre:** 45-player co-op PvE tactical combined-arms shooter
 > **Setting:** Warhammer 40,000, playing a fallen, Chaos-corrupted Astra Militarum regiment in the vein of the Moebian 6th
 > **Project type:** Free, non-commercial fan project
-> **Document status:** Draft v0.2. All numbers are starting values to tune in playtests, not final balance.
+> **Engine:** Godot 4
+> **Document status:** Draft v0.3. All numbers are starting values to tune in playtests, not final balance.
 
 ---
 
@@ -18,7 +19,7 @@
 6. [Combat Systems](#6-combat-systems)
 7. [Weapons and Equipment](#7-weapons-and-equipment)
 8. [Progression: Marks of Favour](#8-progression-marks-of-favour)
-9. [Squad Leader Call-Ins](#9-squad-leader-call-ins)
+9. [Call-Ins](#9-call-ins)
 10. [The Leman Russ](#10-the-leman-russ)
 11. [Platoon Commander: Tactical Command](#11-platoon-commander-tactical-command)
 12. [Logistics and Resupply](#12-logistics-and-resupply)
@@ -39,7 +40,7 @@
 
 ## 1. Vision
 
-Forty-five players form one platoon of a traitor Guard regiment. They advance through an Imperial world against an AI-directed loyalist defence. Every player has a job in a real chain of command. The commander plans from the map, squad leaders turn orders into action, heavy weapons teams lock down lanes, and carrying teams keep the guns fed.
+Forty-five soldiers, played by humans with bots filling any empty slots, form one platoon of a traitor Guard regiment. They advance through an Imperial world against an AI-directed loyalist defence. Every player has a job in a real chain of command. The commander plans from the map, squad leaders turn orders into action, heavy weapons teams lock down lanes, and carrying teams keep the guns fed.
 
 The fantasy is **"the horde with a plan."** You start as a ragged cultist with a stub gun. You earn your way into carapace, call down plague-ridden horrors, and eventually see a Leman Russ roll up because your squad killed enough of the Emperor's servants to earn it.
 
@@ -263,21 +264,26 @@ Every role has: what it's for, its kit, its unique abilities, and how its bot pl
 Move under cover, suppress, flank, throw grenades, revive. HWT crews brace, fire and reload, and loaders pass ammo.
 
 ### 5.2 Engagement (minutes)
-1. The commander sets an objective.
-2. Squads move up and HWTs reposition to overwatch.
-3. Contact: suppression, fire and manoeuvre.
-4. Squad leaders spend Favour on call-ins to break the enemy line.
-5. The objective is secured. A forward depot or rally point is set up.
-6. Logistics teams bring supplies forward. Positions are re-armed.
+1. The commander reads the map (11.5), picks an approach and gives orders to squads, fire teams and HWTs (11.3).
+2. Squads move up. HWTs brace on overwatch lanes (6.3). The hauler or runners bring supplies up behind them (12.5).
+3. Contact: suppression, fire and manoeuvre. Squad leaders send Bravo to flank (4.2).
+4. Squad leaders spend Squad Favour on zombies, hounds or a Chaos Spawn to break the line. The commander adds a barrage or fog (9.8).
+5. The objective is secured. The commander builds a forward depot (12.3) and the Standard Bearer plants the icon (4.3).
+6. Consolidation: supply runs re-arm the positions, the medic treats the wounded, and players get their new tier kit at the depot (8.3).
+7. The Director answers with a counter-attack or a raid on the supply line (14.4).
 
 ### 5.3 Operation (45–60 minutes)
-Several phases across a large map (Section 15). The AI Director counter-attacks, cuts supply lines and adds new threats. The platoon has to adapt, holding gains while pushing forward.
+Four phases across one region of Varrus Secundus (Section 15). Each phase has a soft timer that makes the loyalists escalate if the platoon is slow (15.2). The commander chooses between pushing the objective and first hitting the enemy's command structure (14.5). Squads save for a Leman Russ, which arrives around the middle of the operation if they save.
 
 ### 5.4 Progression Arc (one match)
 ```
-Cultist → Moebian Trooper → Moebian Veteran (carapace) → Blessed (mutation) → spend Favour on an Ogryn life
-Squad Favour → Plague Zombies → Plague Hounds → Chaos Spawn → Leman Russ
+Personal:  Cultist → Moebian Trooper → Moebian Veteran (carapace) → Blessed (mutation) → spend Favour on an Ogryn life
+Squad:     Squad Favour → Plague Zombies → Plague Hounds → Chaos Spawn → Leman Russ
+Platoon:   Platoon Favour → Carrion Flock → Supply Drop → Blight Fog → Plague Barrage → Reinforcement Tithe
 ```
+
+### 5.5 Between Matches
+Operation XP raises Regiment Rank and Role Mastery, unlocking new options: weapon patterns, gear items, toxin grenades, mutations and call-in variants (Section 19).
 
 ## 6. Combat Systems
 
@@ -1271,8 +1277,58 @@ Every player hears **proximity voice** plus their **unit channel**. Leaders also
 - Text size and HUD scale options.
 
 ## 18. Art and Audio Direction
-- **Art:** gritty grimdark realism. Muted palettes (greys and rust) with sickly green and yellow corruption accents. Imperial structures in gothic stone and brass. Corruption spreads across the map visually as the platoon advances (rot, fungal growth and flies on captured sectors).
-- **Audio:** heavy, mechanical weapons; deep thumps for the autocannon and battle cannon; the lascannon's charge whine as a warning cue. Plague call-ins are introduced by droning flies and wet growls. Loyalist hymns and vox chatter give enemy AI a personality.
+
+### 18.1 Visual Style: Stylised Gritty
+- **Grounded proportions** (no oversized heroic armour) with **chunky, readable shapes**: helmets, rebreathers, backpacks, vox-sets and weapons are slightly exaggerated so roles read at a distance.
+- **Painterly textures** with hand-painted grime, rust and wear, instead of photoreal scans. This is achievable for a small team and holds up with hundreds of characters on screen in Godot.
+- **Strong lighting does the mood:** low sun through ash, lumen lamps in the dark, muzzle flashes, fire and the sick green glow of corruption.
+
+### 18.2 Readability Rules
+Readability comes before detail. These rules apply to every asset:
+
+| Rule | How |
+|---|---|
+| **Friend or foe at 100 m** | Moebians: dark olive, rust, grime, sickly green light, gas-mask silhouettes. Loyalists: sand-khaki, polished brass, white lumen light, peaked caps and open faces (3.4). |
+| **Tier at 50 m** | Distinct silhouettes per tier: rags and hoods → flak and rebreather → carapace plates → carapace with swollen mutations and flies (8.7). |
+| **Role at 30 m** | Unique role props: vox aerials, the bearer's icon, the medic's satchel and markings, heavy weapons, the squad leader's cape and magnoculars. |
+| **Allied Chaos units** | Green outline and glowing eyes (9.7). |
+| **Threats** | Enemy anti-tank and special weapons have bright, readable shapes and muzzle effects so players can prioritise them. |
+
+### 18.3 The World
+- **Imperial architecture:** gothic stone, brass, skull motifs, purity seals, giant statues and hab-blocks stacked into the hive.
+- **Each region has its own palette** (3.3): grey ash and rusted wire in the Ashfields, cramped concrete and neon in the Hab-Sprawl, orange fire and black smoke at Refinery Nine, gold fields and silos in the Agri-Belt, black water and fungus in the Sump, white marble and stained glass in the Basilica.
+- **Visible corruption** (3.3): captured sectors rot over a few minutes. Stone greys and cracks, fungal growth spreads, flies swarm and a green fog settles. This uses decals, shader blending on terrain and particles, so it costs little and needs no extra geometry.
+
+### 18.4 Art Sources
+- **Custom-made:** everything that defines the 40k look: both factions' soldiers, the Ogryn, the Chaos units, all weapons, the Leman Russ, the hauler, the enemy vehicles, icons and key landmarks.
+- **Licensed asset packs:** generic props and environment pieces (rubble, crates, pipes, foliage, terrain textures). Only **CC0 or clearly licensed** packs that allow use in a free fan project, with every source and licence recorded in an `ASSETS.md` credits file.
+- **Never** ripped or traced from Games Workshop products (3.7).
+- **Modular kits:** buildings, trenches and refinery pieces are built as modular kits so level design is fast.
+- **Animation:** a shared humanoid rig for all human-sized characters (players, bots, enemies). Separate rigs for the Ogryn, hounds, Chaos Spawn and Penitent Engine.
+
+### 18.5 Visual Effects
+- **Weapon signatures:** red las bolts, bright tracer from stubbers and bolters, explosive bolt impacts, the lascannon's blinding beam, the plasma gun's blue-white glow building with heat (7.4), the melta's heat shimmer.
+- **Suppression and wounds:** blur, desaturation and vignette (6.7). No blood-splatter UI.
+- **Nurgle effects:** fly swarms, green spores, toxin clouds that drift with the wind, rot spreading on surfaces.
+
+### 18.6 Audio Direction
+- **Weapons** are the loudest, most important sound: heavy and mechanical. Every weapon type is recognisable by ear, so players can tell what's firing at them. Deep thumps for the autocannon and battle cannon, the lascannon's rising charge whine as a warning cue, the plasma gun's heat hiss.
+- **Distance and space:** sounds change with distance and environment (trenches, hab interiors, tunnels). Gunfire far away rumbles and echoes. Suppression muffles hearing.
+- **Plague sounds:** droning flies, wet growls, the squelch of zombies and the Chaos Spawn's screams introduce call-ins. The fly-buzz confirms kills (6.9).
+- **The enemy has a voice:** loyalist hymns, Commissar speeches, vox chatter and barks (16.4) give them personality and let players read their intent.
+- **Vox:** filtered radio voices with static that worsens with range and jamming (16.2).
+
+### 18.7 Music: Sparse and Dynamic
+- Most of the time there is **no score**: ambient drones, distant artillery, wind and the sounds of war.
+- Music **rises with the Director's intensity** (14.3) and in big moments: a tank arriving, a Chaos Spawn landing, an elite event, a last stand, the final phase.
+- **Themes:** deep choirs and organ for the loyalists (heard as they counter-attack); low brass, out-of-tune bells and wet percussion for the Plague God.
+- Music is made in layers (stems) that the game adds and removes, so it can follow the fight smoothly.
+
+### 18.8 Voice Production
+- **Volunteer voice actors** from the community record all lines: platoon callouts by tier (16.4), Ogryn, enemy barks, Commissar and Priest speeches, the operation briefings.
+- Most lines go through **vox and rebreather filters**, which hides differences in home recording quality.
+- Each line type has several variants and several voices so 45 bots don't sound identical.
+- A **recording guide** (script, line list, format, how to submit) and a contributor credits list are kept with the project.
 
 ## 19. Meta-Progression
 
@@ -1450,17 +1506,19 @@ The project is set up so AI-assisted coding can do as much as possible:
 |---|---|---|
 | **Filling 45-player lobbies** | Long queues and dead matches | **Current plan: AI bots fill all empty slots**, including a commander bot that issues basic orders. Humans drop in and replace a bot in their chosen role mid-match. A smaller 25-player "Detachment" mode stays an option. |
 | **Logistics feels like chores** | Players skip it and positions starve | Favour for deliveries, Ogryn carry synergy, short and readable routes, the hauler for long hauls, a dramatic Director that makes supply runs tense, crates delivered to a request highlighted as a team "win". |
-| **Commander quality varies** | Bad commander ruins a 45-player match | Squad-level autonomy (squad leaders can set their own objectives), commander vote-kick/swap, onboarding tutorial for the role. |
-| **Tank pulls too many players** | Infantry hollowed out | Seats fill from the respawn queue first; tank can run partially crewed; one tank cap. |
-| **Snowballing Favour** | Late game trivial or new joiners useless | Death progress penalty, half Favour from AI allies, call-in cooldowns, Director scales threat with platoon power. |
+| **Commander quality varies** | Bad commander ruins a 45-player match | Squad leaders can lead on their own; orders are rewarded, never forced (11.6); the commander advisor (11.8); vote-kick back to a bot (4.4); a commander tutorial. |
+| **Tank pulls too many players** | Infantry hollowed out | Seats fill from respawning players first, then bot riflemen (10.5); leaders stay in their jobs; one tank cap. |
+| **Snowballing Favour** | Late game trivial or new joiners useless | Death cost (8.4), half Squad Favour and no personal Favour from allied units (9.7), call-in cooldowns, soft timers and the Director's escalation (15.2, 14.3). |
 | **Performance (many AI)** | Low framerate and desync | AI level of detail, C++ crowd simulation for zombies, sector-based simulation, bot-only soak tests in CI from the prototype onwards (20.8). |
 | **Godot at this scale** | Built-in networking and some tools aren't made for 45 players and ~300 actors | Custom snapshot networking and crowds in GDExtension C++ (20.3, 20.4). Prove it in the prototype with a 45-bot soak test before building content. If it fails, the data-driven design and text-based code make a later move to another engine possible. |
+| **Bots feel dumb** | With bots in most slots, poor bot play ruins the experience | Bots are a core system (4.4, 20.8): same rules as players, voiced callouts, role logic, and automated 45-bot soak tests in CI. |
+| **Volunteer content pipeline** | Art and voice from volunteers is slow or inconsistent | Art and voice style guides, modular kits, vox filtering for voice, licensed packs for generic props (18.4, 18.8). |
 | **IP takedown** | Fan project gets shut down | Stay strictly non-commercial, make all assets in-house, credit Games Workshop with an unofficial/not-endorsed notice, keep content data-driven so it can be reskinned. |
 
 ## 22. Open Questions
 _None open right now._
 
-**Decided:** Godot 4 with GDScript plus C++ GDExtension for hot paths (20.1); community-run headless dedicated servers (20.6); local save profiles (20.7); mid-range PC target (20.5); meta-progression is Regiment Rank plus Role Mastery (19.1); unlocks are sidegrades and minimal cosmetics, never stat boosts (19.1); XP is the same however many humans are in the match (19.1); proximity voice plus vox channels that depend on living vox-ops (16.1); bots give voiced callouts (16.4); minimal HUD with toggles and presets (17.2); no minimap (17.1); operations last 45–60 minutes in 4 phases (15.1); first release has 1–2 operations, Ashfields and Hab-Sprawl (15.5); soft phase timers that escalate instead of failing (15.2); random time of day, weather and objective variants (15.4); no Space Marines (14.1); 100–150 enemies active at once (14.3); authored defences plus a reactive Director (14.3); loyalists have officers and sector HQs the platoon can attack (14.5); bot respawns cost half a ticket (13.1); spawns come in waves of 15–30 s (13.3); an empty pool means a last stand, refilled by completing the phase (13.2); squad leaders are a spawn point when out of combat (13.3); one unarmed hauler per platoon (12.5); all depots have unlimited supplies (12.2); enemies can destroy and capture crates, depots and the hauler's cargo (12.1, 12.4); small arms ammo and grenades can be scavenged from enemy dead (12.6); Tactical Command is a data-slate with the world visible around it (11.1); orders go to squads, fire teams, HWTs, the tank and depots but not individual bots (11.3); following orders is rewarded, never punished (11.6); commander sees platoon sight only (11.5); Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~15 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
+**Decided:** stylised gritty art, custom faction art plus licensed generic props (18.1, 18.4); sparse dynamic music (18.7); volunteer voice actors (18.8); Godot 4 with GDScript plus C++ GDExtension for hot paths (20.1); community-run headless dedicated servers (20.6); local save profiles (20.7); mid-range PC target (20.5); meta-progression is Regiment Rank plus Role Mastery (19.1); unlocks are sidegrades and minimal cosmetics, never stat boosts (19.1); XP is the same however many humans are in the match (19.1); proximity voice plus vox channels that depend on living vox-ops (16.1); bots give voiced callouts (16.4); minimal HUD with toggles and presets (17.2); no minimap (17.1); operations last 45–60 minutes in 4 phases (15.1); first release has 1–2 operations, Ashfields and Hab-Sprawl (15.5); soft phase timers that escalate instead of failing (15.2); random time of day, weather and objective variants (15.4); no Space Marines (14.1); 100–150 enemies active at once (14.3); authored defences plus a reactive Director (14.3); loyalists have officers and sector HQs the platoon can attack (14.5); bot respawns cost half a ticket (13.1); spawns come in waves of 15–30 s (13.3); an empty pool means a last stand, refilled by completing the phase (13.2); squad leaders are a spawn point when out of combat (13.3); one unarmed hauler per platoon (12.5); all depots have unlimited supplies (12.2); enemies can destroy and capture crates, depots and the hauler's cargo (12.1, 12.4); small arms ammo and grenades can be scavenged from enemy dead (12.6); Tactical Command is a data-slate with the world visible around it (11.1); orders go to squads, fire teams, HWTs, the tank and depots but not individual bots (11.3); following orders is rewarded, never punished (11.6); commander sees platoon sight only (11.5); Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~15 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (4.4); free non-commercial fan project (3.7).
 
 ## 23. Roadmap
 
