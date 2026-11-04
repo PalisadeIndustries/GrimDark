@@ -40,3 +40,17 @@ static func count_slots(sections: Array) -> int:
 	for section in sections:
 		total += (section["slots"] as Array).size()
 	return total
+
+
+## Damage after penetration and armour (GDD 6.6). `reduction` is the armour's flat damage absorption.
+static func damage(base: float, pen: int, armour: int, reduction: float = 0.0, location_multiplier: float = 1.0) -> float:
+	return base * pen_multiplier(pen, armour) * (1.0 - reduction) * location_multiplier
+
+
+## Damage multiplier from range: full inside effective range, then falling off (test values).
+static func range_multiplier(distance: float, effective_range: float, beyond: float = 0.5, beyond_double: float = 0.25) -> float:
+	if distance <= effective_range:
+		return 1.0
+	if distance <= effective_range * 2.0:
+		return beyond
+	return beyond_double

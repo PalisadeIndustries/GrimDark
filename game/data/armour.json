@@ -9,6 +9,33 @@
     "medium_vehicle": 5,
     "heavy_vehicle": 6
   },
-  "pen_gap_multipliers": [1.0, 0.6, 0.3, 0.0],
-  "suppression_reduction": { "carapace": 0.2, "power": 0.5 }
+  "pen_gap_multipliers": [
+    1.0,
+    0.6,
+    0.3,
+    0.0
+  ],
+  "suppression_reduction": {
+    "carapace": 0.2,
+    "power": 0.5
+  },
+  "damage_reduction": {
+    "_doc": "Test values: fraction of damage absorbed after the pen rule. Tuned so the lasgun matches GDD 6.2 (2/3/4 hits on none/flak/carapace).",
+    "none": 0.0,
+    "flak": 0.25,
+    "carapace": 0.5,
+    "power": 0.65,
+    "light_vehicle": 0.0,
+    "medium_vehicle": 0.0,
+    "heavy_vehicle": 0.0
+  },
+  "hit_points": {
+    "none": 100,
+    "flak": 100,
+    "carapace": 100,
+    "power": 100,
+    "light_vehicle": 800,
+    "medium_vehicle": 1500,
+    "heavy_vehicle": 3000
+  }
 }

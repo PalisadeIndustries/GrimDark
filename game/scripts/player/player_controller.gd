@@ -20,8 +20,11 @@ enum Stance { STAND, CROUCH, PRONE }
 
 var stance := Stance.STAND
 var stamina := 100.0
+## What the interact key would use right now (has interact()), or null.
+var interact_target: Node = null
 
 @onready var head: Node3D = $Head
+@onready var camera: Camera3D = $Head/Camera
 
 
 func _ready() -> void:
@@ -43,6 +46,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		stance = Stance.STAND if stance == Stance.CROUCH else Stance.CROUCH
 	elif event.is_action_pressed("prone"):
 		stance = Stance.STAND if stance == Stance.PRONE else Stance.PRONE
+	elif event.is_action_pressed("interact") and interact_target:
+		interact_target.call("interact", self)
+
+
+## Kicks the view up by `degrees`, with a little sideways wander (weapon recoil).
+func add_recoil(degrees: float) -> void:
+	head.rotation.x = clampf(head.rotation.x + deg_to_rad(degrees), deg_to_rad(-85.0), deg_to_rad(85.0))
+	rotate_y(deg_to_rad(randf_range(-0.3, 0.3) * degrees))
 
 
 func _physics_process(delta: float) -> void:
@@ -64,6 +75,20 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	_update_eye_height(delta)
+	_update_interact_target()
+
+
+func _update_interact_target() -> void:
+	var from := camera.global_position
+	var query := PhysicsRayQueryParameters3D.create(from, from - camera.global_basis.z * 4.0)
+	query.exclude = [get_rid()]
+	var hit := get_world_3d().direct_space_state.intersect_ray(query)
+	interact_target = null
+	if not hit.is_empty():
+		var node: Node = hit.collider
+		while node and not node.has_method("interact"):
+			node = node.get_parent()
+		interact_target = node
 
 
 func _current_speed(input: Vector2, delta: float) -> float:

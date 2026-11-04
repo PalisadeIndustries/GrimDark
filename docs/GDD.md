@@ -382,6 +382,7 @@ Each weapon has a **penetration (Pen)** value from 1 to 6. Each target has an **
 
 - **Vehicles** also have **facings** (front, side, rear, top) and **components**: tracks (immobilise), turret ring (jam traverse), engine (slow or fire), weapons (disable) and crew (an open-hatch commander can be shot).
 - Infantry armour also reduces suppression taken (carapace −20%, power armour −50%).
+- **Armour damage reduction (test values):** after the penetration multiplier, infantry armour absorbs a share of damage: flak 25%, carapace 50%, power armour 65%. These make the lasgun match the time-to-kill table in 6.2 (2 / 3 / 4 hits). Tune in the test range (`game/data/armour.json`).
 
 ### 6.7 Suppression and Morale
 - **Suppression** builds from near misses, nearby impacts and explosions (0–100 meter):

@@ -7,7 +7,7 @@ config_version=5
 
 config/name="GrimDark"
 config/description="45-player co-op PvE traitor Guard shooter (fan project)."
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://scenes/test_range/test_range.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 

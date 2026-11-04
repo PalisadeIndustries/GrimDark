@@ -23,8 +23,21 @@ tools/     Scripts for running tests and converting assets
 ## Getting started
 
 1. Install [Godot 4.7](https://godotengine.org/download) (standard build, not .NET).
-2. Open `game/project.godot` in the Godot editor and press F5.
-3. In the greybox test range: WASD to move, Shift to sprint, C to crouch, Z to go prone, Space to jump, Esc to free the mouse.
+2. Open `game/project.godot` in the Godot editor and press F5. This opens the **test range**.
+3. F1 shows the controls. WASD move, Shift sprint, C crouch, Z prone, Space jump, LMB fire, RMB aim, R reload,
+   B fire mode, 1-7 or E switch weapon, V vent plasma, I infinite ammo, F interact, Esc free the mouse.
+
+### The test range (`scenes/test_range/test_range.tscn`)
+
+- **Weapons range:** targets for every armour class at 25 m (cultist, Guardsman, Veteran, Sister, and Sentinel,
+  Chimera and Leman Russ armour plates), plus Guardsmen and Veterans at 50-200 m. Every hit is logged top left with
+  the damage maths (penetration vs armour, armour reduction, headshot, range falloff). Seven test weapons, all
+  using the lasgun model for now. The ammo crate at the firing line refills ammo.
+- **Animation yard** (to the right): the traitor guard in each procedural pose (press F on a soldier to change it),
+  a soldier walking or running a loop, and the **Animation Station**, which plays any humanoid animation dropped
+  into `game/assets/animations/` (see the README there).
+
+Screenshots are in [`docs/mockups/`](docs/mockups/).
 
 ## Running tests
 

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="1_ctrl"]
 [ext_resource type="PackedScene" path="res://scenes/weapons/lasgun.tscn" id="2_lasgun"]
+[ext_resource type="Script" path="res://scripts/weapons/weapon_controller.gd" id="3_weapon"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
 radius = 0.35
@@ -20,9 +21,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 [node name="Camera" type="Camera3D" parent="Head"]
 current = true
 fov = 80.0
+near = 0.02
 
 [node name="ViewModel" type="Node3D" parent="Head/Camera"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16, -0.2, -0.3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.17, -0.2, -0.42)
+script = ExtResource("3_weapon")
 
 [node name="Lasgun" parent="Head/Camera/ViewModel" instance=ExtResource("2_lasgun")]
-transform = Transform3D(0.998, 0, 0.0698, 0, 1, 0, -0.0698, 0, 0.998, 0, 0, 0)

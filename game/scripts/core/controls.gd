@@ -16,6 +16,19 @@ const KEY_BINDINGS := {
 	"ping": [KEY_Q],
 	"map": [KEY_M],
 	"release_mouse": [KEY_ESCAPE],
+	"fire_mode": [KEY_B],
+	"weapon_next": [KEY_E],
+	"weapon_1": [KEY_1],
+	"weapon_2": [KEY_2],
+	"weapon_3": [KEY_3],
+	"weapon_4": [KEY_4],
+	"weapon_5": [KEY_5],
+	"weapon_6": [KEY_6],
+	"weapon_7": [KEY_7],
+	"toggle_infinite_ammo": [KEY_I],
+	"toggle_help": [KEY_F1],
+	"toggle_dot": [KEY_H],
+	"vent": [KEY_V],
 }
 
 const MOUSE_BINDINGS := {

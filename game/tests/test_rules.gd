@@ -41,3 +41,19 @@ func test_death_never_drops_a_tier() -> void:
 func test_ogryn_needs_blessed() -> void:
 	assert_true(not Rules.can_buy_ogryn(39, 40, 30))
 	assert_true(Rules.can_buy_ogryn(45, 40, 30))
+
+
+func test_lasgun_hits_to_kill_match_gdd() -> void:
+	# GDD 6.2: lasgun kills a cultist in 2, flak in 3, carapace in 4-5 torso hits.
+	var armour := GameDataScript.load_table("armour")
+	var lasgun: Dictionary = GameDataScript.load_table("weapons")["small_arms"]["lasgun"]
+	var expected := {"none": 2, "flak": 3, "carapace": 4}
+	for cls in expected:
+		var per_hit := Rules.damage(lasgun["damage"], int(lasgun["pen"]), int(armour["classes"][cls]), float(armour["damage_reduction"][cls]))
+		assert_eq(int(ceil(100.0 / per_hit)), expected[cls], cls)
+
+
+func test_range_falloff() -> void:
+	assert_eq(Rules.range_multiplier(100, 150), 1.0)
+	assert_eq(Rules.range_multiplier(200, 150), 0.5)
+	assert_eq(Rules.range_multiplier(400, 150), 0.25)

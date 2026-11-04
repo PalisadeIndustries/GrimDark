@@ -1,31 +1,283 @@
 {
   "_doc": "Weapon stats. GDD 7.2-7.4. range_m is effective range.",
   "small_arms": {
-    "autogun":       { "pen": 1, "magazine": 30, "fire_modes": ["auto"],          "range_m": 80 },
-    "stub_rifle":    { "pen": 1, "magazine": 6,  "fire_modes": ["lever"],         "range_m": 150 },
-    "lasgun":        { "pen": 2, "magazine": 40, "fire_modes": ["semi", "burst3"], "range_m": 150 },
-    "laspistol":     { "pen": 1, "magazine": 20, "fire_modes": ["semi"],          "range_m": 40 },
-    "stub_revolver": { "pen": 1, "magazine": 6,  "fire_modes": ["semi"],          "range_m": 40 },
-    "bolt_pistol":   { "pen": 3, "magazine": 8,  "fire_modes": ["semi"],          "range_m": 40 },
-    "ripper_gun":    { "pen": 1, "magazine": 12, "fire_modes": ["auto"],          "range_m": 20 }
+    "autogun": {
+      "pen": 1,
+      "magazine": 30,
+      "fire_modes": [
+        "auto"
+      ],
+      "range_m": 80,
+      "damage": 50,
+      "rpm": 600,
+      "reload_s": 2.4,
+      "spread_hip": 3.0,
+      "spread_ads": 0.6,
+      "recoil": 0.8,
+      "tracer": "bullet",
+      "reserve": 120
+    },
+    "stub_rifle": {
+      "pen": 1,
+      "magazine": 6,
+      "fire_modes": [
+        "lever"
+      ],
+      "range_m": 150,
+      "damage": 90,
+      "rpm": 60,
+      "reload_s": 3.5,
+      "spread_hip": 2.5,
+      "spread_ads": 0.15,
+      "recoil": 1.6,
+      "tracer": "bullet",
+      "reserve": 36
+    },
+    "lasgun": {
+      "pen": 2,
+      "magazine": 40,
+      "fire_modes": [
+        "semi",
+        "burst3"
+      ],
+      "range_m": 150,
+      "damage": 55,
+      "rpm": 450,
+      "reload_s": 2.2,
+      "spread_hip": 2.0,
+      "spread_ads": 0.25,
+      "recoil": 0.5,
+      "tracer": "las",
+      "reserve": 160
+    },
+    "laspistol": {
+      "pen": 1,
+      "magazine": 20,
+      "fire_modes": [
+        "semi"
+      ],
+      "range_m": 40,
+      "damage": 40,
+      "rpm": 300,
+      "reload_s": 1.5,
+      "spread_hip": 2.5,
+      "spread_ads": 0.6,
+      "recoil": 0.6,
+      "tracer": "las",
+      "reserve": 80
+    },
+    "stub_revolver": {
+      "pen": 1,
+      "magazine": 6,
+      "fire_modes": [
+        "semi"
+      ],
+      "range_m": 40,
+      "damage": 70,
+      "rpm": 150,
+      "reload_s": 3.0,
+      "spread_hip": 2.5,
+      "spread_ads": 0.5,
+      "recoil": 1.5,
+      "tracer": "bullet",
+      "reserve": 36
+    },
+    "bolt_pistol": {
+      "pen": 3,
+      "magazine": 8,
+      "fire_modes": [
+        "semi"
+      ],
+      "range_m": 40,
+      "damage": 100,
+      "rpm": 200,
+      "reload_s": 2.2,
+      "spread_hip": 2.5,
+      "spread_ads": 0.6,
+      "recoil": 2.0,
+      "tracer": "bolt",
+      "reserve": 32
+    },
+    "ripper_gun": {
+      "pen": 1,
+      "magazine": 12,
+      "fire_modes": [
+        "auto"
+      ],
+      "range_m": 20,
+      "damage": 30,
+      "rpm": 400,
+      "reload_s": 3.0,
+      "spread_hip": 6.0,
+      "spread_ads": 5.0,
+      "recoil": 2.0,
+      "tracer": "bullet",
+      "reserve": 72,
+      "pellets": 6
+    }
   },
   "heavy": {
-    "heavy_stubber":    { "pen": 1, "rounds_per_reload": 100, "loader_reloads": 6, "setup_s": 3, "packup_s": 2, "braces": ["tripod", "terrain", "prone", "shoulder"] },
-    "heavy_bolter":     { "pen": 3, "rounds_per_reload": 40,  "loader_reloads": 4, "setup_s": 4, "packup_s": 3, "braces": ["tripod", "terrain", "prone"] },
-    "autocannon":       { "pen": 4, "rounds_per_reload": 10,  "loader_reloads": 5, "setup_s": 4, "packup_s": 3, "braces": ["tripod", "terrain", "prone"] },
-    "missile_launcher": { "pen": 3, "pen_krak": 5, "rounds_per_reload": 1, "loader_reloads": 6, "setup_s": 5, "packup_s": 3, "braces": ["tripod", "terrain"], "backblast_m": 8 },
-    "lascannon":        { "pen": 6, "rounds_per_reload": 5,   "loader_reloads": 3, "setup_s": 5, "packup_s": 4, "braces": ["tripod", "terrain"], "charge_s": 1.5 }
+    "heavy_stubber": {
+      "pen": 1,
+      "rounds_per_reload": 100,
+      "loader_reloads": 6,
+      "setup_s": 3,
+      "packup_s": 2,
+      "braces": [
+        "tripod",
+        "terrain",
+        "prone",
+        "shoulder"
+      ]
+    },
+    "heavy_bolter": {
+      "pen": 3,
+      "rounds_per_reload": 40,
+      "loader_reloads": 4,
+      "setup_s": 4,
+      "packup_s": 3,
+      "braces": [
+        "tripod",
+        "terrain",
+        "prone"
+      ]
+    },
+    "autocannon": {
+      "pen": 4,
+      "rounds_per_reload": 10,
+      "loader_reloads": 5,
+      "setup_s": 4,
+      "packup_s": 3,
+      "braces": [
+        "tripod",
+        "terrain",
+        "prone"
+      ]
+    },
+    "missile_launcher": {
+      "pen": 3,
+      "pen_krak": 5,
+      "rounds_per_reload": 1,
+      "loader_reloads": 6,
+      "setup_s": 5,
+      "packup_s": 3,
+      "braces": [
+        "tripod",
+        "terrain"
+      ],
+      "backblast_m": 8
+    },
+    "lascannon": {
+      "pen": 6,
+      "rounds_per_reload": 5,
+      "loader_reloads": 3,
+      "setup_s": 5,
+      "packup_s": 4,
+      "braces": [
+        "tripod",
+        "terrain"
+      ],
+      "charge_s": 1.5
+    }
   },
   "special": {
-    "grenade_launcher": { "pen": 3, "pen_krak": 4, "magazine": 6,  "reserve": 18, "range_m": 150 },
-    "bolter":           { "pen": 3, "magazine": 20, "reserve": 80, "range_m": 100 },
-    "plasma_gun":       { "pen": 4, "pen_overcharged": 5, "flasks": 6, "shots_per_flask": 10, "range_m": 100 },
-    "melta_gun":        { "pen": 6, "shots_per_canister": 2, "canisters": 4, "range_m": 15 },
-    "flamer":           { "pen": 2, "tank_seconds": 10, "tanks": 2, "range_m": 12, "ignores_cover": true }
+    "grenade_launcher": {
+      "pen": 3,
+      "pen_krak": 4,
+      "magazine": 6,
+      "reserve": 18,
+      "range_m": 150
+    },
+    "bolter": {
+      "pen": 3,
+      "magazine": 20,
+      "reserve": 80,
+      "range_m": 100,
+      "damage": 110,
+      "rpm": 300,
+      "fire_modes": [
+        "semi",
+        "auto"
+      ],
+      "reload_s": 2.8,
+      "spread_hip": 2.5,
+      "spread_ads": 0.3,
+      "recoil": 2.2,
+      "tracer": "bolt"
+    },
+    "plasma_gun": {
+      "pen": 4,
+      "pen_overcharged": 5,
+      "flasks": 6,
+      "shots_per_flask": 10,
+      "range_m": 100,
+      "damage": 150,
+      "damage_overcharged": 250,
+      "magazine": 10,
+      "reserve": 50,
+      "rpm": 180,
+      "fire_modes": [
+        "normal",
+        "overcharge"
+      ],
+      "reload_s": 2.5,
+      "spread_hip": 1.5,
+      "spread_ads": 0.2,
+      "recoil": 1.2,
+      "tracer": "plasma"
+    },
+    "melta_gun": {
+      "pen": 6,
+      "shots_per_canister": 2,
+      "canisters": 4,
+      "range_m": 15,
+      "damage": 400,
+      "magazine": 2,
+      "reserve": 6,
+      "rpm": 60,
+      "fire_modes": [
+        "semi"
+      ],
+      "reload_s": 3.0,
+      "spread_hip": 1.0,
+      "spread_ads": 0.3,
+      "recoil": 3.0,
+      "tracer": "melta"
+    },
+    "flamer": {
+      "pen": 2,
+      "tank_seconds": 10,
+      "tanks": 2,
+      "range_m": 12,
+      "ignores_cover": true
+    }
   },
   "plasma_heat": {
-    "normal_shot": 10, "overcharged_shot": 30, "decay_per_s": 15, "decay_delay_s": 1,
-    "warning": 70, "overheat": 100, "overheat_damage": 40, "overheat_lockout_s": 5,
-    "catastrophic_threshold": 90, "catastrophic_chance": 0.3333, "vent_s": 3, "vent_damage": 10
-  }
+    "normal_shot": 10,
+    "overcharged_shot": 30,
+    "decay_per_s": 15,
+    "decay_delay_s": 1,
+    "warning": 70,
+    "overheat": 100,
+    "overheat_damage": 40,
+    "overheat_lockout_s": 5,
+    "catastrophic_threshold": 90,
+    "catastrophic_chance": 0.3333,
+    "vent_s": 3,
+    "vent_damage": 10
+  },
+  "range_falloff": {
+    "_doc": "Damage multiplier beyond effective range (test values)",
+    "beyond_range": 0.5,
+    "beyond_double_range": 0.25
+  },
+  "test_range_weapons": [
+    "lasgun",
+    "autogun",
+    "bolter",
+    "plasma_gun",
+    "melta_gun",
+    "laspistol",
+    "bolt_pistol"
+  ]
 }
