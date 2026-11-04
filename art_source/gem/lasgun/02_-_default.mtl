@@ -1,0 +1,7 @@
+{material bump
+	{diffuse "$/_w40/_weapon/lasgun_dif"}
+	{bump "$/[nrm]/W40/lasgun_nrm"}
+	{specular "$/[spc]/W40/lasgun_spc"}
+	{color "250 250 250 45"}
+	{blend none}
+}

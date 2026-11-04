@@ -1,0 +1,9 @@
+{actor
+	(include "/properties/stuff/weapon.ext")
+	{props "lasgun" "delete_damage_staff"}
+	{extension "lasgun.mdl"}
+	{extender "stuff"
+		{item "lasgun"}
+	}
+	{nogroupmesh 1}
+}

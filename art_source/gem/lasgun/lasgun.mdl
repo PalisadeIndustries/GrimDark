@@ -1,0 +1,77 @@
+;Exported by: Alexander
+;Date:        Fri Jan 11 23:28:48 2013
+;File:        D:\Program Files (x86)\Autodesk\3dsMax8\scenes\Lasgun.max
+{Skeleton
+	{bone "basis"
+		{Orientation
+			1	0	0
+			0	-1	0
+			0	0	1
+		}
+		{bone "lasgun"
+			{Matrix34
+				-0.00367633	0.999993	0
+				-0.999993	-0.00367633	0
+				0	0	1
+				0	0	0.267366
+			}
+			{bone "lasgun1"
+				{Matrix34
+					0	0	-1
+					-0.998736	0.0502664	0
+					0.0502664	0.998736	0
+					0.141232	-6.96121	-0.202226
+				}
+				{VolumeView "lasgun1.ply"}
+			}
+			{bone "run_holder"
+				{Matrix34
+					0	0	-1
+					0.00722687	0.999974	0
+					0.999974	-0.00722689	0
+					1.3303	-0.0916107	0.163775
+				}
+			}
+			{bone "handle"
+				{Matrix34
+					0	0	-1
+					-0.0036398	0.999993	0
+					0.999993	0.00363978	0
+					0.899322	0.869485	0
+				}
+			}
+			{bone "foresight3"{bone "flash"}
+			{Position 13.28375	1.80438	-0.00400595}
+			}
+		}
+	}
+}
+{Volume "body"
+	{Box 1.38529 4.56331 21.4313}
+	{Bone "lasgun"}
+	{Matrix34
+		0	0	1
+		1	0.000130525	0
+		-0.00013052	1	0
+		0.311476	-5.68482	0.0973761
+	}
+}
+{Extender "preview"
+	{"Stuff"
+		{camera
+			{origin 10.6527	-0.962784	23.379}
+			{lookat 5.55184	-0.983194	6.66223}
+			{fov 45}
+			{horizon 89.7807}
+		}
+		{lights
+			{"0"
+				{type spot}
+				{position 11.9206	-0.496388	28.8783}
+				{direction -0.143019	0.0759664	-0.473048}
+				{theta 43}
+				{phi 45}
+			}
+		}
+	}
+}

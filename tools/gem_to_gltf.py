@@ -279,19 +279,19 @@ def parse_ply(path: str) -> GemPly:
         elif tag == b"VERT":
             count, stride, vflags = struct.unpack_from("<IHH", d, pos)
             pos += 8
-            if stride not in (32, 56) or (stride == 56 and not skin_bones):
+            if (skin_bones and stride != 56) or (not skin_bones and stride not in (32, 48)):
                 sys.exit(f"{path}: unsupported vertex format (stride {stride}, flags {vflags:#x})")
             for i in range(count):
                 o = pos + i * stride
                 positions.append(struct.unpack_from("<3f", d, o))
-                if stride == 56:  # position, weight, 4 bone bytes, normal, uv, tangent
+                if skin_bones:  # 56 bytes: position, weight, 4 bone bytes, normal, uv, tangent
                     w = struct.unpack_from("<f", d, o + 12)[0]
                     ids = d[o + 16:o + 20]
                     normals.append(struct.unpack_from("<3f", d, o + 20))
                     uvs.append(struct.unpack_from("<2f", d, o + 32))
                     bone_ids.append((ids[0], ids[1]))
                     weights.append((w, 1.0 - w))
-                else:  # position, normal, uv
+                else:  # 32 or 48 bytes: position, normal, uv (+ tangent)
                     normals.append(struct.unpack_from("<3f", d, o + 12))
                     uvs.append(struct.unpack_from("<2f", d, o + 24))
             pos += count * stride
