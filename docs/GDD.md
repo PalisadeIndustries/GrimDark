@@ -1351,14 +1351,98 @@ Each role levels separately and unlocks **sidegrade variants** for that role. He
 - Cosmetics never change a soldier's silhouette enough to hide their tier or role, and never use loyalist colours, so friend/foe and rank stay readable (8.7, 17.6).
 
 ## 20. Technical Considerations
-- **Engine:** Unreal Engine 5 recommended (proven for large-scale shooters, strong networking base, World Partition for large maps).
-- **Networking:** dedicated, server-authoritative servers. 45 players plus 150–300 AI agents needs:
-  - Network relevancy and replication LOD by distance.
-  - AI LOD: full behaviour near players, simplified "abstract combat" in distant sectors.
-  - Plague zombies simulated as lightweight crowd agents (Mass Entity / ECS-style).
-- **Target performance:** 60 FPS on recommended PC specs; 30 Hz server tick minimum, 60 Hz target.
-- **Physics:** crates and backblast are physical. Destruction is limited to authored destructible cover to keep replication costs down.
-- **Bots:** AI bots fill every empty player slot, including the commander (Section 21). Bots are a core system, not a fallback: the game must be playable with 1 human and 44 bots. Bots use the same role logic and respond to the commander's orders like players do.
+
+### 20.1 Engine and Languages
+- **Engine:** **Godot 4** (latest stable 4.x), Forward+ renderer. Chosen because almost everything in a Godot project is text, which suits a fan project that leans on AI-assisted coding (20.8).
+- **GDScript** (statically typed) for gameplay, UI, roles, call-ins and the Director's decision logic.
+- **C++ through GDExtension** for the hot paths that GDScript can't handle at this scale:
+  - network snapshot encoding and interest management (20.3)
+  - zombie crowd simulation and flow fields (20.4)
+  - batched line-of-sight and perception checks
+  - ballistics for 45 players plus up to ~300 AI.
+- **Physics:** Jolt (built into Godot 4.4 and later) for vehicles, crates and ragdolls.
+
+### 20.2 Project Layout
+Everything that can be text, is text.
+
+```
+GrimDark/
+├── docs/            Design documents (this GDD)
+├── game/            The Godot project
+│   ├── scenes/      .tscn scenes (text)
+│   ├── scripts/     GDScript
+│   ├── data/        Balance data: weapons, roles, tiers, call-ins, Director costs (JSON / .tres)
+│   └── assets/      Models, textures, audio (Git LFS)
+├── native/          GDExtension C++ (networking, crowds, perception)
+├── server/          Headless server config and scripts
+└── tools/           Test runners, simulation scripts, CI
+```
+
+- **All balance numbers in this GDD live in `game/data/`**, not in code, so tuning never needs a code change.
+- Binary art (models, textures, audio) is stored with **Git LFS**. Scenes and resources are always saved in text format (`.tscn`, `.tres`), never binary (`.scn`, `.res`).
+
+### 20.3 Networking
+- **Server-authoritative**, with dedicated headless servers (20.6). The server runs the whole simulation, including all bots and enemy AI.
+- **Transport:** ENet over UDP.
+- **Godot's built-in high-level multiplayer** (MultiplayerSpawner/Synchronizer) is used for lobbies, RPCs and low-frequency state only. It isn't built for ~300 moving actors, so actor state uses a **custom snapshot system** in GDExtension:
+  - server simulation at **30 Hz**, snapshots to each client at **20 Hz**, delta-compressed against the last acknowledged snapshot
+  - **interest management:** each client gets full detail for nearby actors, reduced rates for distant ones, and nothing for actors outside its relevant sectors
+  - **bandwidth target:** under 256 kbps down per client.
+- **Client-side prediction** for the player's own movement, with server reconciliation.
+- **Lag compensation:** hitscan weapons (las, stub, bolter) are checked by rewinding targets to the shooter's view time. Slow projectiles (missiles, grenades, battle cannon shells) are simulated on the server.
+- **Bots are players without a client:** they send inputs into the same pipeline as humans. That makes swapping a human into a bot slot (4.4) simple.
+- **Actor budget:** 45 players + up to 150 enemies + up to 63 allied zombies (3 hordes) + hounds, spawn, vehicles: plan for **~300 networked actors**.
+- **Voice:** captured with Godot's audio capture and encoded with Opus (through GDExtension). Voice is routed through the server, which applies the channel rules (16.1) and the vox degradation effects (16.2).
+
+### 20.4 AI
+- **Behaviour:** a squad-level **utility AI** decides what each squad does (assault, suppress, flank, fall back). Individuals run **behaviour trees** (an open-source GDExtension behaviour tree add-on such as LimboAI is a candidate) for moment-to-moment actions. Friendly bots use the same systems with role logic (4.3).
+- **Navigation:** Godot's NavigationServer3D, with navmeshes baked per sector. Zombie hordes use **flow fields** in C++ instead of individual pathfinding.
+- **AI level of detail:**
+
+| Level | Where | Update | Detail |
+|---|---|---|---|
+| **Full** | Near any player (~100 m) | Every tick | Full perception, animation, physics |
+| **Reduced** | Mid range | 5 Hz | Simplified perception, no fine animation |
+| **Abstract** | Distant sectors with no players | 1 Hz | Fights resolved statistically; no physics or animation |
+
+- **Perception budget:** line-of-sight checks are batched and capped per tick (starting value 500 raycasts per tick), with results cached.
+- **The Director** (14.3) runs on the server and reads all of its costs and rules from data.
+
+### 20.5 Performance Targets
+
+| Target | Value |
+|---|---|
+| **Recommended PC** | RTX 3060 / RX 6600, 6-core CPU, 16 GB RAM: **60 FPS at 1080p, medium settings** |
+| **Server** | 30 Hz tick with 45 players and ~300 actors on an 8-core machine |
+
+- **Rendering:** mesh LODs and visibility ranges, occluders for urban maps, **MultiMesh** for zombie crowds and debris, simple impostors for distant soldiers.
+- **Animation:** distant characters update animation at lower rates. Abstract-level AI isn't animated at all.
+- **Destruction:** limited to authored destructible cover to keep physics and replication costs down.
+
+### 20.6 Hosting
+- **Community servers:** a free **headless dedicated server** build (Linux and Windows) that anyone can run.
+  - **Server config:** operation rotation, difficulty, password, max humans, admin list. Friendly fire is always full (6.5).
+  - **Admin tools:** kick, ban, vote management, match logs.
+- **Server browser:** a very small master-server list that servers register with. This is the one piece of infrastructure the project hosts, and it can run on a free or very cheap tier.
+- **Private games:** a player can also host from the client (listen server) for small private groups. The host's PC runs all the bots and AI, so a strong CPU is needed.
+
+### 20.7 Saves
+- Meta-progression (Section 19) is stored in a **local profile** in Godot's `user://` folder: a versioned JSON file with automatic migration between versions, plus export and import.
+- Profiles aren't protected against editing. That's acceptable because unlocks are sidegrades and the game is co-op.
+- **In-match cheating** is limited by the server-authoritative design: the server validates movement, firing rate, ammo and Favour.
+
+### 20.8 Working With Claude Code
+The project is set up so AI-assisted coding can do as much as possible:
+- **Text everywhere:** scenes, resources and data are text files that can be read and changed directly.
+- **Headless runs:** Godot runs without a screen, so code can be built and tested in a cloud session.
+- **Automated tests:** unit tests with a Godot test framework (GUT or gdUnit4) for rules like Favour, tiers, ammo, penetration and call-in costs.
+- **Bot-only soak tests:** a headless server runs full operations with 45 bots and no humans, measuring server tick time, bandwidth and AI behaviour. Bots are a core system (4.4), so this doubles as the main performance test.
+- **CI:** GitHub Actions runs the tests and the soak test on every push, and exports server and client builds.
+- **What still needs a person in the editor:** level layout, lighting, art and animation import, and feel tuning.
+
+### 20.9 Platforms and Distribution
+- **PC:** Windows and Linux.
+- **Distribution:** a free download (for example itch.io or GitHub releases), keeping to the non-commercial rules in 3.7.
 
 ## 21. Risks and Mitigations
 
@@ -1369,19 +1453,20 @@ Each role levels separately and unlocks **sidegrade variants** for that role. He
 | **Commander quality varies** | Bad commander ruins a 45-player match | Squad-level autonomy (squad leaders can set their own objectives), commander vote-kick/swap, onboarding tutorial for the role. |
 | **Tank pulls too many players** | Infantry hollowed out | Seats fill from the respawn queue first; tank can run partially crewed; one tank cap. |
 | **Snowballing Favour** | Late game trivial or new joiners useless | Death progress penalty, half Favour from AI allies, call-in cooldowns, Director scales threat with platoon power. |
-| **Performance (many AI)** | Low framerate and desync | AI LOD, crowd systems for zombies, sector-based simulation. |
+| **Performance (many AI)** | Low framerate and desync | AI level of detail, C++ crowd simulation for zombies, sector-based simulation, bot-only soak tests in CI from the prototype onwards (20.8). |
+| **Godot at this scale** | Built-in networking and some tools aren't made for 45 players and ~300 actors | Custom snapshot networking and crowds in GDExtension C++ (20.3, 20.4). Prove it in the prototype with a 45-bot soak test before building content. If it fails, the data-driven design and text-based code make a later move to another engine possible. |
 | **IP takedown** | Fan project gets shut down | Stay strictly non-commercial, make all assets in-house, credit Games Workshop with an unofficial/not-endorsed notice, keep content data-driven so it can be reskinned. |
 
 ## 22. Open Questions
 _None open right now._
 
-**Decided:** meta-progression is Regiment Rank plus Role Mastery (19.1); unlocks are sidegrades and minimal cosmetics, never stat boosts (19.1); XP is the same however many humans are in the match (19.1); proximity voice plus vox channels that depend on living vox-ops (16.1); bots give voiced callouts (16.4); minimal HUD with toggles and presets (17.2); no minimap (17.1); operations last 45–60 minutes in 4 phases (15.1); first release has 1–2 operations, Ashfields and Hab-Sprawl (15.5); soft phase timers that escalate instead of failing (15.2); random time of day, weather and objective variants (15.4); no Space Marines (14.1); 100–150 enemies active at once (14.3); authored defences plus a reactive Director (14.3); loyalists have officers and sector HQs the platoon can attack (14.5); bot respawns cost half a ticket (13.1); spawns come in waves of 15–30 s (13.3); an empty pool means a last stand, refilled by completing the phase (13.2); squad leaders are a spawn point when out of combat (13.3); one unarmed hauler per platoon (12.5); all depots have unlimited supplies (12.2); enemies can destroy and capture crates, depots and the hauler's cargo (12.1, 12.4); small arms ammo and grenades can be scavenged from enemy dead (12.6); Tactical Command is a data-slate with the world visible around it (11.1); orders go to squads, fire teams, HWTs, the tank and depots but not individual bots (11.3); following orders is rewarded, never punished (11.6); commander sees platoon sight only (11.5); Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~15 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
+**Decided:** Godot 4 with GDScript plus C++ GDExtension for hot paths (20.1); community-run headless dedicated servers (20.6); local save profiles (20.7); mid-range PC target (20.5); meta-progression is Regiment Rank plus Role Mastery (19.1); unlocks are sidegrades and minimal cosmetics, never stat boosts (19.1); XP is the same however many humans are in the match (19.1); proximity voice plus vox channels that depend on living vox-ops (16.1); bots give voiced callouts (16.4); minimal HUD with toggles and presets (17.2); no minimap (17.1); operations last 45–60 minutes in 4 phases (15.1); first release has 1–2 operations, Ashfields and Hab-Sprawl (15.5); soft phase timers that escalate instead of failing (15.2); random time of day, weather and objective variants (15.4); no Space Marines (14.1); 100–150 enemies active at once (14.3); authored defences plus a reactive Director (14.3); loyalists have officers and sector HQs the platoon can attack (14.5); bot respawns cost half a ticket (13.1); spawns come in waves of 15–30 s (13.3); an empty pool means a last stand, refilled by completing the phase (13.2); squad leaders are a spawn point when out of combat (13.3); one unarmed hauler per platoon (12.5); all depots have unlimited supplies (12.2); enemies can destroy and capture crates, depots and the hauler's cargo (12.1, 12.4); small arms ammo and grenades can be scavenged from enemy dead (12.6); Tactical Command is a data-slate with the world visible around it (11.1); orders go to squads, fire teams, HWTs, the tank and depots but not individual bots (11.3); following orders is rewarded, never punished (11.6); commander sees platoon sight only (11.5); Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~15 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
 
 ## 23. Roadmap
 
 | Phase | Goal | Content |
 |---|---|---|
-| **Prototype** (3–4 months) | Prove fire-and-bracing and the logistics loop | 1 squad + 1 HWT + depot, greybox map, basic AI Guardsmen, first friendly bots for squad slots |
+| **Prototype** (3–4 months) | Prove fire-and-bracing, the logistics loop and Godot at scale | Godot project and CI, 1 squad + 1 HWT + depot, greybox map, basic AI Guardsmen, first friendly bots, **45-bot headless soak test with ~300 actors** |
 | **Vertical Slice** (6–8 months) | Full platoon structure at 45 players | All roles, Tactical Command, Favour tiers, 2 call-ins, Operation 1 (Ashfields) |
 | **Alpha** | Feature complete | Leman Russ, Ogryn, all call-ins, full enemy roster, AI Director, bot backfill |
 | **Beta** | Content and scale | Operation 2 (Karsten Hab-Sprawl), difficulty tiers, meta-progression, stress tests at 45 players |
