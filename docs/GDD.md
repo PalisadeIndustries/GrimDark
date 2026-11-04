@@ -199,7 +199,7 @@ Every role has: what it's for, its kit, its unique abilities, and how its bot pl
 
 #### Heavy Weapons Teams (5 × 2)
 - **Purpose:** hold ground, deny lanes and kill armour. They are only as strong as their supply line.
-- **Choosing a weapon:** each team picks **Autocannon, Heavy Bolter, Heavy Stubber, Missile Launcher or Lascannon** at spawn, within platoon caps (Appendix A). Teams can **swap weapon type at any depot** (10 s). The loader's current ammo is returned and new ammo drawn, which spends forward depot stock.
+- **Choosing a weapon:** each team picks **Autocannon, Heavy Bolter, Heavy Stubber, Missile Launcher or Lascannon** at spawn, within platoon caps (Appendix A). Teams can **swap weapon type at any depot** (10 s). The loader's current ammo is returned and new ammo drawn.
 - **Gunner kit:** heavy weapon (must be braced, 6.3); laspistol; 1 Frag. Flak armour, carapace at Weapon Team tier 2.
 - **Loader kit:** lasgun; ammo for the weapon (7.1); 1 Frag; **entrenching tool** (builds a sandbag brace point in 8 s). Flak armour, carapace at Weapon Team tier 2.
 - **Loader abilities:**
@@ -207,7 +207,7 @@ Every role has: what it's for, its kit, its unique abilities, and how its bot pl
   - **Assisted setup:** 40% faster tripod deployment.
   - **Spotter:** marks targets for the gunner (and the platoon).
   - **Human bipod:** heavy stubber only (6.3).
-  - **Supply request:** sends a request for the team's ammo type (12.4).
+  - **Supply request:** sends a request for the team's ammo type (12.7).
 - **Kill credit:** shared 100% between gunner and loader.
 - **Bot behaviour:** the gunner picks the weapon the platoon most needs (lascannon if enemy armour was spotted recently, otherwise heavy stubber or heavy bolter). It moves to the overwatch lane the commander set, or the nearest strong brace point covering the objective. The loader stays within 3 m, reloads and requests supply at 1 reload left.
 
@@ -233,7 +233,7 @@ Every role has: what it's for, its kit, its unique abilities, and how its bot pl
 #### Squad Vox-Operator (3)
 - **Purpose:** links the squad to the platoon and enables call-ins.
 - **Kit:** lasgun; 1 Frag; squad vox-set.
-- **Abilities:** relays commander orders (see Platoon Link above), enables call-ins, **requests resupply** for the squad (12.4), and can **request a supply drop** at a depot once per operation phase.
+- **Abilities:** relays commander orders (see Platoon Link above), enables call-ins, **requests resupply** for the squad (12.7), and can **request a free supply drop** once per operation phase (3 crates at a marked open spot, like the commander's Supply Drop, 9.8).
 - **If killed:** the vox-set drops and any squad member can pick it up.
 - **Bot behaviour:** stays within 10 m of the squad leader. Requests supply when half the squad is Low on ammo.
 
@@ -798,7 +798,7 @@ Every Leman Russ arrives with a **traitor Enginseer**, a rust-eaten tech-priest 
 - Every other player has a simpler **map screen** (view only, plus pings). Only the commander can give orders from it, and the acting commander when the commander is dead (4.3).
 
 ### 11.2 The Map
-- **Layers** the commander can toggle: terrain and sectors, objectives, friendly units, supply (depots, crates, requests, convoys), threats (spotted enemies, last-known positions, intercepted attack directions), call-in areas.
+- **Layers** the commander can toggle: terrain and sectors, objectives, friendly units, supply (depots, the hauler, crates, requests), threats (spotted enemies, last-known positions, intercepted attack directions), call-in areas.
 - **Zoom** from the whole operation area down to a single street.
 - **Fog of war:** platoon sight only (11.5).
 
@@ -815,7 +815,7 @@ Orders can target the **platoon**, a **squad**, a **fire team** (Alpha or Bravo)
 | **Overwatch Lane** | HWT / tank | Draws a fire lane. The unit gets +10% accuracy inside it. |
 | **Escort / Screen** | Squad or fire team → HWT / tank / supply team | Links units. Shows escort status on the map. |
 | **Rally on Icon** | Platoon | Marks the Standard Bearer's planted icon as the regroup point. |
-| **Supply Priority** | Depot | Sets which requests the depot fills first (12.4). |
+| **Supply Priority** | Depot | Sets which requests the depot fills first (12.7). |
 | **Supply Detail** | Bot riflemen of a squad | Assigns up to 3 bot riflemen to run supplies between a depot and a position until cancelled. |
 | **Establish Forward Depot** | Location | Needs the platoon vox-op and a secured objective (12.3). |
 | **Approve Tank** | Tank Request | Approves or denies Leman Russ requests (10.4). |
@@ -840,7 +840,7 @@ Orders can target the **platoon**, a **squad**, a **fire team** (Alpha or Bravo)
   - **Squads:** strength (alive / downed / dead), human or bot leader, ammo state (Full / Low / Critical), Squad Favour, call-ins ready, vox-op alive.
   - **HWTs:** weapon type, braced or moving, reloads left.
   - **Tank:** crew, hull %, damaged components, ammo, enginseer alive.
-  - **Supply:** requests (type, where, who's carrying, ETA), depot stock levels.
+  - **Supply:** requests (type, where, who's carrying, ETA), depot health, hauler status and cargo.
   - **Platoon:** reinforcement pool, Platoon Favour, phase objectives and timer.
 - **Alerts:** a notification feed for supply requests, tank requests, Critical ammo, icon under attack, depot under attack and squad wipes. Each alert jumps the map to the location.
 
@@ -858,45 +858,87 @@ For new commanders, an optional **advisor** uses the bot commander's logic (4.3)
 
 ## 12. Logistics and Resupply
 
-Logistics is a main pillar, not a side activity.
+Logistics is a main pillar, not a side activity. Depots never run dry, so the challenge is **the last stretch**: getting supplies from a depot to the positions that need them, under fire, and keeping the depots themselves alive.
 
-### 12.1 Supply Types
+### 12.1 Supply Crates
 
-| Crate | Carriers | Contents | Refills |
-|---|---|---|---|
-| **Small Arms Ammo** | 1 | Lasgun packs, autogun mags | Riflemen, squad vox, sidearms |
-| **Grenade Crate** | 1 | Frag/Krak (Toxin if unlocked) | All grenades, Grenade Launcher |
-| **Special Munitions** | 1 | Bolter mags, plasma flasks, melta canisters, promethium | Special weapons |
-| **Heavy Munitions (typed)** | 2 (1 Ogryn) | Stubber belts / bolter boxes / autocannon clips / missiles / lascannon packs | One HWT weapon type per crate |
-| **Medical** | 1 | Medicae charges, wound treatment | Medic, Wounded status |
-| **Fortification** | 2 | Sandbags, barbed wire, brace mounts | Builds defensive positions and brace points |
-| **Tank Munitions** | 2 (1 Ogryn) | Battle cannon shells + heavy bolter belts | Leman Russ |
+| Crate | Carriers | Contents (one crate) |
+|---|---|---|
+| **Small Arms Ammo** | 1 | Refills the reserves of 6 soldiers (rifles and sidearms) |
+| **Grenade Crate** | 1 | 10 grenades (Frag/Krak; Toxin if unlocked), or 2 full Grenade Launcher reserves |
+| **Special Munitions** | 1 | Refills 3 special weapons (bolter mags, plasma flasks, melta canisters, promethium tanks) |
+| **Heavy Munitions (typed)** | 2 (1 Ogryn) | One full loader load for **one** heavy weapon type (7.3), e.g. 6 stubber belts or 3 lascannon packs |
+| **Medical** | 1 | 10 Medicae charges, or treats up to 10 Wounded players at a Casualty Collection Point |
+| **Fortification** | 2 (1 Ogryn) | Builds a forward depot, a vehicle bay, or 6 sandbag brace points plus wire |
+| **Tank Munitions** | 2 (1 Ogryn) | 6 shells, 1 box per heavy bolter and 1 stubber belt (10.7) |
 
-- **Carrying slows you** (one-man crates −20%, two-man crates −40% for both carriers) and you can't use your primary weapon. Sidearm only for one-man crates, nothing for two-man crates.
-- Crates are **physical objects**. They can be dropped, picked up by others, destroyed by explosives (heavy munitions crates explode) or **captured** by enemy AI.
-- HWT loaders start with a fixed reload count (Section 7.1). After that, positions have to be fed by crate runs.
+- **Carrying slows you** (Appendix D). One-man crates leave you a sidearm; two-man crates leave you nothing.
+- Crates are **physical objects**. They can be dropped, handed over and picked up by others.
+- **Destroying crates:** explosives destroy crates. Heavy Munitions and Tank Munitions crates **explode** (5 m) when destroyed.
+- **Capturing crates:** a crate left on the ground with no friendly within 20 m, in an area enemies control, is **captured** after 60 s: enemy AI carry it away and it's lost. Killing the carrier before they reach their lines drops it again.
+- HWT loaders start with a full load (7.3). After that, positions have to be fed by crate runs, gear-slot reloads (7.6) and the hauler.
 
 ### 12.2 Depots
-- **Rear Depot (Main Base):** infinite supply, Medical station, motor pool for the Leman Russ, spawn point. Can't be destroyed.
-- **Forward Depot:** set up by the commander (12.3). Holds a **finite stock** that needs restocking from the rear by **supply convoys** (players carrying crates) or **periodic supply drops**.
-- **Ammo Caches (light):** a squad leader can drop one small cache per life holding one Small Arms crate's worth.
+- **All depots have unlimited supplies.** Anyone can take any crate from a depot's crate rack.
+- **Rear Depot (Main Base):** spawn point, crate rack, Medical station, weapon rack (heavy weapon swaps, new tier kit), **motor pool** (Leman Russ and the hauler). Can't be destroyed or captured.
+- **Forward Depot:** spawn point, crate rack, Medical station, weapon rack. A **vehicle bay** can be added with one more Fortification crate (tank arrival, tank resupply and repair).
+- **Ammo Caches (light):** a squad leader can drop one small cache per life holding one Small Arms crate's worth. Caches are not depots and can run out.
 
 ### 12.3 Establishing a Forward Depot
 1. The objective is secured.
 2. The commander places the depot in Tactical Command (needs the platoon vox-op within 30 m of the commander).
-3. A **Fortification crate** has to be delivered to the site to "build" it.
-4. The depot comes online with a starting stock. It can be **attacked and destroyed** by the AI Director (14.4).
-5. Maximum of **2 forward depots** at once, so the commander has to choose where the line is.
+3. A **Fortification crate** has to be delivered to the site. Building takes 20 s.
+4. The depot comes online. It has **1,500 HP** and can be repaired with another Fortification crate.
+5. Maximum of **2 forward depots** at once, so the commander has to choose where the line is. The commander can dismantle a depot to place a new one.
 
-### 12.4 Requests and Tasks
-- Squad vox-ops and HWT loaders can send **Supply Requests** (type, amount, location).
-- Requests show up as **tasks** on the commander's map, at depots (diegetic board) and on the HUD of players near the depot.
-- Any player who picks up the matching crate is guided to the request. Delivering earns Favour (8.1).
+### 12.4 Losing a Forward Depot
+- **Destroyed:** enemies with explosives (and enemy artillery) can bring it to 0 HP. It's gone and has to be rebuilt.
+- **Captured:** if enemies hold the depot area (15 m) with **no platoon members inside for 30 s**, it's captured. A captured depot:
+  - stops working for the platoon (no spawns, no crates)
+  - becomes an **enemy spawn and resupply point** until retaken
+  - is **retaken** by clearing the area and holding it for 30 s, which brings it back intact.
+- The Standard Bearer's icon planted near a depot is the usual way to make sure it's never left empty.
+
+### 12.5 The Hauler
+The platoon has **one hauler**: an unarmed Trojan support tractor with a cargo trailer.
+
+| Stat | Value |
+|---|---|
+| Seats | Driver + 1 passenger |
+| Cargo | 8 crate units (one-man crate = 1, two-man crate = 2) |
+| Speed | Fast on roads, slow off-road, can't enter tight urban streets or tunnels |
+| Armour / HP | Light vehicle (4), 1,200 HP |
+| Weapons | None |
+| Respawn | At the rear depot motor pool, 4 minutes after it's destroyed |
+
+- **Loading:** at any depot, choose a crate mix and the hauler is loaded in 15 s.
+- **Unloading:** players take crates off the trailer anywhere. Or the driver can **deploy** the hauler (5 s, parked) as a **mobile cache**: nearby players draw ammo from its cargo directly, like a small depot, until the cargo runs out.
+- **Capture:** an empty hauler left in an enemy-controlled area has its cargo captured after 60 s.
+- **Anyone can drive.** A **Supply Detail** order (11.3) can assign a bot driver.
+- **Uses:** building depots far forward, hauling Fortification and Tank Munitions crates, running a mobile cache behind an HWT line. Infantry still carry the last stretch where the hauler can't go.
+
+### 12.6 Scavenging
+- Players can **loot loyalist bodies** for small arms ammo and grenades (hold interact, 1.5 s). Each body gives up to one magazine's worth (lasgun from Guardsmen, autogun from PDF). There's a 25% chance of a frag grenade, and Veterans can carry a krak.
+- **Heavy weapon, special weapon and tank ammo can't be scavenged.** Those still need the supply line.
+- Bodies fade after 3 minutes (or rise as zombies, 9.4).
+- Bots scavenge when their reserve is below 25% and no enemy is within 30 m.
+
+### 12.7 Requests and Tasks
+- Squad vox-ops and HWT loaders can send **Supply Requests** (type, amount, location). Bots send them automatically (4.3).
+- Requests show up as **tasks** on the commander's map, on a board at each depot and on the HUD of players near a depot.
+- Any player who picks up the matching crate is guided to the request. Delivering earns Favour (8.1), and escorts get a bonus (11.6).
 - The commander's **Supply Priority** sets the order of requests on the depot board.
+- **Request states:** Open → Claimed (someone is carrying it, ETA shown) → Delivered or Lost (carrier killed, crate captured).
 
-### 12.5 Why It Matters (Design Intent)
+### 12.8 Bot Logistics
+- **Idle bot riflemen** near a depot pick up open requests nearest to them, up to one bot per request.
+- **Supply Detail bots** (11.3) run a fixed route between a depot and a position, carrying whatever that position needs next.
+- Bots carrying crates avoid known enemy positions and wait for escorts if the route has had contact in the last minute.
+
+### 12.9 Why It Matters (Design Intent)
 - HWTs are only as strong as their supply line. A lascannon team with no power packs is two riflemen with a heavy, useless gun.
-- The AI Director (14.4) **hunts supply lines**. Escorting convoys, choosing safe routes and placing depots well are real tactical decisions.
+- Depots are unlimited, so the **distance and danger between depot and position** is what matters. Where to put depots, when to move them and how to protect them are the commander's big logistics decisions.
+- The AI Director (14.4) **hunts supply lines**: carriers, the hauler and depots. Escorting, choosing safe routes and keeping depots manned are real tactical decisions.
 - **Dynamic response:** when a position calls "Critical ammo" under heavy attack, the platoon has to choose to send runners now or pull back. That choice is the game.
 
 ## 13. Spawning, Death and Reinforcement
@@ -952,7 +994,7 @@ A Left-4-Dead-style pacing system scaled up to platoon size:
 - **Attention:** spreads pressure across squads so that no single squad is starved of action or permanently overrun.
 
 ### 14.4 Director Tactics Against Logistics
-- **Raiding parties** target supply convoys and isolated carriers.
+- **Raiding parties** target the hauler, supply carriers and dropped crates.
 - **Depot assaults** on forward depots that are low on defenders.
 - **Infiltrators** go after HWT positions and the commander when in Tactical Command.
 - **Barrages** target positions that haven't moved for a long time (anti-turtling).
@@ -982,7 +1024,7 @@ Capture/Hold, Destroy (artillery, vox-towers, ammo dumps), Desecrate (icon plant
 | 1 | Rabble | Generous pools, low enemy accuracy |
 | 2 | Regiment | Baseline |
 | 3 | Crusade | Higher threat budget, more elites |
-| 4 | Purgatus | Low pool, Space Marine events, harsher logistics (smaller crate capacity) |
+| 4 | Purgatus | Low pool, Space Marine events, harsher logistics (crates refill less, faster crate capture) |
 
 ## 16. Communication
 - **Proximity voice** in the world (enemies can't hear it; it's PvE, but it adds atmosphere).
@@ -1025,7 +1067,7 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 | Risk | Impact | Mitigation |
 |---|---|---|
 | **Filling 45-player lobbies** | Long queues and dead matches | **Current plan: AI bots fill all empty slots**, including a commander bot that issues basic orders. Humans drop in and replace a bot in their chosen role mid-match. A smaller 25-player "Detachment" mode stays an option. |
-| **Logistics feels like chores** | Players skip it and positions starve | Favour for deliveries, Ogryn carry synergy, short and readable routes, a dramatic Director that makes convoys tense, crates delivered to a request highlighted as a team "win". |
+| **Logistics feels like chores** | Players skip it and positions starve | Favour for deliveries, Ogryn carry synergy, short and readable routes, the hauler for long hauls, a dramatic Director that makes supply runs tense, crates delivered to a request highlighted as a team "win". |
 | **Commander quality varies** | Bad commander ruins a 45-player match | Squad-level autonomy (squad leaders can set their own objectives), commander vote-kick/swap, onboarding tutorial for the role. |
 | **Tank pulls too many players** | Infantry hollowed out | Seats fill from the respawn queue first; tank can run partially crewed; one tank cap. |
 | **Snowballing Favour** | Late game trivial or new joiners useless | Death progress penalty, half Favour from AI allies, call-in cooldowns, Director scales threat with platoon power. |
@@ -1035,7 +1077,7 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 ## 22. Open Questions
 _None open right now._
 
-**Decided:** Tactical Command is a data-slate with the world visible around it (11.1); orders go to squads, fire teams, HWTs, the tank and depots but not individual bots (11.3); following orders is rewarded, never punished (11.6); commander sees platoon sight only (11.5); Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~20 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
+**Decided:** one unarmed hauler per platoon (12.5); all depots have unlimited supplies (12.2); enemies can destroy and capture crates, depots and the hauler's cargo (12.1, 12.4); small arms ammo and grenades can be scavenged from enemy dead (12.6); Tactical Command is a data-slate with the world visible around it (11.1); orders go to squads, fire teams, HWTs, the tank and depots but not individual bots (11.3); following orders is rewarded, never punished (11.6); commander sees platoon sight only (11.5); Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~20 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
 
 ## 23. Roadmap
 
