@@ -92,8 +92,8 @@ The main enemy is the loyalist **Astra Militarum** defending the world. They mir
 | **41st Tarsine Rifles** (Astra Militarum) | Main enemy: disciplined line infantry, heavy weapons teams, Sentinels, Chimeras, Leman Russ, Basilisk artillery | Every operation |
 | **Varrusian PDF** | Planetary Defence Force: poorly trained conscripts, numerous, break easily | Common, mainly early phases |
 | **Ministorum and Frateris Militia** | Priests and zealot mobs: fanatic charges, morale buffs | Common in urban and cathedral regions |
-| **Order of the Ashen Rose** (Sisters of Battle) | Elite power-armoured squads with flamers, melta and faith buffs | Rare elite events, guaranteed in the Basilica |
-| **Space Marine kill team** | Extreme threat, a climax event the whole platoon has to deal with | Rare: high difficulties or final phases |
+| **Order of the Ashen Rose** (Sisters of Battle) | Elite power-armoured squads with flamers, melta and faith buffs; a Canoness and Penitent Engines as climax threats | Rare elite events, guaranteed in the Basilica |
+| **Tempestus Scions** (Militarum Tempestus) | Elite storm troopers dropped behind the platoon's lines | Rare elite events |
 
 - **Visual contrast:** loyalists are clean and bright (sand-khaki uniforms, polished brass, white lumen-light, blessed purity seals). The Moebians are dark olive, rust and grime with sickly green light. Players must be able to tell friend from foe at a glance at range, since both sides use similar silhouettes.
 - **Tone of the enemy:** loyalist vox chatter, hymns, Commissar speeches and executions. They are brave and fanatical, and the game lets the player see that.
@@ -360,7 +360,7 @@ Each weapon has a **penetration (Pen)** value from 1 to 6. Each target has an **
 | None / rags | 0 | Cultists, PDF conscripts, zombies |
 | Flak | 1 | Moebian troopers, Guardsmen |
 | Carapace | 2 | Veterans, Commissars, Moebian veterans, Ogryn |
-| Power armour | 3 | Sisters of Battle, Space Marines |
+| Power armour | 3 | Sisters of Battle, the Canoness |
 | Light vehicle | 4 | Sentinels, Chimera side/rear |
 | Medium vehicle | 5 | Chimera front, Leman Russ side/rear |
 | Heavy vehicle | 6 | Leman Russ front |
@@ -410,7 +410,7 @@ Each weapon has a **penetration (Pen)** value from 1 to 6. Each target has an **
 | Ogryn bash | 1 | 1 | 1 | 3 |
 
 - Melee from behind or against a Downed enemy is an instant kill (except power armour).
-- Sisters of Battle and Space Marines are dangerous in melee and can **execute** players.
+- Sisters of Battle and the Canoness are dangerous in melee and can **execute** players.
 
 ### 6.9 Hit and Kill Feedback
 - **No hitmarkers.** Hits are shown through the world: impact sounds, armour sparks, the enemy flinching, staggering or falling.
@@ -530,7 +530,7 @@ Progression in a match is driven mainly by **kill credit**, with smaller amounts
 |---|---|
 | Kill (infantry) | 1 |
 | Kill (elite: Commissar, Veteran, Priest, Sister) | 3 |
-| Kill (Space Marine) | 8 |
+| Kill (Canoness, Penitent Engine) | 8 |
 | Vehicle kill (shared among damage dealers) | 5–15 |
 | Assist (damage or suppression on a target that dies within 10 s) | 0.5 |
 | Crew-served weapon kill | Full credit to **both** gunner and loader |
@@ -1007,42 +1007,91 @@ Notes:
 ## 14. Enemies and the AI Director
 
 ### 14.1 Enemy Roster (Loyalist Imperial Forces)
+Forces and factions are described in Section 3.4. There are **no Space Marines** in the game: the war stays Guard against traitor Guard, with the Ecclesiarchy and Sisters of Battle as the elite threat.
 
-Forces and factions are described in Section 3.4. This table covers unit types.
-
-| Unit | Threat | Counter |
-|---|---|---|
-| **Guardsman squads** | Volume infantry | Small arms, HWT suppression |
-| **Sergeants / Veterans** | Squad leadership, buffs nearby AI | Priority targets |
-| **Commissars** | Strong morale aura; executes fleeing troops | Kill to collapse local morale |
-| **Enemy Heavy Weapons Teams** | Locks down lanes | Flank, grenades, hounds |
-| **Snipers (Ratlings / Vets)** | Picks off leaders, vox-ops, tank commanders | Hounds, autocannon, smoke |
-| **Sentinels** | Fast light walkers | Autocannon, krak, missile |
-| **Chimeras** | APCs that drop squads | Lascannon, melta, krak |
-| **Enemy Leman Russ** | Heavy armour | Lascannon, melta, coordinated krak |
-| **Basilisk barrages (off-map)** | Area denial and punishment for static positions | Spread out, kill forward observers |
-| **Ministorum Priests / Frateris Militia** | Zealot rushes, fanatic buff | Flamers, suppression |
-| **Sisters of Battle squads** (elite event) | Power-armoured, flamers, faith buffs | Plasma, melta, Chaos Spawn |
-| **Space Marine kill team** (rare climax event) | Extreme threat | Everything the platoon has |
+| Unit | Armour | Weapons | Threat | Counter |
+|---|---|---|---|---|
+| **PDF conscripts** | None (0) | Autoguns, stub guns | Numerous, break easily | Suppression, zombies |
+| **Guardsman squad** (10, mirrors the platoon's squads) | Flak (1) | Lasguns, 1 special weapon, a vox-op | Disciplined volume infantry | Small arms, HWT suppression |
+| **Sergeant** | Flak (1) | Laspistol, chainsword | Leads a squad, buffs morale | Priority target |
+| **Veterans** | Carapace (2) | Hellguns, melta, krak | Elite infantry, anti-tank | Plasma, bolter, hounds |
+| **Commissar** | Carapace (2) | Bolt pistol, power sword | Strong morale aura, stops retreats by executing fleeing troops | Kill to collapse local morale |
+| **Officer** (Lieutenant / Captain) | Carapace (2) | Laspistol, power sword | Coordinates sector attacks (14.5) | Kill to disrupt the Director |
+| **Heavy Weapons Team** | Flak (1) | Heavy bolter, autocannon, lascannon, mortar | Locks down lanes | Flank, grenades, hounds, Chaos Spawn |
+| **Sniper** | Flak (1) | Long-las | Picks off leaders, vox-ops, tank commanders, the enginseer | Hounds, autocannon, smoke |
+| **Forward Observer** | Flak (1) | Laspistol, vox | Calls Basilisk barrages | Kill to stop artillery (14.5) |
+| **Ministorum Priest** | Flak (1) | Eviscerator or shotgun | Fanatic aura, leads zealot rushes | Flamers, focused fire |
+| **Frateris Militia** | None (0) | Autoguns, clubs, torches | Zealot mobs that charge | Suppression, flamers |
+| **Tempestus Scions** (elite event) | Carapace (2) | Hot-shot lasguns, plasma, melta | Deep-strike from a Valkyrie behind the platoon's lines, often on depots | Fast response, hounds |
+| **Sisters of Battle squad** (elite event) | Power armour (3) | Bolters, flamers, melta | Faith buffs, strong in melee, can execute players | Plasma, melta, Chaos Spawn |
+| **Penitent Engine** (climax event) | Light vehicle (4) | Twin flamers, buzz-blades | Fast walker that charges into the platoon | Autocannon, krak, lascannon |
+| **Canoness** (climax event) | Power armour (3) | Inferno pistol, power sword | Leads the final Sisters' assault, buffs nearby Sisters | Everything the platoon has |
+| **Sentinel** | Light vehicle (4) | Multi-laser or lascannon | Fast flanker | Autocannon, krak, missile |
+| **Chimera** | Front 5, side/rear 4 | Multi-laser, heavy bolter | Carries a squad into the fight | Lascannon, melta, krak |
+| **Leman Russ** | Front 6, side 5, rear 4 | As the platoon's tank | Heavy armour | Lascannon, melta, coordinated krak |
+| **Basilisk battery** (off-map) | — | Earthshaker shells | Punishes static positions | Kill the forward observers, destroy the battery in a phase objective |
 
 ### 14.2 AI Squad Behaviour
-- Enemy AI works in fire teams with the same suppression and morale rules as players.
-- It uses cover, flanks, suppresses and retreats when broken.
-- Commissars stop retreats (executing fleeing troops visibly), which is worth showing to players.
+- Enemy squads use the **same rules as the platoon**: fire teams, suppression and morale (6.7), vox-ops.
+- They use cover, suppress and flank, throw grenades into positions they can't hit, and fall back to the next line when broken.
+- Commissars stop retreats by executing fleeing troops in view of the platoon.
+- Priests turn broken squads into fanatic charges.
+- A squad whose vox-op is dead can't call artillery or ask for help (14.5).
 
 ### 14.3 The AI Director
-A Left-4-Dead-style pacing system scaled up to platoon size:
-- Tracks **platoon stress**: casualties, ammo levels, reinforcement pool and objective progress.
-- Varies intensity: build-up, peak assault, relief.
-- Spends a **threat budget** on spawns, counter-attacks, artillery, vehicles and elite events.
+**Authored and reactive.** Each phase of an operation has a hand-built defence. The Director adds pressure on top based on how the platoon is doing.
+
+**Authored layer (designers):**
+- Defence lines, bunkers, HWT nests, patrols and garrisons for each phase.
+- Set-piece events (a Chimera breakthrough, a Basilisk battery, the Sisters' assault in the Basilica).
+- **Spawn zones** behind the enemy's lines where reinforcements arrive.
+
+**Reactive layer (Director):**
+- Tracks **platoon stress**: casualties, ammo states, reinforcement pool, how long since the last fight, objective progress.
+- Cycles intensity: **build-up → peak assault → relief**. Relief gives time for logistics, but never lasts so long that progression stalls (8.2).
+- Spends a **threat budget** each minute that grows with difficulty and phase:
+
+| Option | Budget cost |
+|---|---|
+| Reinforcement squad (Guardsmen or PDF) | 1 |
+| Zealot mob (Priest + Frateris) | 1 |
+| Raiding party against logistics (14.4) | 2 |
+| Sniper or HWT moved to a new position | 2 |
+| Sentinel pair | 3 |
+| Basilisk barrage (needs a living forward observer) | 3 |
+| Chimera with a squad | 4 |
+| Coordinated counter-attack on an objective (needs a living officer or the HQ, 14.5) | 6 |
+| Leman Russ | 8 |
+| Tempestus Scion deep strike | 8 |
+| Sisters of Battle squad | 10 |
+
 - **Attention:** spreads pressure across squads so that no single squad is starved of action or permanently overrun.
+- **Reacting to the platoon:** the Director answers what it sees. A Leman Russ arriving draws anti-tank threats. Heavy use of zombies draws flamer teams and priests. Static positions draw barrages.
+- **Active enemy cap:** **100–150** enemies at once across the operation area, with up to ~60 in any one sector.
 
 ### 14.4 Director Tactics Against Logistics
 - **Raiding parties** target the hauler, supply carriers and dropped crates.
-- **Depot assaults** on forward depots that are low on defenders.
-- **Infiltrators** go after HWT positions and the commander when in Tactical Command.
+- **Depot assaults** on forward depots that are low on defenders, to destroy or capture them (12.4).
+- **Infiltrators** go after HWT positions and the commander while in Tactical Command.
 - **Barrages** target positions that haven't moved for a long time (anti-turtling).
-- The Director **telegraphs** major attacks (vox intercepts, flares, engine noise) so the platoon has a chance to respond.
+- The Director **telegraphs** major attacks (vox chatter, flares, engine noise) so the platoon has a chance to respond. The platoon vox-op's Intercept gives earlier warning and the direction (4.3).
+
+### 14.5 Enemy Command Structure
+The loyalists have a chain of command the platoon can attack.
+
+| Element | What it enables | Taking it out |
+|---|---|---|
+| **Sector HQ** (command bunker with a vox mast, one per phase area) | Coordinated counter-attacks, a faster reinforcement rate, Basilisk barrages through observers | Destroying the vox mast (demolition charges, lascannon or the battle cannon) or capturing the bunker. For **5 minutes**: no barrages, no coordinated counter-attacks, reinforcements 50% slower. Often a phase objective. |
+| **Officer** (one per sector, guarded) | Coordinated counter-attacks in their sector, nearby squads +morale | Killing them: nearby enemy squads take a big morale hit, and the Director can't buy coordinated counter-attacks in that sector for **3 minutes**. A new officer arrives after that. |
+| **Forward Observers** | Basilisk barrages on what they can see | Each one killed removes barrages from its area until a new one moves up (2 minutes). |
+| **Squad vox-ops** | Squads calling for help and artillery | A squad with no vox-op fights alone. |
+
+- Officers and observers are marked when spotted, and the platoon vox-op's Intercept can reveal their approximate location.
+- This gives the commander a strategic choice: push the objective, or first raid the HQ or hunt the officer to make the next fight easier.
+
+### 14.6 Scaling
+- Enemy strength scales with **difficulty and phase**, not with the number of humans. Bots fill the platoon, so it's always 45 strong.
+- Higher difficulties raise the threat budget, enemy accuracy and the share of elites, and shorten the Director's relief periods.
 
 ## 15. Missions and Maps
 
@@ -1068,7 +1117,7 @@ Capture/Hold, Destroy (artillery, vox-towers, ammo dumps), Desecrate (icon plant
 | 1 | Rabble | Generous pools, low enemy accuracy |
 | 2 | Regiment | Baseline |
 | 3 | Crusade | Higher threat budget, more elites |
-| 4 | Purgatus | Low pool, Space Marine events, harsher logistics (crates refill less, faster crate capture) |
+| 4 | Purgatus | Low pool, more Sisters and Scion events, harsher logistics (crates refill less, faster crate capture) |
 
 ## 16. Communication
 - **Proximity voice** in the world (enemies can't hear it; it's PvE, but it adds atmosphere).
@@ -1121,7 +1170,7 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 ## 22. Open Questions
 _None open right now._
 
-**Decided:** bot respawns cost half a ticket (13.1); spawns come in waves of 15–30 s (13.3); an empty pool means a last stand, refilled by completing the phase (13.2); squad leaders are a spawn point when out of combat (13.3); one unarmed hauler per platoon (12.5); all depots have unlimited supplies (12.2); enemies can destroy and capture crates, depots and the hauler's cargo (12.1, 12.4); small arms ammo and grenades can be scavenged from enemy dead (12.6); Tactical Command is a data-slate with the world visible around it (11.1); orders go to squads, fire teams, HWTs, the tank and depots but not individual bots (11.3); following orders is rewarded, never punished (11.6); commander sees platoon sight only (11.5); Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~20 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
+**Decided:** no Space Marines (14.1); 100–150 enemies active at once (14.3); authored defences plus a reactive Director (14.3); loyalists have officers and sector HQs the platoon can attack (14.5); bot respawns cost half a ticket (13.1); spawns come in waves of 15–30 s (13.3); an empty pool means a last stand, refilled by completing the phase (13.2); squad leaders are a spawn point when out of combat (13.3); one unarmed hauler per platoon (12.5); all depots have unlimited supplies (12.2); enemies can destroy and capture crates, depots and the hauler's cargo (12.1, 12.4); small arms ammo and grenades can be scavenged from enemy dead (12.6); Tactical Command is a data-slate with the world visible around it (11.1); orders go to squads, fire teams, HWTs, the tank and depots but not individual bots (11.3); following orders is rewarded, never punished (11.6); commander sees platoon sight only (11.5); Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~20 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
 
 ## 23. Roadmap
 
