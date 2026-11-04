@@ -486,7 +486,7 @@ Each weapon has a **penetration (Pen)** value from 1 to 6. Each target has an **
 | **Frag** | Everyone | 4 s fuse, can be cooked. Kills unarmoured targets within 5 m, wounds up to 10 m. Pen 3. |
 | **Krak** | Moebian Trooper and above, Command Section, HWTs | Small blast (1 m), Pen 5. Can be **thrown** or **planted** (2 s) on vehicles, doors and fortifications. |
 | **Smoke** | Squad leaders (2), Grenade Launcher | Blocks sight for 45 s. Plague hounds can track through it. |
-| **Toxin** | Blessed tier, once unlocked through meta-progression (Section 19) | Cloud of 6 m radius for **7 s** (rule of seven). Damage over time, blurred vision, suppression. |
+| **Toxin** | Blessed tier, once unlocked at Regiment Rank 7 (19.3) | Cloud of 6 m radius for **7 s** (rule of seven). Damage over time, blurred vision, suppression. |
 
 - **Toxin resistance:** Moebians wear rebreathers and take **30%** toxin damage. Blessed take **none**. Cultists and Ogryn take **full** damage, so toxins thrown near them hurt friendlies (with full friendly fire, 6.5).
 
@@ -508,7 +508,7 @@ Gear slots (Section 8) take items chosen at spawn. Some items take one slot each
 - Riflemen use gear slots to specialise (digger, sapper, runner, ammo carrier) without needing extra classes (4.3).
 
 ### 7.7 Weapon Patterns
-Weapons don't have attachments. Instead each weapon family has **2–3 patterns**: sidegrades that trade rate of fire, damage, handling and range but never Pen. Patterns are unlocked through meta-progression (Section 19) and picked at spawn.
+Weapons don't have attachments. Instead each weapon family has **2–3 patterns**: sidegrades that trade rate of fire, damage, handling and range but never Pen. Patterns are unlocked through Role Mastery (19.4) and picked at spawn.
 
 | Weapon | Patterns (examples) |
 |---|---|
@@ -586,7 +586,7 @@ Roles that don't change kit through the tiers use a **track** with the same thre
 | **HWT Gunner and Loader** | Loader carries +1 reload | **Carapace** for both, setup 20% faster | Blessed: mutation, Rot-hardened |
 
 ### 8.6 Mutations (Blessed)
-On reaching Blessed you're offered **3 random mutations from the pool of 7** and keep **one** for the rest of the match. Mutations are themed on Nurgle's endurance and decay (3.2), and each has a drawback or a cost.
+On reaching Blessed you're offered **3 random mutations from your pool of 7** and keep **one** for the rest of the match. More mutations can be unlocked and swapped into the pool (19.5). Mutations are themed on Nurgle's endurance and decay (3.2), and each has a drawback or a cost.
 
 | Mutation | Effect | Drawback |
 |---|---|---|
@@ -1275,12 +1275,80 @@ Every player hears **proximity voice** plus their **unit channel**. Leaders also
 - **Audio:** heavy, mechanical weapons; deep thumps for the autocannon and battle cannon; the lascannon's charge whine as a warning cue. Plague call-ins are introduced by droning flies and wet growls. Loyalist hymns and vox chatter give enemy AI a personality.
 
 ## 19. Meta-Progression
-Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
-- **Toxin Grenades** (unlocked at Regiment Rank X; also need in-match Blessed tier). This covers "unlock later".
-- Alternative weapon patterns (e.g., Accatran-pattern lasgun, Mars-pattern autocannon) with sidegrade stats.
-- Cosmetics: mutation choices, tattered regalia, icons, helmet variants.
-- Role mastery badges and titles.
-- **No monetisation of any kind** (fan project). All unlocks are earned by playing.
+
+### 19.1 Principles
+- **Two tracks:** an account-wide **Regiment Rank**, and a **Role Mastery** track for each role.
+- **Sidegrades and looks only.** Unlocks are new *options* (weapon patterns, gear items, toxin grenades, mutations, call-in variants) and a small set of cosmetics. There are no permanent stat boosts, so a new player is never weaker than a veteran in the same tier.
+- **Equal XP with any number of humans.** A match with 1 human and 44 bots gives the same XP as a full lobby.
+- **No monetisation of any kind** (fan project). Everything is earned by playing.
+- **Loadout presets:** players can save loadouts per role (pattern, gear items, grenade mix) and pick them on the respawn screen.
+
+### 19.2 Earning XP
+XP from an operation goes to **both** Regiment Rank and the Mastery of the role(s) played, split by time spent in each role.
+
+| Source | XP |
+|---|---|
+| Time in the operation | 10 per minute |
+| Personal Favour earned (8.1) | 10 per point |
+| Phase completed | 100 each |
+| Victory | +300 |
+| Awards (15.8) | +100 each |
+| Difficulty multiplier | Rabble ×0.75, Regiment ×1, Crusade ×1.25, Purgatus ×1.5 |
+
+- A player who leaves early keeps the XP earned so far.
+- Ogryn lives and Leman Russ seats count as the player's own role slot (for example, a rifleman's Ogryn life gives Rifleman Mastery).
+- A typical 50-minute victory on Regiment gives roughly 1,500–2,000 XP.
+
+### 19.3 Regiment Rank (1–30)
+Account-wide unlocks. Every role and all default kit are available from rank 1.
+
+| Rank | Unlock |
+|---|---|
+| 1 | All roles; default patterns; Ammo Pouch, Entrenching Tool, Medi-pack and Lumen Lamp gear items |
+| 3 | Runner's Pouch gear item |
+| 5 | Heavy Weapon Reload gear item |
+| **7** | **Toxin grenades** (still need Blessed tier in a match, 7.5) |
+| 9 | Auspex gear item |
+| 11 | Demolition Charge gear item |
+| 13 | Mutation: **Putrid Stamina** (19.5) |
+| 16 | Mutation: **Rotten Grenadier** |
+| 19 | Mutation: **Nurgling Infestation** |
+| 2–30 | Cosmetics and titles at the remaining ranks (19.6) |
+
+- Rough pace: rank 7 after about 5–6 operations, rank 30 after about 60.
+
+### 19.4 Role Mastery (1–10 per role)
+Each role levels separately and unlocks **sidegrade variants** for that role. Heavy weapons gunners and loaders share one **Heavy Weapons Team** mastery.
+
+| Role | Mastery unlocks (examples) |
+|---|---|
+| **Rifleman** | Autogun patterns for the cultist stage (M2 Hive-forged, M4 Braced); lasgun patterns (M3 Lucius, M6 Accatran) |
+| **Squad Special Weapons / Veteran Special Weapons** | M4 Heavy-nozzle flamer; further special weapon patterns as they're designed |
+| **Heavy Weapons Team** | M3 Mars-pattern heavy bolter; M6 Ryza-pattern autocannon |
+| **Squad Leader** | Call-in variants: M4 **Plague Walkers** (7 tougher zombies, 80 HP, no contagion) instead of the horde; M7 **Bloat Hounds** (2 big hounds that burst into toxin clouds when killed) instead of the pack |
+| **Squad Vox-Operator** | M5 **Vox Spoofer**: instead of the free supply drop, once per phase send false orders that make one nearby enemy squad fall back |
+| **Platoon Commander** | M5 **Rot Mortars**: a Plague Barrage variant that fires only toxin shells for longer over a wider area |
+| **Veteran Medic** | M5 **Plague Surgeon's kit**: Blessed Stitching costs 1 charge instead of 2, but the revived player comes back Wounded |
+| **Veteran Vox-Operator** | M5 **Jammer**: instead of Intercept, jam enemy vox within 40 m for 20 s (no artillery or help calls from those squads) |
+| **Veteran Standard Bearer** | M5 **Icon of Despair**: the planted aura makes enemies within 25 m build suppression faster, instead of protecting friendlies |
+
+- Every role also gets mastery **titles** and a **role badge** at M5 and M10.
+- Each variant replaces the default when chosen in the loadout. They're tested to be equal in strength, not better.
+
+### 19.5 Unlockable Mutations
+- Every player has a **personal mutation pool of exactly 7** (rule of seven). The 7 default mutations (8.6) start in the pool.
+- Unlocked mutations can be **swapped into** the pool in place of a default one. The Blessed offer (pick 1 of 3) is drawn from the player's own pool.
+
+| Mutation | Effect | Drawback |
+|---|---|---|
+| **Putrid Stamina** | Unlimited sprint stamina | Heavy wet breathing reveals your position within 15 m |
+| **Rotten Grenadier** | Your frag grenades leave a 7 s toxin cloud | One fewer frag grenade |
+| **Nurgling Infestation** | When you're Downed, nurglings swarm out and attack enemies within 5 m | Revives on you take 1 s longer |
+
+### 19.6 Cosmetics (Minimal)
+- **Helmets and hoods**, **rebreather masks**, and a small set of **colour and grime options** within the regiment's palette.
+- **Titles** (from rank and mastery) shown on nameplates and the results screen.
+- Cosmetics never change a soldier's silhouette enough to hide their tier or role, and never use loyalist colours, so friend/foe and rank stay readable (8.7, 17.6).
 
 ## 20. Technical Considerations
 - **Engine:** Unreal Engine 5 recommended (proven for large-scale shooters, strong networking base, World Partition for large maps).
@@ -1307,7 +1375,7 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 ## 22. Open Questions
 _None open right now._
 
-**Decided:** proximity voice plus vox channels that depend on living vox-ops (16.1); bots give voiced callouts (16.4); minimal HUD with toggles and presets (17.2); no minimap (17.1); operations last 45–60 minutes in 4 phases (15.1); first release has 1–2 operations, Ashfields and Hab-Sprawl (15.5); soft phase timers that escalate instead of failing (15.2); random time of day, weather and objective variants (15.4); no Space Marines (14.1); 100–150 enemies active at once (14.3); authored defences plus a reactive Director (14.3); loyalists have officers and sector HQs the platoon can attack (14.5); bot respawns cost half a ticket (13.1); spawns come in waves of 15–30 s (13.3); an empty pool means a last stand, refilled by completing the phase (13.2); squad leaders are a spawn point when out of combat (13.3); one unarmed hauler per platoon (12.5); all depots have unlimited supplies (12.2); enemies can destroy and capture crates, depots and the hauler's cargo (12.1, 12.4); small arms ammo and grenades can be scavenged from enemy dead (12.6); Tactical Command is a data-slate with the world visible around it (11.1); orders go to squads, fire teams, HWTs, the tank and depots but not individual bots (11.3); following orders is rewarded, never punished (11.6); commander sees platoon sight only (11.5); Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~15 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
+**Decided:** meta-progression is Regiment Rank plus Role Mastery (19.1); unlocks are sidegrades and minimal cosmetics, never stat boosts (19.1); XP is the same however many humans are in the match (19.1); proximity voice plus vox channels that depend on living vox-ops (16.1); bots give voiced callouts (16.4); minimal HUD with toggles and presets (17.2); no minimap (17.1); operations last 45–60 minutes in 4 phases (15.1); first release has 1–2 operations, Ashfields and Hab-Sprawl (15.5); soft phase timers that escalate instead of failing (15.2); random time of day, weather and objective variants (15.4); no Space Marines (14.1); 100–150 enemies active at once (14.3); authored defences plus a reactive Director (14.3); loyalists have officers and sector HQs the platoon can attack (14.5); bot respawns cost half a ticket (13.1); spawns come in waves of 15–30 s (13.3); an empty pool means a last stand, refilled by completing the phase (13.2); squad leaders are a spawn point when out of combat (13.3); one unarmed hauler per platoon (12.5); all depots have unlimited supplies (12.2); enemies can destroy and capture crates, depots and the hauler's cargo (12.1, 12.4); small arms ammo and grenades can be scavenged from enemy dead (12.6); Tactical Command is a data-slate with the world visible around it (11.1); orders go to squads, fire teams, HWTs, the tank and depots but not individual bots (11.3); following orders is rewarded, never punished (11.6); commander sees platoon sight only (11.5); Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~15 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
 
 ## 23. Roadmap
 
