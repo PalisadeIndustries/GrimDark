@@ -1179,18 +1179,96 @@ Refinery Nine, Hollowmere Agri-Belt, The Sump and the Basilica of Saint Vorena (
 - Meta-progression XP is given for the operation (Section 19), with a bonus for victory and difficulty.
 
 ## 16. Communication
-- **Proximity voice** in the world (enemies can't hear it; it's PvE, but it adds atmosphere).
-- **Squad channel** (all squad members).
-- **Command channel:** commander, squad leaders and HWT gunners. Squad leaders are on it **only through their squad vox-op** (if the vox-op is dead, the leader loses the channel until someone picks up the vox-set). HWT gunners are on it while within 40 m of any vox-op or the commander.
-- **Ping wheel and contextual callouts** for players without mics.
-- Vox audio is filtered and degraded, and gets worse with range and enemy jamming events.
+
+### 16.1 Voice Channels
+Every player hears **proximity voice** plus their **unit channel**. Leaders also get the **command net**.
+
+| Channel | Who | Notes |
+|---|---|---|
+| **Proximity** | Anyone within ~30 m (a **shout** key doubles the range) | Heard in the world, muffled by walls. Enemies don't react to it. |
+| **Squad radio** | The 10 members of a squad | Works anywhere on the map. |
+| **HWT net** | All 10 heavy weapons team members | The Heavy Weapons Section's own channel. |
+| **Command Section net** | The commander and the 4 veterans | |
+| **Command net** | Commander, squad leaders, HWT gunners, tank commander, hauler driver | Squad leaders are on it **only through their squad vox-op** (if the vox-op is dead, the leader loses the net until someone picks up the vox-set). HWT gunners, the tank commander and the hauler driver are on it within 40 m of any vox-op or the commander. |
+| **All-call** | Commander speaks to the whole platoon | Needs the Platoon Link (platoon vox-op nearby, 4.3). |
+| **Tank intercom** | The 6 crew while aboard | Added on top of their unit channel. |
+
+- Push-to-talk, a separate key per channel. A speaker indicator shows who is talking and on which channel.
+
+### 16.2 Vox Degradation
+- Radio audio is filtered, and gets noisier with distance from the speaker's vox-op.
+- **Jamming:** while an enemy sector HQ stands (14.5), the Director can trigger jamming that adds heavy static to the command net and all-call for 60 s. Destroying the HQ stops it.
+- A squad whose vox-op is dead keeps squad radio but loses the command net, orders (11.4) and call-ins (9.1).
+
+### 16.3 Pings and Wheels
+- **Ping** (one key, context-sensitive): enemy, vehicle, move here, defend here, need ammo, need medic, crate here, brace point. Pings show on the compass, the map and in the world.
+- **Comms wheel** (everyone): yes, no, thanks, need ammo, need medic, reloading, cover me, follow me, sorry.
+- **Squad command wheel** (squad leaders): follow me, hold here, move there, suppress that, grenade that, regroup, Bravo flank left/right. Bots follow these straight away; humans see them as prompts.
+- **Call-in wheel** (squad leaders and commander): call-ins and their orders (9.3).
+
+### 16.4 Bot Voice
+- Bots use **short voiced callouts**: contact with direction and distance, reloading, frag out, need ammo, medic, man down, acknowledging orders, "brace point here", "tank coming up".
+- Callouts have a priority and cooldown system so they don't spam. A slider sets bot chatter volume.
+- **Voices change with tier:** cultists rant and pray, Moebians are clipped and military through rebreathers, Ogryn are slow and simple.
+- Bots respond to pings and the command wheels (16.3).
+- **Enemy barks:** loyalist AI shout callouts too ("Heretics on the left!", "Grenade!"). Players can learn to read enemy intent from them.
+
+### 16.5 Text and Accessibility
+- Squad and platoon text chat, plus the comms wheel as quick chat.
+- **Subtitles** for all callouts, vox and enemy barks, with speaker name and channel.
+- Mute and volume per player and per channel.
 
 ## 17. UI and HUD
-- **Minimal HUD by default:** compass with waypoints, magazine shown as a bar and reserve ammo as a number, grenade and gear icons, Favour bar, squad member status.
-- **Brace indicator:** for heavy weapons, the crosshair only appears when braced. Valid brace surfaces glow on approach.
-- **Supply task tracker:** carried crate destination and nearby requests.
-- **Tier display:** a visible mark on your character and on squadmates' nameplates.
-- **Tactical Command UI:** clean, tactile map with unit markers, order drag-and-drop and a supply task panel.
+
+### 17.1 Principles
+- **Minimal by default, with toggles.** Eyes stay on the world.
+- **No minimap.** A compass bar at the top and a full map screen on a key (17.4).
+- Health, suppression and wounds are shown mostly through screen effects and body status, not numbers.
+
+### 17.2 HUD Elements
+
+| Element | Default | Options |
+|---|---|---|
+| Compass bar with markers (waypoints, pings, objectives) | On | — |
+| Magazine bar + reserve number | On | Exact rounds in magazine |
+| Grenades and gear icons | On | — |
+| Favour tick and tier progress bar | On (small) | Hide |
+| Squad status strip (alive / downed / dead, human or bot) | On | Hide |
+| Objective, phase timer (15.2), reinforcement pool | On | — |
+| Friendly nameplates when aiming at a friendly (50 m) | On | Always show within 20 m |
+| 3D world markers (pings, objectives) | On | Off |
+| Health | Screen effects and a body-status icon (wounded, limb hits) | Health bar |
+| Damage direction indicator | On | Off |
+| Suppression vignette | Always | — |
+
+- **Presets:** *Assisted* (all options on), *Recommended* (defaults), *Hardcore* (no world markers, no nameplates, no squad strip).
+- **No hitmarkers** in any preset: kills are confirmed by the fly-buzz and Favour tick (6.9).
+
+### 17.3 Role Extras
+| Role | Extra HUD |
+|---|---|
+| Squad leader | Squad Favour, call-in readiness and cooldowns, distance to the squad vox-op |
+| Commander | Alert feed, Platoon Favour (the full view is on the data-slate, Section 11) |
+| Medic | Downed players on the compass with their bleed-out timers, satchel charges |
+| HWT gunner and loader | Brace indicator (valid brace surfaces glow on approach, the sight only appears when braced), reloads left for the team |
+| Tank seats | Weapon arc, hull %, damaged components, ammo, enginseer status |
+| Hauler driver | Cargo contents |
+| Anyone carrying a crate | Destination of the matching request and the route to it |
+
+### 17.4 Map Screen (Everyone)
+- Full-screen map on a key, showing what the platoon has spotted (11.5), objectives, depots, the icon, the hauler, the tank and supply requests.
+- Players can ping from the map but can't give orders (only the commander can, Section 11).
+
+### 17.5 Other Screens
+- **Respawn screen:** Section 13.4.
+- **Tactical Command:** Section 11.
+- **Results screen:** Section 15.8.
+
+### 17.6 Readability and Accessibility
+- Friends and enemies are distinguished first by art (3.4), then by nameplates.
+- Allied Chaos units have a sickly green outline (9.7).
+- Colour-blind modes change marker and outline colours.
+- Text size and HUD scale options.
 
 ## 18. Art and Audio Direction
 - **Art:** gritty grimdark realism. Muted palettes (greys and rust) with sickly green and yellow corruption accents. Imperial structures in gothic stone and brass. Corruption spreads across the map visually as the platoon advances (rot, fungal growth and flies on captured sectors).
@@ -1229,7 +1307,7 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 ## 22. Open Questions
 _None open right now._
 
-**Decided:** operations last 45–60 minutes in 4 phases (15.1); first release has 1–2 operations, Ashfields and Hab-Sprawl (15.5); soft phase timers that escalate instead of failing (15.2); random time of day, weather and objective variants (15.4); no Space Marines (14.1); 100–150 enemies active at once (14.3); authored defences plus a reactive Director (14.3); loyalists have officers and sector HQs the platoon can attack (14.5); bot respawns cost half a ticket (13.1); spawns come in waves of 15–30 s (13.3); an empty pool means a last stand, refilled by completing the phase (13.2); squad leaders are a spawn point when out of combat (13.3); one unarmed hauler per platoon (12.5); all depots have unlimited supplies (12.2); enemies can destroy and capture crates, depots and the hauler's cargo (12.1, 12.4); small arms ammo and grenades can be scavenged from enemy dead (12.6); Tactical Command is a data-slate with the world visible around it (11.1); orders go to squads, fire teams, HWTs, the tank and depots but not individual bots (11.3); following orders is rewarded, never punished (11.6); commander sees platoon sight only (11.5); Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~15 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
+**Decided:** proximity voice plus vox channels that depend on living vox-ops (16.1); bots give voiced callouts (16.4); minimal HUD with toggles and presets (17.2); no minimap (17.1); operations last 45–60 minutes in 4 phases (15.1); first release has 1–2 operations, Ashfields and Hab-Sprawl (15.5); soft phase timers that escalate instead of failing (15.2); random time of day, weather and objective variants (15.4); no Space Marines (14.1); 100–150 enemies active at once (14.3); authored defences plus a reactive Director (14.3); loyalists have officers and sector HQs the platoon can attack (14.5); bot respawns cost half a ticket (13.1); spawns come in waves of 15–30 s (13.3); an empty pool means a last stand, refilled by completing the phase (13.2); squad leaders are a spawn point when out of combat (13.3); one unarmed hauler per platoon (12.5); all depots have unlimited supplies (12.2); enemies can destroy and capture crates, depots and the hauler's cargo (12.1, 12.4); small arms ammo and grenades can be scavenged from enemy dead (12.6); Tactical Command is a data-slate with the world visible around it (11.1); orders go to squads, fire teams, HWTs, the tank and depots but not individual bots (11.3); following orders is rewarded, never punished (11.6); commander sees platoon sight only (11.5); Leman Russ seats fill with humans first, then respawning bots after 30 s (10.5); the tank is strong but killable by anti-tank (10.3); ammo only, no fuel (10.7); a traitor Enginseer bot comes with the tank and repairs it (10.6); squad leaders give simple orders to zombies and hounds (9.3); the Chaos Spawn is uncontrollable (9.6); zombie contagion capped at 21 (9.4); the commander has platoon call-ins from a Platoon Favour pool (9.8); carapace in ~15 min for an average player (8.2); death costs 25% of progress toward the next tier (8.4); Blessed mutations are pick 1 of 3 random (8.6); the Ogryn is bought with 30 personal Favour (8.8); pooled ammo for small arms and special weapons, discrete reloads for heavy weapons (7.1); plasma overcharge can kill (7.4); weapon patterns instead of attachments (7.7); any soldier can carry one heavy weapon reload in a gear slot (7.6); mid-sim combat, first-person, full friendly fire, simple lethal melee (Section 6); the commander fights normally (4.3); the loader or anyone can man a dropped heavy weapon (4.3); HWTs pick weapons at spawn and swap at depots (4.3); fixed role slots, swap into bot-held slots while dead (4.4); enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
 
 ## 23. Roadmap
 
