@@ -57,10 +57,57 @@ The fantasy is **"the horde with a plan."** You start as a ragged cultist with a
 
 ## 3. Setting and Tone
 
-- **Faction:** A fallen Astra Militarum regiment that has turned to the Plague God. Its ranks are a mix of veteran traitor Guardsmen ("Moebians") and the cultist mobs they gather from conquered hive districts. Its corruption is mainly Nurgle-aligned: plague zombies, plague hounds, toxin weapons and bloated Ogryn.
-- **Tone:** Grim, filthy, darkly comedic, never heroic. The loyalists are the "heroes" of their own story, and the player is the plague moving across their world.
-- **Visual arc:** Players start as rag-wrapped cultists with improvised flak. As they progress they become disciplined, gas-masked Moebian troopers in tarnished carapace, with growing marks of the Plague God such as boils, rust, flies and stitched flesh.
-- **IP note:** Warhammer 40,000 is Games Workshop IP. GrimDark is a **free, non-commercial fan project**: no sales, no monetisation, no donations tied to the game, and no assets ripped from official products. All art, models and audio are made by the project. The game credits Games Workshop and states it is unofficial and not endorsed. Factions, units and names live in data tables so the game could be reskinned to an original setting if it ever needs to be.
+### 3.1 The Player Faction: the Moebian 6th
+- The players are one platoon of the **Moebian 6th**, an Astra Militarum regiment that has fallen to **Nurgle**, the Plague God. The playable unit is **3rd Platoon, "the Weeping Company"**.
+- The regiment is a mix of veteran traitor Guardsmen ("Moebians"), who kept their Guard discipline, drill and equipment, and the **cultist mobs** they recruit from every district they take. Cultists who survive long enough are taken into the ranks, which is the in-fiction reason for the cultist → Moebian progression (Section 8).
+- They still fight like Guardsmen: platoons, squads, vox discipline, heavy weapons teams and supply lines. What has changed is who they serve. This is the core of the game's identity: **a professional army that happens to be rotting.**
+
+### 3.2 Patron: Nurgle Only
+The platoon is locked to Nurgle for a consistent identity. Everything Chaos-flavoured in the game comes from the Plague God:
+- **Call-ins:** plague zombies, plague hounds, Nurgle-tainted Chaos Spawn.
+- **Weapons:** toxin grenades, corroded and filth-coated weapons as cosmetics, Blessed-tier mutations.
+- **Ogryn:** bloated, fly-covered plague Ogryn.
+- **Mutations** (Blessed tier and cosmetics) are themed on resilience and decay: swollen flesh, extra toughness, boils, rot, swarming flies. Nurgle's power is **endurance**, so Chaos bonuses lean towards damage resistance and sustain, not speed or burst.
+- **Flavour rule of seven:** where it makes no balance difference, use sevens (7 hounds in a double pack, a 7-second toxin cloud, 7-stage corruption on a map) as a nod to Nurgle's sacred number.
+
+### 3.3 The World: Varrus Secundus
+All operations take place on one invented hive world, **Varrus Secundus**. The Moebian 6th has landed and the war for the planet is under way. Each operation is a separate battle in that war.
+
+| Region | Terrain | Gameplay character |
+|---|---|---|
+| **The Ashfields** | Ash wastes and the outer trench lines around the hive | Trench assault, artillery, long approach under fire, HWT duels |
+| **Karsten Hab-Sprawl** | Dense hab-blocks and collapsed streets | Urban close-quarters, flamers and Ogryn, verticality, short supply runs but many ambushes |
+| **Refinery Nine** | Promethium refineries and pipe-yards | Industrial maze, explosive tanks (risk for both sides), fires spread across the map |
+| **Hollowmere Agri-Belt** | Terraced farmland and grain silos | Open ground, long sightlines, armour-heavy, the Leman Russ and lascannons shine, long exposed supply lines |
+| **The Sump** | Underhive tunnels and drainage | Darkness, tight tunnels, plague zombies at their strongest, heavy weapons hard to place |
+| **Basilica of Saint Vorena** | Cathedral district at the hive spire | Final assault against the Ecclesiarchy and Sisters of Battle, Desecrate objectives |
+
+**Visible corruption:** as the platoon takes ground in an operation, captured sectors decay: grey rot spreads over stone, fungal growth, fly swarms, sickly fog. This is the main visual sign of progress through a match.
+
+### 3.4 The Enemy: Loyalist Guard
+The main enemy is the loyalist **Astra Militarum** defending the world. They mirror the player platoon (lasguns, heavy weapons teams, tanks, artillery), which makes their tactics readable and lets the AI use the same systems as the players.
+
+| Force | Role in the game | Frequency |
+|---|---|---|
+| **41st Tarsine Rifles** (Astra Militarum) | Main enemy: disciplined line infantry, heavy weapons teams, Sentinels, Chimeras, Leman Russ, Basilisk artillery | Every operation |
+| **Varrusian PDF** | Planetary Defence Force: poorly trained conscripts, numerous, break easily | Common, mainly early phases |
+| **Ministorum and Frateris Militia** | Priests and zealot mobs: fanatic charges, morale buffs | Common in urban and cathedral regions |
+| **Order of the Ashen Rose** (Sisters of Battle) | Elite power-armoured squads with flamers, melta and faith buffs | Rare elite events, guaranteed in the Basilica |
+| **Space Marine kill team** | Extreme threat, a climax event the whole platoon has to deal with | Rare: high difficulties or final phases |
+
+- **Visual contrast:** loyalists are clean and bright (sand-khaki uniforms, polished brass, white lumen-light, blessed purity seals). The Moebians are dark olive, rust and grime with sickly green light. Players must be able to tell friend from foe at a glance at range, since both sides use similar silhouettes.
+- **Tone of the enemy:** loyalist vox chatter, hymns, Commissar speeches and executions. They are brave and fanatical, and the game lets the player see that.
+
+### 3.5 Match Structure: Standalone Operations
+- Each operation is a **self-contained match** (60–90 minutes). Nothing from one operation's result carries into the next.
+- Operations can be played in any order from a mission select screen. A light "war map" on the menu shows the regions of Varrus Secundus as flavour, not as persistent state.
+- In-match progression (Marks of Favour, Squad Favour) **resets every operation**. Only meta-unlocks (Section 19) carry over.
+
+### 3.6 Tone
+Grim, filthy, darkly comedic, never heroic. The loyalists are the heroes of their own story, and the player is the plague moving across their world. Players start as rag-wrapped cultists with improvised flak. As they progress they become disciplined, gas-masked Moebian troopers in tarnished carapace, with growing marks of the Plague God such as boils, rust, flies and stitched flesh.
+
+### 3.7 IP Note
+Warhammer 40,000 is Games Workshop IP. GrimDark is a **free, non-commercial fan project**: no sales, no monetisation, no donations tied to the game, and no assets ripped from official products. All art, models and audio are made by the project. The game credits Games Workshop and states it is unofficial and not endorsed. Factions, units and names live in data tables so the game could be reskinned to an original setting if it ever needs to be. Invented names (the world, the loyalist regiment, the Sisters' order) are used for enemies so the project doesn't contradict established lore.
 
 ## 4. The Platoon: Structure and Roles
 
@@ -436,6 +483,8 @@ On respawn the player picks their role slot (locked to their squad role), spawn 
 
 ### 14.1 Enemy Roster (Loyalist Imperial Forces)
 
+Forces and factions are described in Section 3.4. This table covers unit types.
+
 | Unit | Threat | Counter |
 |---|---|---|
 | **Guardsman squads** | Volume infantry | Small arms, HWT suppression |
@@ -476,12 +525,14 @@ A Left-4-Dead-style pacing system scaled up to platoon size:
 - Around 2×2 km to 3×3 km per map, with dense urban, hive-industrial, trench and rural/agri sections.
 - Built in **sectors** that unlock in phase order so 45 players stay in a coherent front.
 
-### 15.2 Operation Structure (example: "The Fall of Hive Varrus Secundus")
-1. **Breach:** take the outer defence line (trench assault). Set up the first forward depot.
-2. **Push:** advance through hab-blocks (urban CQB; flamers and Ogryn shine).
-3. **Hold:** survive a combined loyalist counter-attack with armour (HWTs and logistics are tested).
-4. **Desecrate:** the Standard Bearer's icon has to be planted at a Shrine of the Emperor and defended for X minutes.
-5. **Extraction or Final Stand:** depends on the operation.
+### 15.2 Operation Structure (example: "Breaking the Ashfields")
+Each operation covers one region of Varrus Secundus (3.3) in several phases.
+
+1. **Breach:** take the first trench line. Set up the first forward depot.
+2. **Push:** advance through the second line of bunkers and wire (HWT overwatch, flamers clear trenches).
+3. **Silence the Guns:** destroy the Basilisk battery shelling the platoon's advance.
+4. **Hold:** survive an armoured loyalist counter-attack (HWTs and logistics are tested).
+5. **Desecrate:** the Standard Bearer plants the icon at the shrine on the hive gate and the platoon defends it for X minutes.
 
 ### 15.3 Objective Types
 Capture/Hold, Destroy (artillery, vox-towers, ammo dumps), Desecrate (icon plant), Escort (sorcerer, plague cauldron), Sabotage (plant charges), Survive (wave defence), Assassinate (Commissar-General, Canoness).
@@ -543,12 +594,11 @@ Unlocks outside a match, kept **horizontal** so 45-player co-op stays balanced:
 | **IP takedown** | Fan project gets shut down | Stay strictly non-commercial, make all assets in-house, credit Games Workshop with an unofficial/not-endorsed notice, keep content data-driven so it can be reskinned. |
 
 ## 22. Open Questions
-1. Should Favour tiers persist across **multiple operations** in a campaign, or reset each match? (Current design: reset each match; meta unlocks persist.)
-2. Should the **commander be able to fight** normally, or should leaving Tactical Command have a cooldown?
-3. Leman Russ crewing: is the respawn-queue-first rule enough, or should the calling squad have to provide crew?
-4. Should other Chaos gods be in scope (e.g., Khorne berserker call-ins), or is the platoon locked to Nurgle for a consistent identity?
-5. Should **any** player be able to pick up and fire a dropped heavy weapon, or only HWT gunners?
-6. Persistent campaign map (Foxhole-style world war across many sessions) as a post-launch mode?
+1. Should the **commander be able to fight** normally, or should leaving Tactical Command have a cooldown?
+2. Leman Russ crewing: is the respawn-queue-first rule enough, or should the calling squad have to provide crew?
+3. Should **any** player be able to pick up and fire a dropped heavy weapon, or only HWT gunners?
+
+**Decided:** enemy is the loyalist Guard (3.4); Nurgle only (3.2); one invented world, Varrus Secundus (3.3); standalone operations with in-match progression reset each match (3.5); AI bots fill empty slots (20, 21); free non-commercial fan project (3.7).
 
 ## 23. Roadmap
 
